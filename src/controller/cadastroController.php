@@ -1,33 +1,45 @@
 <?php
 
-function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc){
-
+function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) {
     $host = 'localhost';
     $user = 'root';
-    $pwd = '12345';
+    $pwd = '';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $pwd, $database);
 
-    // Variável para retornar o ID do último registro inserido
-    $id = null;
-
-    if (mysqli_connect_errno()) {
-        echo 'Erro ao conectar no banco de dados.';
-    } else {
-        echo 'Conexão realizada com sucesso.';
-        // Construindo a consulta SQL
-        $sql = 'INSERT INTO projetos VALUES (0,"' . $cpf . '","' . $nome . '","'. $cep . '","'. $email . '", "'.$dataNasc.'","'.$senha.'", "'. $telefone.'");';
-
-        // Executando a consulta
-        $mysqli->query($sql);
-
-        // Obtendo o ID do último registro inserido
-        $id = $mysqli->insert_id;
-
-        // Fechando a conexão
-        $mysqli->close();
+    // Verifica se a conexão foi bem-sucedida
+    if ($mysqli->connect_error) {
+        die("Erro ao conectar no banco de dados: " . $mysqli->connect_error);
     }
+
+    // Usando prepared statement para evitar SQL Injection
+    $stmt = $mysqli->prepare("INSERT INTO clientes (id, cpf, nome, cep, email, dataNasc, senha, telefone) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)");
+
+    // Verifica se a preparação do statement foi bem-sucedida
+    if ($stmt) {
+        // Vincula os parâmetros aos placeholders
+        $stmt->bind_param("sssssss", $cpf, $nome, $cep, $email, $dataNasc, $senha, $telefone);
+
+        // Executa a query
+        if ($stmt->execute()) {
+            echo "Cliente cadastrado com sucesso.";
+            // Obtendo o ID do último registro inserido
+            $id = $stmt->insert_id;
+        } else {
+            echo "Erro ao cadastrar cliente: " . $stmt->error;
+            $id = null;
+        }
+
+        // Fecha o statement
+        $stmt->close();
+    } else {
+        echo "Erro na preparação do statement: " . $mysqli->error;
+        $id = null;
+    }
+
+    // Fecha a conexão
+    $mysqli->close();
 
     return $id;
 }
@@ -44,5 +56,9 @@ if ($_POST) {
 
     // Chama a função e passa os parâmetros
     $id = usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc);
+
+    if ($id) {
+        echo "ID do cliente cadastrado: " . $id;
+    }
 }
 ?>
