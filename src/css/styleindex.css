@@ -1,0 +1,96 @@
+header {
+    background-color: white;
+    color: black;
+    border-bottom: 1px solid black;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    padding-top: 15px;
+}
+
+.nav-link {
+    text-align: center;
+    color: black; /* Cor do texto dos links */
+    position: relative; /* Para o efeito de sublinhado */
+}
+
+.nav-link:hover {
+    color: black; /* Mantém a cor preta ao passar o mouse */
+}
+
+.nav-left {
+    margin-right: auto; /* Alinha à esquerda */
+}
+
+.nav-right {
+    display: flex; /* Usando flex para alinhar horizontalmente */
+    margin-left: auto; /* Alinha à direita */
+}
+
+.nav-right .nav-link {
+    margin-left: 10px; /* Espaçamento entre Cadastro e Login */
+    background-color: black; /* Fundo preto */
+    color: white; /* Texto branco */
+    padding: 10px 15px; /* Espaçamento interno */
+    border-radius: 5px; /* Cantos arredondados */
+    text-decoration: none; /* Remove sublinhado */
+}
+
+.nav-right .nav-link:hover {
+    background-color: darkgray; /* Fundo cinza escuro ao passar o mouse */
+    color: black; /* Texto preto ao passar o mouse */
+}
+
+/* Estilo para o efeito de sublinhado apenas no ponto e no título */
+.nav-left:after,
+.nav-link.text-center:after {
+    content: '';
+    display: block;
+    height: 2px; /* Altura do sublinhado */
+    background-color: black; /* Cor do sublinhado */
+    position: absolute;
+    left: 50%; /* Posiciona o sublinhado no centro */
+    bottom: -5px; /* Distância do texto */
+    width: 0; /* Inicialmente sem largura */
+    transition: width 0.3s ease, left 0.3s ease; /* Transição suave */
+}
+
+.nav-left:hover:after,
+.nav-link.text-center:hover:after {
+    width: 100%; /* Expande o sublinhado para 100% */
+    left: 0; /* Move para a esquerda */
+}
+
+h5{
+    text-align: center;
+}
+
+.form-check{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    padding-top:20px;
+    width: 1200px;
+    
+}
+
+.btn-filtro-container{
+    text-align: center;
+    margin-top:20px;
+}
+
+.btn-primary{
+    background-color: rgb(56, 8, 84);
+}
+
+.btn-primary:hover{
+    color:white;
+    background-color: rgb(37, 3, 56);
+}
+
+.form-select-lg{
+    height:40px;
+    font-size: 1rem;
+}

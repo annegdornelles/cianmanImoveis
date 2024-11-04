@@ -1,0 +1,1 @@
+<!--mostra as informações do imovel com base no id passado via url-->
