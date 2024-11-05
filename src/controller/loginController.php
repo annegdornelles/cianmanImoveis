@@ -1,6 +1,5 @@
 <?php
     if($_POST) {
-        require_once './Controller.php';
 
         //$users = usersLoadAll();
 
@@ -15,15 +14,16 @@
                 header('location:\index.php');
                 exit();
             }else{
-                header('location:\index.php?cod=171');
+                header('location:\login.php?cod=171');
             }
         //}
+        
     }
 
-function usersLogin(){
+function usersLogin($email,$senha){
             $host = 'localhost';
             $user = 'root';
-            $password = '';
+            $password = '12345';
             $database = 'cianman';
         
             $mysqli = new mysqli($host, $user, $password, $database);
@@ -46,5 +46,3 @@ function usersLogin(){
             }
             return $result->num_rows;//retorna o número de registros selecionados pela consulta sql.
         }
-        
-?>

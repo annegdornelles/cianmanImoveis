@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Title</title>
+        <title>Login - Cianman Imóveis</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -23,6 +23,7 @@
             <!-- place navbar here -->
         </header>
         <main>
+            <form method="POST" action="src/controller/loginController.php">
             <div class="mb-3">
                 <label for="" class="form-label">Email:</label>
                 <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId" placeholder="Insira seu email."/>
@@ -32,6 +33,15 @@
                 <input type="password" class="form-control" name="senha" id="senha" aria-describedby="emailHelpId" placeholder="Insira sua senha."/>
             </div>
             <input type="submit" class="btn btn-primary" value="Login">
+            </form>
+
+            <?php
+
+   if (isset($_REQUEST['cod'])&&$_REQUEST['cod']=='171'){
+       echo '<div class="alert alert-warning" role="alert">Usuário não encontrado</div>';
+   }
+
+?>
             
         </main>
         <footer>

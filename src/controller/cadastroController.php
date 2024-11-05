@@ -3,7 +3,7 @@
 function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) {
     $host = 'localhost';
     $user = 'root';
-    $pwd = '';
+    $pwd = '12345';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $pwd, $database);
@@ -14,7 +14,7 @@ function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) 
     }
 
     // Usando prepared statement para evitar SQL Injection
-    $stmt = $mysqli->prepare("INSERT INTO clientes (id, cpf, nome, cep, email, dataNasc, senha, telefone) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $mysqli->prepare("INSERT INTO clientes (cpf, nome, cep, email, dataNasc, senha, telefone) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
     // Verifica se a preparação do statement foi bem-sucedida
     if ($stmt) {
