@@ -34,7 +34,7 @@
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">CPF:</label>
-                <input type="text" class="form-control" name="cpf" id="cpf" aria-describedby="emailHelpId" placeholder="Insira o seu CPF."/>
+                <input type="text" class="form-control" name="cpf" id="cpf" aria-describedby="emailHelpId" placeholder="Insira o seu CPF." onkeyup="this.value=formatarCPF(this.value)"/>
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Insira seu número de telefone:</label>
@@ -54,6 +54,16 @@
             </div>
             <input type="submit" name="" id="" class="btn btn-primary" href="#" value="Cadastrar">
             </form>
+
+            <script> 
+                function formatarCPF(cpf){
+                    cpf = cpf.replace(/\D/g,'');
+                    cpf = cpf.replace(/(\d{3})(\d)/,'$1.$2');
+                    cpf = cpf.replace(/(\d{3})(\d)/,'$1.$2');
+                    cpf = cpf.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+                    return cpf;
+
+                }
         </main>
         <footer>
             <!-- place footer here -->
