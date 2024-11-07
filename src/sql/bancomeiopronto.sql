@@ -5,7 +5,7 @@ use cianman;
 create table clientes(
    cpf varchar(14) not null,
    nome varchar(50),
-   cep varchar(8),
+   cep varchar(9),
    email varchar(50),
    dataNasc date,
    senha varchar(20),
@@ -49,6 +49,7 @@ create table clientes(
        
 	 create table imoveis(
         id int auto_increment,
+        url varchar(200),
         clientesCpf varchar(14),
         funcionariosId int,
         cep varchar(9),
@@ -57,11 +58,10 @@ create table clientes(
         numQuartos int,
         bairro varchar(50),
         cidade varchar(20),
-        estado varchar(30),
         numCasa int,
         logradouro varchar(50),
         primary key(id),
-        foreign key(clientesCpf) references clientes(id),
+        foreign key(clientesCpf) references clientes(cpf),
         foreign key(funcionariosId) references funcionarios(id));
         
       create table proprietarios(

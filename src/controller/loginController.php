@@ -11,10 +11,10 @@
             if(usersLogin($email,$senha)>0){ 
                 @session_start();
                 $_SESSION['login'] = $email;
-                header('location:\index.php');
+                header('location:../../index.php');
                 exit();
             }else{
-                header('location:\login.php?cod=171');
+                header('location:../login.php?cod=171');
             }
         //}
         
