@@ -203,3 +203,13 @@ a:hover {
     display: flex;
     gap: 15px; /* Distância entre os links */
 }
+
+.carousel-container {
+    width: 30%; /* Define a largura do carrossel para 30% da tela */
+    margin: auto; /* Centraliza o carrossel */
+}
+.carousel-item img {
+    width: 100%; /* Ocupa toda a largura definida pelo carrossel-container */
+    height: 200px; /* Altura menor para as imagens */
+    object-fit: cover; /* Mantém o aspecto da imagem sem distorção */
+}

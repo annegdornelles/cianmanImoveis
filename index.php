@@ -1,5 +1,31 @@
 <?php
 
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'cianman';
+
+$mysqli = new mysqli($host, $user, $password, $database);
+
+if ($mysqli->connect_error) {
+    die('Erro de conexão: ' . $mysqli->connect_error);
+}
+
+// Consulta para obter as URLs das imagens
+$sql = "SELECT url FROM imoveis LIMIT 3";
+$result = $mysqli->query($sql);
+
+$images = [];
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $images[] = $row['url'];
+    }
+} else {
+    echo 'Nenhuma imagem encontrada.';
+}
+
+$mysqli->close();
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     $bairrosPorCidade = [
         'poa' => ['Centro', 'Bom Jesus', 'Farrapos', 'Cidade Baixa'],
@@ -110,6 +136,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
             </div>
         </div>
     </form>
+
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <?php foreach ($images as $index => $url): ?>
+            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                <img src="<?= htmlspecialchars($url) ?>" class="d-block w-100" alt="Imagem <?= $index + 1 ?>">
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Próximo</span>
+    </button>
+</div>
+
 </main>
 
 <script>
