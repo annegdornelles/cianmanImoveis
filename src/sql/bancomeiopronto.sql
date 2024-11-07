@@ -50,7 +50,6 @@ create table clientes(
 	 create table imoveis(
         id int auto_increment,
         url varchar(200),
-        clientesCpf varchar(14),
         funcionariosId int,
         cep varchar(9),
         tamanho int,
@@ -61,7 +60,6 @@ create table clientes(
         numCasa int,
         logradouro varchar(50),
         primary key(id),
-        foreign key(clientesCpf) references clientes(cpf),
         foreign key(funcionariosId) references funcionarios(id));
         
       create table proprietarios(

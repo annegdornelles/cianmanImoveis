@@ -2,7 +2,7 @@
 
 $host = 'localhost';
 $user = 'root';
-$password = '12345';
+$password = '';
 $database = 'cianman';
 
 $mysqli = new mysqli($host, $user, $password, $database);
@@ -52,7 +52,7 @@ if (mysqli_connect_errno()) {
             <!-- place navbar here -->
         </header>
         <main>
-            <img src="<?php echo'$img'; ?>" 
+            <img src="<?php echo'$img'; ?>" >
         </main>
         <footer>
             <!-- place footer here -->

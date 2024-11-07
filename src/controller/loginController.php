@@ -14,7 +14,7 @@
                 header('location:../../index.php');
                 exit();
             }else{
-                header('location:../login.php?cod=171');
+                header('location:../../login.php?cod=171');
             }
         //}
         
@@ -23,7 +23,7 @@
 function usersLogin($email,$senha){
             $host = 'localhost';
             $user = 'root';
-            $password = '12345';
+            $password = '';
             $database = 'cianman';
         
             $mysqli = new mysqli($host, $user, $password, $database);
