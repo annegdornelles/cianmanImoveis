@@ -39,7 +39,7 @@
 
             <?php
                 if (isset($_REQUEST['cod']) && $_REQUEST['cod'] == '171') {
-                    echo '<div class="alert alert-warning" role="alert">Usuário não encontrado</div>';
+                    echo '<div class="alert alert-warning" role="alert">Usuário ou senha não correspondem.</div>';
                 }
             ?>
         </div>
