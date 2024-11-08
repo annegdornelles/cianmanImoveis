@@ -1,0 +1,72 @@
+
+...
+//$linha = mysqli_fetch_array($resultado);
+// vamos trazer todas as linhas de uma vez...
+$lista = mysql_fetch_all($resultado, MYSQLI_ASSOC);
+
+// depois de guardar os dados numa martiz,
+// a conexão pode ser fechada (recomendado)
+mysqli_close($conexao);
+?>
+
+... html tabela...
+<?php foreach ($lista as $item): ?>
+  <tr>
+    <td><?=$item['nome']?></td>
+    <td><?=$item['email']?></td>
+    <td><?=$item['fone_cel']?></td>
+    <td><?=$item['fone_res']?></td>
+    <td><?=$item['facebook']?></td>
+    <td>
+    <?php if ($item['favorito']): ?>
+      <a href="favorito.php?favoritar=<?=$item['id']?>">
+        <img src='imagens/estrela.png' style='width: 20px;'>
+      </a>
+    <?php else: ?>
+      <img src='imagens/estrela-vazia.png' style='width: 20px;'>
+    <?php endif; ?>
+    </td>
+  </tr>
+<?php endforeach; ?>
+.. tabela...
+
+<?php if ($favorito): ?>
+    <img src="favoritoColorido.png">
+<?php else: ?>
+    <img src="favoritoEmBranco.png">
+<?php endif; ?>
+
+PARTE MAIS PROVAVEL DE ESTAR CERTA:
+<?php
+if (($_REQUEST["favoritos"] ?? '') == "lista") {
+    $n = 1; // Definindo o valor inicial de $n
+    while ($n <= $qtd) {
+        if (isset($_COOKIE["imovel$n"])) {
+            // A variável $imovelFavorito deve vir do cookie correto
+            $imovelFavorito = $_COOKIE["imovel$n"]; // Alterei para imovel$n, pois "produto$n" parecia um erro
+
+            // Protegendo a consulta SQL para evitar SQL Injection
+            $sql = "SELECT * FROM imovel WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $imovelFavorito); // Usando bind_param para proteger contra SQL Injection
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $row = $res->fetch_object();
+
+            // Exibindo o imóvel favorito
+            echo "<div id='imovel'>";
+            echo "<div id='imovelNome'>" . htmlspecialchars($row->nome) . "</div>"; // Exibindo o nome do imóvel com segurança
+            echo "<div id='imovelImagem'><img src='" . htmlspecialchars($row->imagem_url) . "' alt='Imagem do imóvel'></div>";
+            echo "</div>";
+
+            // Se necessário adicionar um script, deve-se fazer de forma clara
+            echo "<script>
+                document.getElementById('imovel').onclick = function() {
+                    window.location.href = 'index.php';
+                };
+            </script>";
+        }
+        $n++;
+    }
+}
+?>
