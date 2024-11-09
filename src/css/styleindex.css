@@ -1,5 +1,254 @@
 /* Fundo branco */
 body {
+    background-color: rgb(187, 185, 187); /* Cor de fundo branca */
+    color: #333; /* Texto preto para bom contraste */
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    display: flex;
+    /* justify-content: flex-start; /* Tudo alinha-se ao topo */
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    min-height: 100vh; /* Garante que o body tenha altura total da tela */
+    flex-direction: column; /* Alinha os itens verticalmente */
+    padding-top: 0; /* Sem espaçamento extra no topo */
+}
+
+/* Estilo para o Header */
+header {
+    background-color: #5c4677;; /* Roxo pastel mais forte */
+    color: #333; /* Texto preto */
+    padding: 30px 20px;
+    border-bottom: 2px solid  #3e2f50;; /* Roxo mais suave */
+    box-shadow: 0px 4px 10px rgba(68, 40, 73, 0.1); /* Sombra suave */
+    width: 100%; /* Ocupa toda a largura */
+    text-align: center; /* Centraliza texto dentro do header */
+}
+
+/* Logo e Título */
+header h1, header h5 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+/* Estilo da navegação */
+.nav-link {
+    text-align: center;
+    color: #333; /* Preto para os links */
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #1e093b; /* Roxo forte para links ao passar o mouse */
+    transform: translateY(-3px); /* Efeito de elevação */
+}
+
+/* Estilo de sublinhado nos links de navegação */
+.nav-left:after,
+.nav-link.text-center:after {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: #1d1030; /* Sublinhado roxo forte */
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    width: 0;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-left:hover:after,
+.nav-link.text-center:hover:after {
+    width: 100%;
+    left: 0;
+}
+
+/* Estilo do conteúdo principal aqui QUE PRECISO MEXERRRRRRR */
+.container { 
+    padding: 40px 20px; 
+   max-width: 1200px; 
+   margin: 70px auto 0; 
+    background-color: #dbdee4; /* Light gray */ 
+    left: 50%; /* Center the content within the container */ 
+    border-radius: 30px; 
+     width: 80%; /* ou max-width: 1200px; */
+        margin: 200px;
+    
+    
+}
+
+
+/* Botões */
+.btn-primary {
+    background-color: #8E5CD3; /* Roxo pastel mais forte */
+    color: #333; /* Texto preto */
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #9B72D3; /* Roxo pastel mais claro */
+    transform: translateY(-3px); /* Efeito de elevação */
+}
+
+/* Estilo de formulários */
+.form-select-lg {
+    height: 45px;
+    font-size: 1.1rem;
+    background-color: transparent; /* Sem fundo */
+    color: #333; /* Texto preto */
+    border: 2px solid #8E5CD3; /* Borda roxa forte */
+    border-radius: 5px;
+    padding: 0 10px;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+.form-select-lg:hover,
+.form-select-lg:focus {
+    border-color: #8E5CD3; /* Borda roxa forte ao focar ou passar o mouse */
+}
+
+/* Estilo de tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #8E5CD3; /* Roxo forte */
+    color: #333; /* Texto preto */
+}
+
+table th {
+    background-color: #8E5CD3; /* Roxo pastel mais forte */
+}
+
+table tr:hover {
+    background-color: #F3F4F6; /* Cinza claro pastel */
+}
+
+/* Footer */
+footer {
+    background-color: #8E5CD3; /* Roxo pastel mais forte */
+    color: #333; /* Texto preto */
+    text-align: center;
+    padding: 20px 0;
+    font-size: 1rem;
+}
+
+footer a {
+    color: #8E5CD3; /* Roxo forte */
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #333; /* Texto preto ao passar o mouse */
+    text-decoration: underline;
+}
+
+/* Elementos de formulário */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    background-color: #F9F9F9; /* Cinza pastel suave */
+    color: #333; /* Texto preto */
+    border: 1px solid #8E5CD3; /* Roxo forte */
+    border-radius: 5px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: #8E5CD3; /* Borda roxa forte */
+    outline: none;
+}
+
+/* Estilo de links */
+a {
+    color: #333; /* Preto para links */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #8E5CD3; /* Roxo forte */
+    text-decoration: underline;
+}
+
+/* Ajuste para layout com flexbox */
+.nav-left,
+.nav-right {
+    display: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-left {
+    margin-right: auto;
+}
+
+.nav-right {
+    margin-left: auto;
+    display: flex;
+    gap: 15px; /* Distância entre os links */
+}
+ /* Estilos do Rodapé */
+.footer {
+    background-color: #3e2f50;
+    color: #fff;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 5px 0;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-info p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Estilos dos Ícones de Redes Sociais */
+.social-media {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #F3E5F5;
+}
+/* /* Fundo branco */
+body {
     background-color: white; /* Cor de fundo branca */
     color: #333; /* Texto preto para bom contraste */
     font-family: 'Arial', sans-serif;
@@ -203,6 +452,9 @@ a:hover {
     display: flex;
     gap: 15px; /* Distância entre os links */
 }
+
+
+
 
 .carousel-container {
     width: 30%; /* Define a largura do carrossel para 30% da tela */
