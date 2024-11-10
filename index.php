@@ -114,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
                             <option value="casaResidencial">Casa residencial</option>
                             <option value="aptoResidencial">Apartamento residencial</option>
                             <option value="kitnet">KitNet</option>
+                            <option value="Terreno">Terreno</option>
                         </select>
                     </div>
                 </div>
@@ -132,6 +133,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
             </div>
         </div>
     </form>
+</div>
+
+<h1>Imoveis para alugar:</h1>
 
     <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -153,7 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
         <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
-    </div>
 </main>
 
 <script>
