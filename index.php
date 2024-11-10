@@ -16,10 +16,10 @@ $query = "SELECT id, url FROM imoveis";
 $result = $mysqli->query($query);
 
 $images = [];
-while ($imovel = $result->fetch_assoc()) {//retorna do resultado da consulta mysqli como array associativo. cada linha da tabela fica em um array associativo
+while ($imovel = $result->fetch_assoc()) {
     $images[] = $imovel;
 }
-$chunkedImages = array_chunk($images, 3);//divide o array em partes menores. meio q torna uma matriz com 3 colunas(numero especificado) e a quantidade de linhas necessarias ate acabar os elementos
+$chunkedImages = array_chunk($images, 3);
 
 $mysqli->close();
 
@@ -53,12 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     <link rel="stylesheet" type="text/css" href="src/css/styleindex.css">
 </head>
 
-</head>
-
 <body>
+
 <header>
     <nav class="nav justify-content-between">
-        <a class="nav-link nav-left" href="perfilUsuario.php" aria-current="page">.</a>
+        <a class="nav-link" href="perfilUsuario.php">Perfil</a>
         <span class="nav-link text-center">Cianman Imóveis</span>
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>
@@ -67,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     </nav>
 </header>
 
-<main>
+<main class="container">
     <form method="POST" action="">
         <div class="container">
             <div class="row justify-content-center align-items-center g-2">
@@ -105,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
                         </select>
                     </div>
                 </div>
-            <div class="col">
+                <div class="col">
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo de Imóvel:</label>
                         <select class="form-select form-select-lg" name="tipo" id="tipo">
@@ -129,45 +128,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
                 <label class="form-check-label" for="aluguel">Aluguel</label>
             </div>
             <div class="btn-filtro-container">
-            <input type="submit" class="btn btn-primary" value="Enviar">
+                <input type="submit" class="btn btn-primary" value="Enviar">
             </div>
         </div>
     </form>
 
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <?php
             $activeClass = 'active';
             foreach ($chunkedImages as $group) {
-                echo "<div class='carousel-item $activeClass'>";
-                echo "<div class='row'>";
-
+                echo "<div class='carousel-item $activeClass'><div class='row'>";
                 foreach ($group as $imovel) {
-                    echo "<div class='col-md-4'>";
-                    echo "<a href='imovel.php?id=" . $imovel['id'] . "'>";
-                    echo "<img src='" . $imovel['url'] . "' class='d-block w-100' alt='Imagem do Imóvel' style='height: 200px; object-fit: cover;'>";
-                    echo "</a>";
-                    echo "</div>";
+                    echo "<div class='col-md-4'><a href='imovel.php?id=" . $imovel['id'] . "'><img src='" . $imovel['url'] . "' class='d-block w-100' alt='Imagem'></a></div>";
                 }
-
-                echo "</div>";
-                echo "</div>";
+                echo "</div></div>";
                 $activeClass = '';
             }
             ?>
         </div>
-        <!-- Controles do carrossel -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
+        <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Próximo</span>
+        <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
         </button>
-</div>
-        </div>
-
+    </div>
 </main>
 
 <script>
@@ -175,11 +161,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
         const cidade = document.getElementById("cidade").value;
 
         if (cidade) {
-            fetch(`?cidade=${cidade}`)//faz requisicao http pro servidor buscar o arquivo selecionarBairros.php
-                .then(response => response.text())//then lida com a resposta do feth transformando em php dnv
+            fetch(`<?php echo $_SERVER['PHP_SELF']; ?>?cidade=${cidade}`)
+                .then(response => response.text())
                 .then(data => {
                     document.getElementById("bairro").innerHTML = '<option value="">Selecione o bairro...</option>' + data;
-                })//.then() processa o texto recebido, chamando uma função que usa o data (conteúdo HTML da resposta) para atualizar o select de bairros.
+                })
                 .catch(error => console.error("Erro ao carregar bairros:", error));
         } else {
             document.getElementById("bairro").innerHTML = '<option value="">Selecione o bairro...</option>';
@@ -187,5 +173,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-AKQa/c4hP2zR4cIDr5odXUBCpRxdXOxA1Xnx0ekWTf9BS6p+NCRyTozS6eT33NLa" crossorigin="anonymous"></script>
 </body>
 </html>
