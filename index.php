@@ -11,17 +11,17 @@ if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
-// Consulta para obter as URLs das imagens
-$query = "SELECT id, url FROM imoveis";
+$query = "SELECT id, url, valor FROM imoveis LIMIT 30";
 $result = $mysqli->query($query);
 
-$images = [];
+$imoveis = [];
 while ($imovel = $result->fetch_assoc()) {
-    $images[] = $imovel;
+    $imoveis[] = $imovel;
 }
-$chunkedImages = array_chunk($images, 3);
 
+$chunkedImoveis = array_chunk($imoveis, 6); // divide array de imoveis em subarrays
 $mysqli->close();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     $bairrosPorCidade = [
@@ -136,27 +136,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
 </div>
 
 <h1>Imoveis para alugar:</h1>
-
-    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <?php
-            $activeClass = 'active';
-            foreach ($chunkedImages as $group) {
-                echo "<div class='carousel-item $activeClass'><div class='row'>";
-                foreach ($group as $imovel) {
-                    echo "<div class='col-md-4'><a href='imovel.php?id=" . $imovel['id'] . "'><img src='" . $imovel['url'] . "' class='d-block w-100' alt='Imagem'></a></div>";
-                }
-                echo "</div></div>";
-                $activeClass = '';
-            }
-            ?>
+<div class="container mt-4">
+    <?php foreach ($chunkedImoveis as $imovelGroup): ?>
+        <div class="row mb-4">
+            <?php foreach ($imovelGroup as $imovel): ?>
+                <div class="col-md-4 mb-3">
+                    <div class="card imovel-card">
+                        <a href="imovel.php?id=<?= $imovel['id'] ?>">
+                            <img src="<?= $imovel['url'] ?>" class="card-img-top" alt="Imagem do Imóvel">
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">Valor: R$ <?= number_format($imovel['valor'], 2, ',', '.') ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
+    <?php endforeach; ?>
+</div>
+   
 </main>
 
 <script>
