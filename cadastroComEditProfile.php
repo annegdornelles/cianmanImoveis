@@ -3,7 +3,7 @@
 function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) {
     $host = 'localhost';
     $user = 'root';
-    $pwd = '';
+    $pwd = '12345';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $pwd, $database);

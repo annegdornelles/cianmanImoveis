@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="src/css/stylecadastro.css">
     <!-- Estilos Customizados -->
-   
+
 </head>
 
 <body>
@@ -31,6 +31,19 @@
                     <label for="email" class="form-label">Email:</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="Insira seu email" />
                 </div>
+                <div class="mb-3">
+                    <select name="selecao">
+                        <option value="cliente">cliente</option>
+                        <option value="funcionário">funcionário</option>
+                        <option value="corretor">corretor</option>
+                        <?php if(isset($corretor)){
+                               echo '<label for="creci" class="form-label"> CRECI</label>';
+                               echo '<input type="number" class="form-control" name="creci" id="creci" placeholder="Insira seu CRECI"/>';
+                                }
+                           
+                        ?>
+                    </select>
+
                 <div class="mb-3">
                     <label for="cpf" class="form-label">CPF:</label>
                     <input type="text" class="form-control" name="cpf" id="cpf" placeholder="Insira o seu CPF" onkeyup="this.value=formatarCPF(this.value)" />
@@ -52,8 +65,10 @@
                     <input type="password" class="form-control" name="senha" id="senha" placeholder="Insira sua senha" />
                 </div>
                 <input type="submit" class="btn btn-primary" value="Cadastrar" />
+                <a id="voltar" value="voltar" href="index.php">Voltar</a>
             </form>
         </div>
+
     </main>
 
     <footer>
@@ -93,3 +108,5 @@
     <!-- Bootstrap JS Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-B
+
+    

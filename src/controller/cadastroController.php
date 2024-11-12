@@ -3,7 +3,7 @@
 function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) {
     $host = 'localhost';
     $user = 'root';
-    $pwd = '';
+    $pwd = '12345';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $pwd, $database);
@@ -26,6 +26,8 @@ function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) 
             echo "Cliente cadastrado com sucesso.";
             // Obtendo o ID do último registro inserido
             $id = $stmt->insert_id;
+
+            
         } else {
             echo "Erro ao cadastrar cliente: " . $stmt->error;
             $id = null;
@@ -59,6 +61,10 @@ if ($_POST) {
 
     if ($id) {
         echo "ID do cliente cadastrado: " . $id;
+        header('location:../../index.php');
     }
 }
+
+   
+
 ?>
