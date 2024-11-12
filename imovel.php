@@ -1,44 +1,68 @@
 <!--mostra as informações do imovel com base no id passado via url-->
 
+<?php
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'cianman';
+
+$mysqli = new mysqli($host, $user, $password, $database);
+
+if ($mysqli->connect_error) {
+    die('Erro de conexão: ' . $mysqli->connect_error);
+}
+
+// Obtém o ID do imóvel a partir do parâmetro URL
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+$query = "SELECT * FROM imoveis WHERE id = $id";
+$result = $mysqli->query($query);
+
+if ($result->num_rows > 0) {
+    $imovel = $result->fetch_assoc();
+} else {
+    echo "Imóvel não encontrado.";
+    exit;
+}
+
+$mysqli->close();
+?>
+
 <!doctype html>
-<html lang="en">
-    <head>
-        <title>Imóvel</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+<html lang="pt-BR">
+<head>
+    <title>Detalhes do Imóvel</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .card-img-top{
+        width:600px;
+        align-items: center;
+        height:500px;
+    }
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-    </head>
+</style>
+<body>
+<div class="container my-4">
+    <h2>Detalhes do Imóvel</h2>
 
-    <body>
-        <header>
-            <!-- place navbar here -->
-        </header>
-        <main></main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
-
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+    <div class="card">
+        <img src="<?php echo $imovel['url']; ?>" class="card-img-top" alt="Imagem do Imóvel">
+        <div class="card-body">
+            <h5 class="card-title"><?php echo htmlspecialchars($imovel['tipo']); ?></h5>
+            <p class="card-text">
+                <strong>Valor:</strong> R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?><br>
+                <strong>Cidade:</strong> <?php echo htmlspecialchars($imovel['cidade']); ?><br>
+                <strong>Bairro:</strong> <?php echo htmlspecialchars($imovel['bairro']); ?><br>
+                <strong>Logradouro:</strong> <?php echo htmlspecialchars($imovel['logradouro']); ?><br>
+                <strong>Tipo de Transação:</strong> <?php echo htmlspecialchars($imovel['compraAluga']); ?><br>
+                <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?>
+            </p>
+            <a href="index.php" class="btn btn-primary">Voltar</a>
+        </div>
+    </div>
+</div>
+</body>
 </html>
