@@ -6,6 +6,36 @@ if (!isset($_SESSION['carrinho'])) {
     $_SESSION['carrinho'] = array();
 }
 
+// Adicionar produto ao carrinho
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Recupera os dados do formulário
+    $id = $_POST['id'];
+    $nome = $_POST['nome'];
+    $preco = $_POST['preco'];
+    $quantidade = $_POST['quantidade'];
+
+    // Verifica se o produto já está no carrinho
+    $encontrado = false;
+    foreach ($_SESSION['carrinho'] as &$produto) {
+        if ($produto['id'] == $id) {
+            // Se o produto já existir, atualiza a quantidade
+            $produto['quantidade'] += $quantidade;
+            $encontrado = true;
+            break;
+        }
+    }
+
+    // Se o produto não estiver no carrinho, adiciona ele
+    if (!$encontrado) {
+        $_SESSION['carrinho'][] = [
+            'id' => $id,
+            'nome' => $nome,
+            'preco' => $preco,
+            'quantidade' => $quantidade
+        ];
+    }
+}
+
 // Remover item do carrinho
 if (isset($_GET['remover'])) {
     $id_remover = $_GET['remover'];
