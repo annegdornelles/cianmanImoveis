@@ -70,3 +70,125 @@ if (($_REQUEST["favoritos"] ?? '') == "lista") {
     }
 }
 ?>
+
+FAVORITOS
+
+<?php
+// Verifica se o ID do imóvel foi enviado via POST
+if (isset($_POST['id'])) {
+    $idImovel = $_POST['id']; // Recebe o ID do imóvel
+
+    // Se o ID do imóvel não estiver vazio, registramos o favorito
+    if ($idImovel) {
+        $imovelCookie = "imovel$idImovel"; // Nome do cookie baseado no ID do imóvel
+
+        // Verifica se o imóvel já foi adicionado aos favoritos
+        if (!isset($_COOKIE[$imovelCookie])) {
+            // Definindo o cookie para esse imóvel, que expira em 30 dias
+            setcookie($imovelCookie, $idImovel, time() + (30 * 24 * 60 * 60), "/");
+
+            echo "Imóvel $idImovel foi adicionado aos favoritos!";
+            $lista+= $idImovel;
+        } else {
+            echo "Este imóvel já está nos seus favoritos.";
+        }
+
+        
+        if(isset($lista)){
+            echo 'Sua lista de favoritos:'.$idImovel;
+        }
+        if(!isset($lista)){
+            echo 'Você não possui lista de favoritos.';
+        }
+
+
+    } else {
+        echo "ID do imóvel inválido.";
+    }
+} else {
+    echo "Nenhum ID de imóvel recebido.";
+}
+
+
+
+
+?>
+
+IMOVEIS
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imóveis</title>
+    <style>
+        .imovel {
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .favoritar {
+            cursor: pointer;
+            color: blue;
+            font-weight: bold;
+        }
+
+        .lista {
+            align-items: center;
+            background-color: palevioletred;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Lista de Imóveis</h1>
+
+    <div class="imovel">
+        <p>Produto 1</p>
+        <button class="favoritar" onclick="favoritar(1)">Favoritar</button>
+    </div>
+
+    <div class="imovel">
+        <p>Produto 2</p>
+        <button class="favoritar" onclick="favoritar(2)">Favoritar</button>
+    </div>
+
+    <div class="imovel">
+        <p>Produto 3</p>
+        <button class="favoritar" onclick="favoritar(3)">Favoritar</button>
+    </div>
+
+    <div id="mensagem"></div>
+
+    <script>
+        function favoritar(idImovel) {
+            // Envia o ID do produto para o script favoritos.php via AJAX
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "favoritos.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Exibe a resposta do servidor
+                    document.getElementById("mensagem").innerHTML = xhr.responseText;
+                }
+            };
+
+            // Envia o ID do imóvel para o PHP
+            xhr.send("id=" + idImovel);
+        }
+    </script>
+    
+    <button class="lista" onclick="$lista">Visualizar lista</button>
+
+
+
+</body>
+
+</html>
+
