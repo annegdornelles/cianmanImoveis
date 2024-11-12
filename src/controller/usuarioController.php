@@ -1,89 +1,82 @@
 <?php
 
-function usuarioInsert(){
-
+function usuarioInsert($nome, $status) {
     require_once './cadastroController.php';
-    
+
     $host = 'localhost';
     $user = 'root';
     $password = '';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $password, $database);
-
-    //Cria uma variável para retornar o array da consulta.
-    $result = null;
+    $id = null;
 
     if (mysqli_connect_errno()) {
         echo 'Erro ao conectar no banco de dados.';
     } else {
         echo 'Conexão realizada com sucesso.';
-        //construi minha consulta sql e armazenei na var. $sql.
-        //INSERT INTO `sgp`.`projetos` (`nome`, `status`) VALUES ('Projeto A', 'Ativo');
-        $sql = 'INSERT INTO projetos VALUES (0,"' . $nome . '","' . $status . '")';
-        //variavel do tipo array associativo que recebe o resultado da consulta sql.
+        $sql = 'INSERT INTO projetos VALUES (0, "' . $nome . '", "' . $status . '")';
         $result = $mysqli->query($sql);
 
-        $id = $mysqli->insert_id; //retorna o ultimo registro inserido na base de dados.
+        if ($result) {
+            $id = $mysqli->insert_id; // Obtém o último ID inserido
+        }
 
-        //fecha a conexão
         $mysqli->close();
     }
 
-    return   $id;
+    return $id;
 }
 
-function usersLogin(){
+function usersLogin($email, $senha) {
     $host = 'localhost';
     $user = 'root';
     $password = '';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $password, $database);
-
-    //Cria uma variável para retornar o array da consulta.
-    $result = null;
+    $numRows = 0;
 
     if (mysqli_connect_errno()) {
         echo 'Erro ao conectar no banco de dados.';
     } else {
         echo 'Conexão realizada com sucesso.';
-        //construi minha consulta sql e armazenei na var. $sql.
-        //$sql = 'SELECT * FROM sgp.usuarios where email="m@m" and senha="123"';
-        $sql = 'SELECT * FROM usuarios WHERE email="'.$email.'" AND senha="'.$senha.'"';
-        //variavel do tipo array associativo que recebe o resultado da consulta sql.
+        $sql = 'SELECT * FROM usuarios WHERE email = "' . $email . '" AND senha = "' . $senha . '"';
         $result = $mysqli->query($sql);
 
-        //fecha a conexão
+        $numRows = $result->num_rows; // Obtém o número de registros selecionados
         $mysqli->close();
     }
-    return $result->num_rows;//retorna o número de registros selecionados pela consulta sql.
+
+    return $numRows;
 }
 
-function usersUpdate(){
+function usersUpdate($id, $nome, $cep, $email, $dataNasc, $senha, $telefone) {
     $host = 'localhost';
     $user = 'root';
     $password = '';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $password, $database);
-
-    //Cria uma variável para retornar o array da consulta.
-    $result = null;
+    $total = 0;
 
     if (mysqli_connect_errno()) {
         echo 'Erro ao conectar no banco de dados.';
     } else {
         echo 'Conexão realizada com sucesso.';
-        //construi minha consulta sql e armazenei na var. $sql.
-        //$sql = 'SELECT * FROM sgp.usuarios where email="m@m" and senha="123"';
-        $sql = 'UPDATE clientes SET nome="' . $nome . '",status="' . $status . '" WHERE id=' . $id;
-        //variavel do tipo array associativo que recebe o resultado da consulta sql.
-        $result = $mysqli->query($sql);
+        $sql = 'UPDATE clientes SET nome = "' . $nome . '", cep = "' . $cep . '", email = "' . $email . '", dataNasc = "' . $dataNasc . '", senha = "' . $senha . '", telefone = "' . $telefone . '" WHERE id = ' . $id;
 
-        //fecha a conexão
+        if ($mysqli->query($sql)) {
+            $total = $mysqli->affected_rows;
+            $mysqli->commit();
+        } else {
+            $mysqli->rollback();
+            echo 'Erro ao atualizar registro.';
+        }
+
         $mysqli->close();
+    }
 
+    return $total;
 }
-
 ?>

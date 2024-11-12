@@ -1,5 +1,8 @@
 <?php
 
+/*quando for editar perfil:<a href="editar.php?id=<?php echo $id; ?>" class="btn btn-primary" value="editar">Editar</a>*/
+
+
 $host = 'localhost';
 $user = 'root';
 $password = '';

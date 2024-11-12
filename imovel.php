@@ -53,8 +53,7 @@ $mysqli->close();
 </nav>
 <form method="POST" action="carrinho.php">
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
-    <input type="hidden" name="nome" value="<?php echo $imovel['nome']; ?>"> <!-- Nome do imóvel -->
-    <input type="hidden" name="preco" value="<?php echo $imovel['preco']; ?>"> <!-- Preço do imóvel -->
+    <input type="hidden" name="valor" value="<?php echo $imovel['valor']; ?>"> <!-- Preço do imóvel -->
     <input type="hidden" name="quantidade" value="1"> <!-- Quantidade (inicialmente 1) -->
     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
 </form>

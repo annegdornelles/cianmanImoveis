@@ -10,16 +10,12 @@ if (!isset($_SESSION['carrinho'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Recupera os dados do formulário
     $id = $_POST['id'];
-    $nome = $_POST['nome'];
-    $preco = $_POST['preco'];
-    $quantidade = $_POST['quantidade'];
+    $preco = $_POST['valor'];
 
     // Verifica se o produto já está no carrinho
     $encontrado = false;
     foreach ($_SESSION['carrinho'] as &$produto) {
         if ($produto['id'] == $id) {
-            // Se o produto já existir, atualiza a quantidade
-            $produto['quantidade'] += $quantidade;
             $encontrado = true;
             break;
         }
@@ -29,9 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$encontrado) {
         $_SESSION['carrinho'][] = [
             'id' => $id,
-            'nome' => $nome,
-            'preco' => $preco,
-            'quantidade' => $quantidade
+            'valor' => $preco,
         ];
     }
 }
@@ -52,7 +46,7 @@ if (isset($_GET['remover'])) {
 // Calcular o total do carrinho
 $total = 0;
 foreach ($_SESSION['carrinho'] as $produto) {
-    $total += $produto['preco'] * $produto['quantidade'];
+    $total = $produto['preco'];
 }
 ?>
 
@@ -158,7 +152,6 @@ foreach ($_SESSION['carrinho'] as $produto) {
                 <tr>
                     <th>Produto</th>
                     <th>Preço</th>
-                    <th>Quantidade</th>
                     <th>Total</th>
                     <th>Ações</th>
                 </tr>
@@ -167,9 +160,7 @@ foreach ($_SESSION['carrinho'] as $produto) {
                 <?php foreach ($_SESSION['carrinho'] as $produto): ?>
                     <tr>
                         <td><?php echo $produto['nome']; ?></td>
-                        <td>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
-                        <td><?php echo $produto['quantidade']; ?></td>
-                        <td>R$ <?php echo number_format($produto['preco'] * $produto['quantidade'], 2, ',', '.'); ?></td>
+                        <td>R$ <?php echo $produto['preco']; ?></td>
                         <td>
                             <a href="?remover=<?php echo $produto['id']; ?>" class="btn-remover">Remover</a>
                         </td>
@@ -179,7 +170,7 @@ foreach ($_SESSION['carrinho'] as $produto) {
         </table>
 
         <div class="total">
-            <strong>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></strong>
+            <strong>Total: R$ <?php echo $total; ?></strong>
         </div>
 
         <form action="finalizar.php" method="post">
