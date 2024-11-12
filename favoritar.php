@@ -44,8 +44,8 @@ if (isset($_GET['visualizar']) && $_GET['visualizar'] == 'true') {
     if (!empty($_SESSION['favoritos'])) {
         echo "<h2>Lista de Favoritos:</h2><ul>";
         foreach ($_SESSION['favoritos'] as $imovel) {
-            echo "<li>Imóvel ID: " . htmlspecialchars($imovel['id']) . " - Valor: R$" . number_format($imovel['valor'], 2, ',', '.') . "</li>";
-           // echo "$imovel['url']";
+            echo "<li>Imóvel ID: " . htmlspecialchars($imovel['id']) . " - Valor: R$" . number_format($imovel['valor'], 2, ',', '.') . 
+     "<br><img src='" . $imovel['url'] . "' alt='Imagem do Imóvel' width='100' height='75'></li>";
         }
         echo "</ul>";
     } else {
