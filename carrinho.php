@@ -4,14 +4,25 @@ session_start(); // Inicia a sessão
 // Verifica se o carrinho já foi criado na sessão; caso contrário, cria um array vazio
 if (!isset($_SESSION['carrinho'])) {
     $_SESSION['carrinho'] = array();
+
 }
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Exibe os dados recebidos para verificar se estão corretos
+    
+    // Recupera os dados do formulário e define um valor padrão para 'url'
+    $id = $_POST['id'];
+    $preco = $_POST['valor'];
+    $url = isset($_POST['url']) ? $_POST['url'] : ''; // Verifica se a URL existe
+}
+
 
 // Adicionar produto ao carrinho
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recupera os dados do formulário
+    // Recupera os dados do formulário e define um valor padrão para 'url'
     $id = $_POST['id'];
     $preco = $_POST['valor'];
-    $url = $_POST['url'];
+    $url = isset($_POST['url']) ? $_POST['url'] : ''; // Verifica se a URL existe
 
     // Verifica se o produto já está no carrinho
     $encontrado = false;
@@ -26,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$encontrado) {
         $_SESSION['carrinho'][] = [
             'id' => $id,
-            'nome' => $nome,
             'preco' => $preco,
             'url' => $url,
         ];
@@ -59,6 +69,13 @@ foreach ($_SESSION['carrinho'] as $produto) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho de Compras</title>
+    <style>
+        img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
 
@@ -72,7 +89,7 @@ foreach ($_SESSION['carrinho'] as $produto) {
         <table>
             <thead>
                 <tr>
-                    <th>Produto</th>
+                    <th>Imagem</th>
                     <th>Preço</th>
                     <th>Ações</th>
                 </tr>
@@ -80,11 +97,15 @@ foreach ($_SESSION['carrinho'] as $produto) {
             <tbody>
                 <?php foreach ($_SESSION['carrinho'] as $produto): ?>
                     <tr>
-                    
-                        <td>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
-                        <td><?php echo $produto['url'];?>
-                            <a href="?remover=<?php echo $produto['id']; ?>">Remover</a>
+                        <td>
+                            <?php if (!empty($produto['url'])): ?>
+                                <td><img src="<?php echo htmlspecialchars($produto['url']); ?>" alt="Imagem do Imóvel" width="100" height="75"></td>
+                            <?php else: ?>
+                                <span>Imagem não disponível</span>
+                            <?php endif; ?>
                         </td>
+                        <td>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
+                        <td><a href="?remover=<?php echo $produto['id']; ?>">Remover</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -92,7 +113,6 @@ foreach ($_SESSION['carrinho'] as $produto) {
 
         <div class="total">
             <strong>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></strong>
-            <strong><?php echo "produto['url']";?></strong>
         </div>
 
         <form action="finalizar.php" method="post">

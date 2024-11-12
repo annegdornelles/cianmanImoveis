@@ -54,13 +54,13 @@ $mysqli->close();
 <form method="POST" action="carrinho.php">
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
     <input type="hidden" name="valor" value="<?php echo $imovel['valor']; ?>"> <!-- Preço do imóvel -->
-    <input type="hidden" name="url" value="<?php echo $imovel['url'];?>">
+    <input type="hidden" name="url" value="<?php echo $imovel['url']; ?>">
     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
 </form>
 <form method="POST" action="favoritar.php">
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
     <input type="hidden" name="valor" value="<?php echo $imovel['valor']; ?>"> <!-- Preço do imóvel -->
-    <input type="hidden" name="url" value="<?php echo $imovel['url'];?>">
+    <input type="hidden" name="url" value="<?php echo $imovel['url']; ?>">
     <button type="submit" class="btn btn-primary">Adicionar ao favoritos</button>
 </form>
 
@@ -80,8 +80,6 @@ $mysqli->close();
                 <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?>
             </p>
             <a href="index.php" class="btn btn-primary">Voltar</a>
-            <input type="submit" value="Adicionar ao carrinho">
-            <input type="submit" value="Adicionar aos favoritos">
             <form>
         </div>
     </div>
