@@ -49,7 +49,7 @@ foreach ($_SESSION['carrinho'] as $produto) {
         }
 
         header h1 {
-            margin: 0;
+            margin: 18px;
         }
 
         table {
