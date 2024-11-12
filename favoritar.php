@@ -1,118 +1,55 @@
 <?php
-// Verifica se o ID do imóvel foi enviado via GET
-if (isset($_GET['id'])) {
-    $idImovel = $_GET['id']; // Recebe o ID do imóvel
+session_start(); // Inicia a sessão
 
-    // Se o ID do imóvel não estiver vazio, registramos o favorito
-    if ($idImovel) {
-        $imovelCookie = "favoritos"; // Nome do cookie que armazenará os favoritos
+// Verifica se a sessão de favoritos já foi criada; caso contrário, cria um array vazio
+if (!isset($_SESSION['favoritos'])) {
+    $_SESSION['favoritos'] = array();
+}
 
-        // Recupera a lista de favoritos do cookie, se existir
-        $favoritos = isset($_COOKIE[$imovelCookie]) ? explode(',', $_COOKIE[$imovelCookie]) : [];
+// Verifica se o formulário foi enviado via POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Recupera os dados do formulário
+    $id = (int)$_POST['id'];
+    $preco = (float)$_POST['valor'];
+    $url = (string)$_POST['url'];
 
-        // Verifica se o imóvel já foi adicionado aos favoritos
-        if (!in_array($idImovel, $favoritos)) {
-            // Adiciona o imóvel à lista de favoritos
-            $favoritos[] = $idImovel;
-
-            // Salva a lista de favoritos no cookie (expira em 30 dias)
-            setcookie($imovelCookie, implode(',', $favoritos), time() + (30 * 24 * 60 * 60), "/");
-
-            echo "Imóvel $idImovel foi adicionado aos favoritos!<br>";
-        } else {
+    // Verifica se o imóvel já está nos favoritos
+    $encontrado = false;
+    foreach ($_SESSION['favoritos'] as $favorito) {
+        if ($favorito['id'] == $id) {
+            $encontrado = true;
             echo "Este imóvel já está nos seus favoritos.<br>";
+            break;
         }
-    } else {
-        echo "ID do imóvel inválido.<br>";
+    }
+
+    // Se o imóvel não estiver nos favoritos, adiciona-o
+    if (!$encontrado) {
+        $_SESSION['favoritos'][] = [
+            'id' => $id,
+            'valor' => $preco,
+            'url' => $url,
+        ];
+        echo "Imóvel $id foi adicionado aos favoritos!<br>";
     }
 }
 ?>
 
-<!-- Formulário de Visualizar Lista de Favoritos -->
-<a href="favoritos.php?visualizar=true">Visualizar Lista de Favoritos</a>
+<!-- Link para visualizar os favoritos -->
+<a href="favoritar.php?visualizar=true">Visualizar Lista de Favoritos</a>
 
 <?php
-// Verifica se o usuário quer visualizar os favoritos
+// Exibe a lista de favoritos se o parâmetro visualizar for passado
 if (isset($_GET['visualizar']) && $_GET['visualizar'] == 'true') {
-    // Nome do cookie onde a lista de favoritos está armazenada
-    $imovelCookie = "favoritos";
-
-    // Verifica se o cookie de favoritos existe
-    if (isset($_COOKIE[$imovelCookie])) {
-        // Recupera a lista de favoritos
-        $favoritos = explode(',', $_COOKIE[$imovelCookie]);
-
-        if (!empty($favoritos)) {
-            echo "<h2>Lista de Favoritos:</h2>";
-            echo "<ul>";
-            foreach ($favoritos as $imovel) {
-                echo "<li>Imóvel $imovel</li>";
-            }
-            echo "</ul>";
-        } else {
-            echo "Você não possui imóveis favoritos.";
+    if (!empty($_SESSION['favoritos'])) {
+        echo "<h2>Lista de Favoritos:</h2><ul>";
+        foreach ($_SESSION['favoritos'] as $imovel) {
+            echo "<li>Imóvel ID: " . htmlspecialchars($imovel['id']) . " - Valor: R$" . number_format($imovel['valor'], 2, ',', '.') . "</li>";
+           // echo "$imovel['url']";
         }
+        echo "</ul>";
     } else {
         echo "Você não possui imóveis favoritos.";
     }
 }
 ?>
-
-<!--
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imóveis</title>
-    <style>
-        .imovel {
-            margin: 10px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            display: inline-block;
-        }
-
-        .favoritar {
-            cursor: pointer;
-            color: blue;
-            font-weight: bold;
-        }
-
-        .lista {
-            align-items: center;
-            background-color: palevioletred;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h1>Lista de Imóveis</h1>
-
-    <div class="imovel">
-        <p>Produto 1</p>
-        <a href="favoritos.php?id=1">Favoritar</a>
-    </div>
-
-    <div class="imovel">
-        <p>Produto 2</p>
-        <a href="favoritos.php?id=2">Favoritar</a>
-    </div>
-
-    <div class="imovel">
-        <p>Produto 3</p>
-        <a href="favoritos.php?id=3">Favoritar</a>
-    </div>
-
-    <hr>
-  <a href="favoritos.php?visualizar=true">Visualizar Lista de Favoritos</a>
-
-</body>
-
-</html>--> 
-
-    <!-- Link para visualizar a lista de favoritos -->
- 
