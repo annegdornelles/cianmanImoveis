@@ -11,16 +11,15 @@ if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
-$query = "SELECT id, url, valor FROM imoveis LIMIT 30";
-$result = $mysqli->query($query);
+$aluguelQuery = "SELECT * FROM imoveis WHERE compraAluga = 'Aluguel' LIMIT 6";
+$compraQuery = "SELECT * FROM imoveis WHERE compraAluga = 'Compra' LIMIT 6";
+$santaMariaQuery = "SELECT * FROM imoveis WHERE cidade = 'Santa Maria' LIMIT 6";
 
-$imoveis = [];
-while ($imovel = $result->fetch_assoc()) {
-    $imoveis[] = $imovel;
-}
+$aluguelResult = $mysqli->query($aluguelQuery);
+$compraResult = $mysqli->query($compraQuery);
+$santaMariaResult = $mysqli->query($santaMariaQuery);
 
-$chunkedImoveis = array_chunk($imoveis, 6); // divide array de imoveis em subarrays
-$mysqli->close();
+//$mysqli->close();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
@@ -135,25 +134,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     </form>
 </div>
 
-<h1>Imoveis para alugar:</h1>
-<div class="container mt-4">
-    <?php foreach ($chunkedImoveis as $imovelGroup): ?>
-        <div class="row mb-4">
-            <?php foreach ($imovelGroup as $imovel): ?>
-                <div class="col-md-4 mb-3">
-                    <div class="card imovel-card">
-                        <a href="imovel.php?id=<?= $imovel['id'] ?>">
-                            <img src="<?= $imovel['url'] ?>" class="card-img-top" alt="Imagem do Imóvel">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text">Valor: R$ <?= number_format($imovel['valor'], 2, ',', '.') ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php endforeach; ?>
-</div>
+<div class="container my-4">
+    <h2>Imóveis para Aluguel</h2>
+    <div class="row">
+        <?php while ($imovel = $aluguelResult->fetch_assoc()): ?>
+            <div class="col-md-2 mb-4">
+                <a href="imovel.php?id=<?php echo $imovel['id']; ?>">
+                    <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
+                </a>
+                <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
+            </div>
+        <?php endwhile; ?>
+    </div>
+
+    <h2>Imóveis para Compra</h2>
+    <div class="row">
+        <?php while ($imovel = $compraResult->fetch_assoc()): ?>
+            <div class="col-md-2 mb-4">
+                <a href="imovel.php?id=<?php echo $imovel['id']; ?>">
+                    <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
+                </a>
+                <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
+            </div>
+        <?php endwhile; ?>
+    </div>
+
+    <h2>Imóveis em Santa Maria</h2>
+    <div class="row">
+        <?php while ($imovel = $santaMariaResult->fetch_assoc()): ?>
+            <div class="col-md-2 mb-4">
+                <a href="imovel.php?id=<?php echo $imovel['id']; ?>">
+                    <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
+                </a>
+                <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
+            </div>
+        <?php endwhile; ?>
+    </div>
    
 </main>
 

@@ -45,6 +45,14 @@ $mysqli->close();
 
 </style>
 <body>
+<nav>
+    <nav
+        class="nav justify-content-center  "
+    >
+    
+</nav>
+
+<form method="POST" action="carrinho.php">
 <div class="container my-4">
     <h2>Detalhes do Imóvel</h2>
 
@@ -61,6 +69,8 @@ $mysqli->close();
                 <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?>
             </p>
             <a href="index.php" class="btn btn-primary">Voltar</a>
+            <input type="submit" value="Adicionar ao carrinho">
+            <form>
         </div>
     </div>
 </div>
