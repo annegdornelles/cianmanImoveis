@@ -1,7 +1,8 @@
 <?php
 
-/*quando for editar perfil:<a href="editar.php?id=<?php echo $id; ?>" class="btn btn-primary" value="editar">Editar</a>*/
+session_start();
 
+/*quando for editar perfil:<a href="editar.php?id=<?php echo $id; ?>" class="btn btn-primary" value="editar">Editar</a>*/
 
 $host = 'localhost';
 $user = 'root';
@@ -13,6 +14,7 @@ $mysqli = new mysqli($host, $user, $password, $database);
 if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
+
 
 $aluguelQuery = "SELECT * FROM imoveis WHERE compraAluga = 'Aluguel' LIMIT 6";
 $compraQuery = "SELECT * FROM imoveis WHERE compraAluga = 'Compra' LIMIT 6";
@@ -64,11 +66,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>
             <a class="nav-link" href="login.php">Login</a>
+            <a class="nav-link" href="src/controller/logoutController.php">Logout</a>
         </div>
     </nav>
 </header>
 
 <main class="container">
+    <?php
+
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    $query = "SELECT nome FROM clientes WHERE email = '$email'";
+    $resultado = mysqli_query($mysqli, $query);
+
+    // Verifica se encontrou o usuário
+    if ($resultado) {
+        $linha = mysqli_fetch_assoc($resultado);
+        $nome = $linha['nome'];
+        echo '<h1>Seja bem-vindo(a), ' . $nome . '</h1>';
+    }}
+
+    ?>
     <form method="POST" action="">
         <div class="container">
             <div class="row justify-content-center align-items-center g-2">

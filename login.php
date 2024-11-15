@@ -38,9 +38,16 @@
             </form>
 
             <?php
-                if (isset($_REQUEST['cod']) && $_REQUEST['cod'] == '171') {
+                if (isset($_REQUEST['cod'])){
+                    if ($_REQUEST['cod'] == '171') {
                     echo '<div class="alert alert-warning" role="alert">Usuário ou senha não correspondem.</div>';
                 }
+
+                if ($_REQUEST['cod']=='300'){
+                    echo '<div class="alert alert-success mt-3" role="alert">Login realizado com sucesso!</div>';
+                    echo "<a href='index.php'>Voltar a página inicial</a>";
+                }
+            }
             ?>
         </div>
     </main>

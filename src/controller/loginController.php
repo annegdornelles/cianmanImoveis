@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
     if($_POST) {
 
         //$users = usersLoadAll();
@@ -10,8 +13,9 @@
             //if($value['email'] == $email && $value['password'] == $password) {
             if(usersLogin($email,$senha)>0){ 
                 @session_start();
-                $_SESSION['login'] = $email;
-                header('location:../../index.php');
+                $_SESSION['email'] = $email;
+                $_SESSION['senha'] = $senha;
+                header('location:../../login.php?cod=300');
                 exit();
             }else{
                 header('location:../../login.php?cod=171');
