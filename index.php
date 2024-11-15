@@ -54,14 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="src/css/styleindex.css">
 </head>
+
 
 <body>
 
 <header>
     <nav class="nav justify-content-between">
         <a class="nav-link" href="perfilUsuario.php">Perfil</a>
+        <a href="carrinho.php"><i class="fa-light fa-cart-shopping" style="color: #5e2b5c;"></i></a>
+        <a class="nav link" href="favoritos.php"> <i class="fa-light fa-heart" style="color: #5e215c; width:100px;"></i></a>
         <span class="nav-link text-center">Cianman Imóveis</span>
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>

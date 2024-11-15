@@ -57,6 +57,7 @@ header h1, header h5 {
     bottom: -8px;
     width: 0;
     transition: width 0.3s ease, left 0.3s ease;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .nav-left:hover:after,
@@ -470,4 +471,9 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+ 
+.fa-cart-shopping,.far-heart{
+    color:#7C4AB7;
+    width:50px;
 }
