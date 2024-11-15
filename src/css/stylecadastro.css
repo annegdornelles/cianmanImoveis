@@ -6,7 +6,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* Garante altura mínima da página */
+    margin: 0;
+    padding: 0;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza verticalmente */
+    width: 100%;
+    max-width: 500px;
     margin: 0;
 }
 
@@ -14,33 +25,35 @@ body {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    padding: 20px; /* Reintroduz um padding suave */
     width: 100%;
     max-width: 500px;
+    max-height: 80vh; /* Ajusta para caber na tela */
+    overflow-y: auto; /* Habilita rolagem se necessário */
 }
 
 h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #2e1b4e; /* Título com a cor roxa escura */
+    color: #2e1b4e;
 }
 
 .form-label {
     font-weight: 500;
-    color: #2e1b4e; /* Cor das labels em roxo escuro */
+    color: #2e1b4e;
 }
 
 .form-control {
     border-radius: 5px;
-    border: 1px solid #2e1b4e; /* Bordas em roxo escuro */
+    border: 1px solid #2e1b4e;
     padding: 10px;
     font-size: 16px;
     margin-bottom: 15px;
 }
 
 .form-control:focus {
-    border-color: #6a1b9a; /* Cor de foco mais suave */
-    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5); /* Sombra roxa */
+    border-color: #6a1b9a;
+    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
 }
 
 .btn-primary {
@@ -48,7 +61,7 @@ h2 {
     padding: 12px;
     font-size: 16px;
     font-weight: 600;
-    background-color: #2e1b4e; /* Cor roxa escura para o botão */
+    background-color: #2e1b4e;
     border: none;
     border-radius: 5px;
     color: white;
@@ -56,25 +69,11 @@ h2 {
 }
 
 .btn-primary:hover {
-    background-color: #4a2a72; /* Hover com tom mais escuro */
+    background-color: #4a2a72;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.alert {
+    margin-top: 20px;
     text-align: center;
-    padding: 10px;
-    background-color: #2e1b4e; /* Cor roxa escura para o rodapé */
-    color: white;
-}
-
-footer a {
-    color: #f8bbd0; /* Cor clara para links */
-    text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
+    width: 100%;
 }

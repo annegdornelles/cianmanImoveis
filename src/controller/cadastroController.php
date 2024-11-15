@@ -3,7 +3,7 @@
 function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) {
     $host = 'localhost';
     $user = 'root';
-    $pwd = '12345';
+    $pwd = '';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $pwd, $database);
@@ -23,7 +23,7 @@ function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) 
 
         // Executa a query
         if ($stmt->execute()) {
-            echo "Cliente cadastrado com sucesso.";
+            header('location:../../cadastro.php?cod=300');
             // Obtendo o ID do último registro inserido
             $id = $stmt->insert_id;
 
