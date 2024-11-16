@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
         <a class="nav-link" href="carrinho.php">
             <i class="fa-solid fa-cart-shopping fa-lg" style="color: #5e2b5c; width: 40px; text-align: center;"></i>
         </a>
-        <a class="nav-link" href="favoritos.php">
+        <a class="nav-link" href="listaFavoritos.php">
             <i class="fa-solid fa-heart fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i>
         </a>
         <a class="nav-link" href="perfilUsuario.php"><i class="fa-solid fa-user fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i></a>

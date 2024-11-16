@@ -1,0 +1,19 @@
+.container {
+    margin-top: 20px;
+}
+
+.card-img-top {
+    width: 100px; /* Define uma largura fixa de 100px */
+    height: auto; /* Mantém a proporção original da imagem */
+    max-height: 100px; /* Limita a altura máxima da imagem */
+    object-fit: cover; /* Ajusta a imagem para caber no espaço sem distorção */
+}
+
+.card {
+    margin: 10px; /* Espaçamento entre os cards */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra aos cards */
+    border-radius: 8px; /* Bordas arredondadas para os cards */
+    display: inline-block; /* Garante que os cards fiquem lado a lado */
+    width: 150px; /* Define a largura fixa dos cards */
+    text-align: center; /* Centraliza o conteúdo do card */
+}
