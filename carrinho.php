@@ -119,8 +119,11 @@ foreach ($_SESSION['carrinho'] as $produto) {
             <button type="submit">Finalizar Compra</button>
         </form>
 
+        <a href="index.php">Voltar</a>
+
     <?php else: ?>
         <p>Seu carrinho está vazio!</p>
+        <a href="index.php">Voltar</a>
     <?php endif; ?>
 
 </main>
