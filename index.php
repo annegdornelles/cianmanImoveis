@@ -63,10 +63,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
 <body>
 
 <header>
-    <nav class="nav justify-content-between">
-        <a href="carrinho.php"><i class="fa-solid fa-cart-shopping fa-lg" style="color: #5e2b5c;"></i></a>
-        <a class="nav link" href="favoritos.php"> <i class="fa-solid fa-heart fa-lg" style="color: #5e215c;"></i></a>
-        <a class="nav-link" href="perfilUsuario.php">Perfil</a>
+    <nav class="nav justify-content-between" style="display: flex; align-items: center;">
+        <a class="nav-link" href="carrinho.php">
+            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #5e2b5c; width: 40px; text-align: center;"></i>
+        </a>
+        <a class="nav-link" href="favoritos.php">
+            <i class="fa-solid fa-heart fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i>
+        </a>
+        <a class="nav-link" href="perfilUsuario.php"><i class="fa-solid fa-user fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i></a>
         <span class="nav-link text-center">Cianman Imóveis</span>
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>
