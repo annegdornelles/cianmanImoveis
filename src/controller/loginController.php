@@ -17,7 +17,7 @@ if ($_POST) {
         // Verifica se o e-mail termina com "@cianman.com"
         if (str_ends_with($email, '@cianman.com')) {
             $_SESSION['role'] = 'corretor'; // Identifica como corretor
-            header('location:../../login.php?cod=300'); 
+            header('location:../../corretorImoveis.php'); 
             exit();
         } else {
             header('location:../../login.php?cod=300'); // Redireciona para a página padrão
