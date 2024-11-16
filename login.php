@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="pt-BR">
 
@@ -41,6 +43,7 @@
                 if (isset($_REQUEST['cod'])){
                     if ($_REQUEST['cod'] == '171') {
                     echo '<div class="alert alert-warning" role="alert">Usuário ou senha não correspondem.</div>';
+                    echo "<a href='cadastro.php'>Não tem cadastro? Cadastre-se aqui.</a>";
                 }
 
                 if ($_REQUEST['cod']=='300'){
