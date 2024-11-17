@@ -1,136 +1,115 @@
+<link rel="stylesheet" type="text/css" href="src/css/stylefavoritar.css">
+
 <?php
-session_start(); // Inicia a sessão
+session_start();
 
-// Verifica se o carrinho já foi criado na sessão; caso contrário, cria um array vazio
-if (!isset($_SESSION['carrinho'])) {
-    $_SESSION['carrinho'] = array();
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'cianman';
 
+if (!isset($_SESSION['email'])) {
+    header('Location: login.php');
+    exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Exibe os dados recebidos para verificar se estão corretos
-    
-    // Recupera os dados do formulário e define um valor padrão para 'url'
-    $id = $_POST['id'];
-    $preco = $_POST['valor'];
-    $url = isset($_POST['url']) ? $_POST['url'] : ''; // Verifica se a URL existe
+$email = $_SESSION['email'];
+$mysqli = new mysqli($host, $user, $password, $database);
+
+if ($mysqli->connect_error) {
+    die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
+// Obtém o CPF do cliente baseado no e-mail da sessão
+$queryCliente = "SELECT cpf FROM clientes WHERE email = ?";
+$stmtCliente = $mysqli->prepare($queryCliente);
+$stmtCliente->bind_param('s', $email);
+$stmtCliente->execute();
+$resultCliente = $stmtCliente->get_result();
 
-// Adicionar produto ao carrinho
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recupera os dados do formulário e define um valor padrão para 'url'
-    $id = $_POST['id'];
-    $preco = $_POST['valor'];
-    $url = isset($_POST['url']) ? $_POST['url'] : ''; // Verifica se a URL existe
+if ($resultCliente->num_rows > 0) {
+    $cliente = $resultCliente->fetch_assoc();
+    $clienteCpf = $cliente['cpf'];
+} else {
+    echo "Cliente não encontrado.";
+    exit;
+}
 
-    // Verifica se o produto já está no carrinho
-    $encontrado = false;
-    foreach ($_SESSION['carrinho'] as &$produto) {
-        if ($produto['id'] == $id) {
-            $encontrado = true;
-            break;
-        }
+// Calcula o valor total dos imóveis no carrinho
+$queryTotal = "
+    SELECT SUM(i.valor) AS total
+    FROM carrinho c
+    JOIN imoveis i ON c.imovelId = i.id
+    WHERE c.clienteCpf = ?
+";
+$stmtTotal = $mysqli->prepare($queryTotal);
+$stmtTotal->bind_param('s', $clienteCpf);
+$stmtTotal->execute();
+$resultTotal = $stmtTotal->get_result();
+
+$valorTotal = 0; // Valor inicial
+if ($resultTotal->num_rows > 0) {
+    $total = $resultTotal->fetch_assoc();
+    $valorTotal = $total['total'];
+}
+
+// Obtém os imóveis no carrinho do cliente
+$queryFavoritos = "
+    SELECT i.* 
+    FROM carrinho f 
+    JOIN imoveis i ON f.imovelId = i.id 
+    WHERE f.clienteCpf = ?
+";
+$stmtFavoritos = $mysqli->prepare($queryFavoritos);
+$stmtFavoritos->bind_param('s', $clienteCpf);
+$stmtFavoritos->execute();
+$resultFavoritos = $stmtFavoritos->get_result();
+
+if ($resultFavoritos->num_rows > 0) {
+    echo '<div class="container">';
+    while ($imovel = $resultFavoritos->fetch_assoc()) {
+        echo '
+            <div class="card" style="display: inline-block; width: 300px; margin: 10px;">
+                <img src="' . htmlspecialchars($imovel['url']) . '" class="card-img-top" alt="Imagem do Imóvel">
+                <div class="card-body">
+                    <h5 class="card-title">' . htmlspecialchars($imovel['tipo']) . '</h5>
+                    <p class="card-text">
+                        <strong>Valor:</strong> R$' . number_format($imovel['valor'], 2, ',', '.') . '<br>
+                        <strong>Cidade:</strong> ' . htmlspecialchars($imovel['cidade']) . '<br>
+                        <strong>Bairro:</strong> ' . htmlspecialchars($imovel['bairro']) . '<br>
+                    </p>
+                    <a href="carrinho.php?remover=true&id=' . $imovel['id'] . '" class="btn btn-danger">Remover</a>
+                </div>
+            </div>
+        ';
+    }
+    echo '</div>';
+
+    // Exibe o valor total
+    echo '<div style="margin: 20px;">
+            <h4>Valor total no carrinho: R$ ' . number_format($valorTotal, 2, ',', '.') . '</h4>
+          </div>';
+} else {
+    echo "Você não possui imóveis em seu carrinho.";
+}
+
+// Verifica se o imóvel deve ser removido
+if (isset($_GET['remover']) && isset($_GET['id'])) {
+    $imovelId = (int) $_GET['id'];
+
+    $queryRemover = "DELETE FROM carrinho WHERE clienteCpf = ? AND imovelId = ?";
+    $stmtRemover = $mysqli->prepare($queryRemover);
+    $stmtRemover->bind_param('si', $clienteCpf, $imovelId);
+
+    if ($stmtRemover->execute()) {
+        echo "Imóvel removido do carrinho!";
+    } else {
+        echo "Erro ao remover do carrinho.";
     }
 
-    // Se o produto não estiver no carrinho, adiciona-o
-    if (!$encontrado) {
-        $_SESSION['carrinho'][] = [
-            'id' => $id,
-            'preco' => $preco,
-            'url' => $url,
-        ];
-    }
+    header('Location: carrinho.php');
+    exit;
 }
 
-// Remover item do carrinho
-if (isset($_GET['remover'])) {
-    $id_remover = $_GET['remover'];
-    foreach ($_SESSION['carrinho'] as $key => $produto) {
-        if ($produto['id'] == $id_remover) {
-            unset($_SESSION['carrinho'][$key]);
-            break;
-        }
-    }
-    // Reindexa o array após a remoção
-    $_SESSION['carrinho'] = array_values($_SESSION['carrinho']);
-}
-
-// Calcular o total do carrinho
-$total = 0;
-foreach ($_SESSION['carrinho'] as $produto) {
-    $total += $produto['preco'];
-}
+$mysqli->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho de Compras</title>
-    <style>
-        img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>Carrinho de Compras</h1>
-</header>
-
-<main>
-
-    <?php if (count($_SESSION['carrinho']) > 0): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Imagem</th>
-                    <th>Preço</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($_SESSION['carrinho'] as $produto): ?>
-                    <tr>
-                        <td>
-                            <?php if (!empty($produto['url'])): ?>
-                                <td><img src="<?php echo htmlspecialchars($produto['url']); ?>" alt="Imagem do Imóvel" width="100" height="75"></td>
-                            <?php else: ?>
-                                <span>Imagem não disponível</span>
-                            <?php endif; ?>
-                        </td>
-                        <td>R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></td>
-                        <td><a href="?remover=<?php echo $produto['id']; ?>">Remover</a></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <div class="total">
-            <strong>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></strong>
-        </div>
-
-        <form action="finalizar.php" method="post">
-            <button type="submit">Finalizar Compra</button>
-        </form>
-
-        <a href="index.php">Voltar</a>
-
-    <?php else: ?>
-        <p>Seu carrinho está vazio!</p>
-        <a href="index.php">Voltar</a>
-    <?php endif; ?>
-
-</main>
-
-<footer>
-    <p>&copy; 2024 Loja Exemplo - Todos os direitos reservados</p>
-</footer>
-
-</body>
-</html>

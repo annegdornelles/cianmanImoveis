@@ -51,7 +51,7 @@ $mysqli->close();
     >
     
 </nav>
-<form method="POST" action="carrinho.php">
+<form method="POST" action="src/controller/carrinhoController.php">
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
 </form>
