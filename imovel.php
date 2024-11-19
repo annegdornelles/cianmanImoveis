@@ -100,7 +100,7 @@ $mysqli->close();
                     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
                     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
                 </form>
-                <form method="POST" action="favoritar.php">
+                <form method="POST" action="src/controller/favoritosController.php">
                     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
                     <button type="submit" class="btn btn-secondary">Adicionar aos Favoritos</button>
                 </form>

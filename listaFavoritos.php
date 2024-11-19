@@ -4,7 +4,7 @@ session_start(); // Inicia a sessão
 
 $host = 'localhost';
 $user = 'root';
-$password = '12345';
+$password = '';
 $database = 'cianman';
 
 // Verifica se o usuário está logado
