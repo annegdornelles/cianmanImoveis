@@ -71,7 +71,6 @@ header h1, header h5 {
     padding: 40px 20px; 
    max-width: 1200px; 
    margin: 70px auto 0; 
-    background-color: #dbdee4; /* Light gray */ 
     left: 50%; /* Center the content within the container */ 
     border-radius: 30px; 
      width: 80%; /* ou max-width: 1200px; */

@@ -16,7 +16,7 @@
         </form>
 
         <?php
-        // Conexão com o banco de dados
+      
         $host = 'localhost';
         $user = 'root';
         $password = '12345';
@@ -28,10 +28,8 @@
             die('Erro de conexão: ' . $mysqli->connect_error);
         }
 
-        // Variável de ID do corretor
         $funcionariosId = 1;
 
-        // Função para visualizar imóveis
         function visualizarImoveis($mysqli, $funcionariosId) {
             $query = "SELECT * FROM imoveis WHERE funcionariosId = ?";
             $stmt = $mysqli->prepare($query);
@@ -66,7 +64,6 @@
             }
         }
 
-        // Função para adicionar imóvel
         function adicionarImovel($mysqli, $funcionariosId) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar'])) {
                 $logradouro = $_POST['logradouro'];

@@ -41,10 +41,10 @@ function usersLogin($email, $senha) {
         echo 'Erro ao conectar no banco de dados.';
     } else {
         echo 'Conexão realizada com sucesso.';
-        $sql = 'SELECT * FROM usuarios WHERE email = "' . $email . '" AND senha = "' . $senha . '"';
+        $sql = 'SELECT * FROM clientes WHERE email = "' . $email . '" AND senha = "' . $senha . '"';
         $result = $mysqli->query($sql);
 
-        $numRows = $result->num_rows; // Obtém o número de registros selecionados
+        $numRows = $result->num_rows; 
         $mysqli->close();
     }
 
