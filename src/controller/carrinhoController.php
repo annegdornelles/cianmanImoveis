@@ -11,6 +11,10 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
+if (!isset($_SESSION['imovel'])){
+    header('location:../../imovel.php?cod=123');
+}
+
 $email = $_SESSION['email'];
 $mysqli = new mysqli($host, $user, $password, $database);
 

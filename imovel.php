@@ -52,11 +52,11 @@ $mysqli->close();
     
 </nav>
 <form method="POST" action="src/controller/carrinhoController.php">
-    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
+    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
 </form>
-<form method="POST" action="favoritar.php">
-    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
+<form method="POST" action="src/controller/favoritosController.php">
+    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
     <button type="submit" class="btn btn-primary">Adicionar ao favoritos</button>
 </form>
 

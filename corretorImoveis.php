@@ -65,7 +65,7 @@
         }
 
         function adicionarImovel($mysqli, $funcionariosId) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar'])) {
+            if ($_POST && isset($_POST['adicionar'])) {
                 $logradouro = $_POST['logradouro'];
                 $numCasa = $_POST['numCasa'];
                 $bairro = $_POST['bairro'];
@@ -76,6 +76,10 @@
                 $tipo = $_POST['tipo'];
                 $compraAluga = $_POST['compraAluga'];
                 $valor = $_POST['valor'];
+
+      /*          echo "<pre>";
+var_dump($_POST['tipo']);
+echo "</pre>";*/
 
                 // Tratamento de upload de imagens
                 $fotos = [];

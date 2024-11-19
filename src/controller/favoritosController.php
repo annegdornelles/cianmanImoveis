@@ -1,26 +1,24 @@
 <?php
-session_start(); // Inicia a sessão
+
+session_start(); 
 
 $host = 'localhost';
 $user = 'root';
 $password = '';
 $database = 'cianman';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
-    header('Location: login.php'); // Redireciona para o login se o usuário não estiver logado
+    header('Location: login.php');
     exit;
 }
 
 $email = $_SESSION['email'];
 $mysqli = new mysqli($host, $user, $password, $database);
 
-// Verifica a conexão
 if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
-// Obtém o CPF do cliente com base no e-mail da sessão
 $queryCliente = "SELECT cpf FROM clientes WHERE email = ?";
 $stmtCliente = $mysqli->prepare($queryCliente);
 $stmtCliente->bind_param('s', $email);
@@ -35,11 +33,9 @@ if ($resultCliente->num_rows > 0) {
     exit;
 }
 
-// Verifica se o formulário foi enviado para adicionar aos favoritos
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+if ($_POST && isset($_POST['id'])) {
     $imovelId = (int) $_POST['id'];
 
-    // Verifica se o imóvel já está nos favoritos do cliente
     $queryFavorito = "SELECT * FROM favoritos WHERE clienteCpf = ? AND imovelId = ?";
     $stmtFavorito = $mysqli->prepare($queryFavorito);
     $stmtFavorito->bind_param('si', $clienteCpf, $imovelId);
@@ -47,10 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $resultFavorito = $stmtFavorito->get_result();
 
     if ($resultFavorito->num_rows > 0) {
-        // Imóvel já está nos favoritos
         echo "Este imóvel já está nos seus favoritos.";
     } else {
-        // Adiciona o imóvel aos favoritos
+        $_SESSION['imovel'] = $imovelId;
         $queryInsert = "INSERT INTO favoritos (clienteCpf, imovelId) VALUES (?, ?)";
         $stmtInsert = $mysqli->prepare($queryInsert);
         $stmtInsert->bind_param('si', $clienteCpf, $imovelId);
@@ -63,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     }
 
     // Redireciona para a página de favoritos após a ação
-    header('Location: listaFavoritos.php');
+    header('Location: ../../listaFavoritos.php');
     exit;
 }
 
@@ -82,7 +77,7 @@ if (isset($_GET['remover']) && isset($_GET['id'])) {
     }
 
     // Redireciona para a página de favoritos após a remoção
-    header('Location: listaFavoritos.php');
+    header('Location: ../../listaFavoritos.php');
     exit;
 }
 
