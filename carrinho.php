@@ -5,7 +5,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$password = '12345';
+$password = '';
 $database = 'cianman';
 
 if (!isset($_SESSION['email'])) {

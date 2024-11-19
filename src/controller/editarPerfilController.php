@@ -4,7 +4,7 @@ session_start();
 function conectarBanco() {
     $host = 'localhost';
     $user = 'root';
-    $pwd = '12345';
+    $pwd = '';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $pwd, $database);

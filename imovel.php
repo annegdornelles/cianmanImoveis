@@ -3,7 +3,7 @@
 <?php
 $host = 'localhost';
 $user = 'root';
-$password = '12345';
+$password = '';
 $database = 'cianman';
 
 $mysqli = new mysqli($host, $user, $password, $database);
@@ -12,7 +12,6 @@ if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
-// Obtém o ID do imóvel a partir do parâmetro URL
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $query = "SELECT * FROM imoveis WHERE id = $id";
@@ -68,11 +67,8 @@ $mysqli->close();
     <nav
         class="nav justify-content-center  "
     >
-    
+   <!-- 
 </nav>
-<<<<<<< HEAD
-
-=======
 <form method="POST" action="src/controller/carrinhoController.php">
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
@@ -81,7 +77,7 @@ $mysqli->close();
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
     <button type="submit" class="btn btn-primary">Adicionar ao favoritos</button>
 </form>
->>>>>>> 1f9fd3acc8d5978ca65b91b2d02ae9f3199b0c94
+    -->
 
 <div class="container my-4">
     <h2>Detalhes do Imóvel</h2>
@@ -115,7 +111,7 @@ $mysqli->close();
         <?php
 
            if (isset($_GET['cod'])&&$_GET['cod']=='123'){
-            echo '<div class="alert alert-warning" role="alert">
+            echo '<div class="alert-warning" role="alert">
   Você precisa favoritar o imóvel antes de adicionar no carrinho.
 </div>';
            }

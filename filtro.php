@@ -8,7 +8,7 @@ $compraAluga = isset($_GET['compraoualuga']) ? $_GET['compraoualuga'] : null;
 
 $host = 'localhost';
 $user = 'root';
-$password = '12345';
+$password = '';
 $database = 'cianman';
 
 $mysqli = new mysqli($host, $user, $password, $database);
@@ -94,7 +94,6 @@ if (!$result) {
                                     <strong>Quartos:</strong> <?php echo $imovel['numQuartos']; ?><br>
                                     <strong>Preço:</strong> R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?>
                                 </p>
-                                <a href="carrinho.php?remover=true&id=<?php echo $imovel['id']; ?>" class="btn btn-danger">Remover</a>
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$password = '12345';
+$password = '';
 $database = 'cianman';
 
 if (!isset($_SESSION['email'])) {
@@ -33,9 +33,21 @@ if ($resultCliente->num_rows > 0) {
     exit;
 }
 
-// Adicionar imóvel ao carrinho
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+if ($_POST && isset($_POST['id'])) {
     $imovelId = (int) $_POST['id'];
+
+    // Verifica se o imóvel está nos favoritos
+    $queryFavorito = "SELECT * FROM favoritos WHERE clienteCpf = ? AND imovelId = ?";
+    $stmtFavorito = $mysqli->prepare($queryFavorito);
+    $stmtFavorito->bind_param('si', $clienteCpf, $imovelId);
+    $stmtFavorito->execute();
+    $resultFavorito = $stmtFavorito->get_result();
+
+    if ($resultFavorito->num_rows === 0) {
+        // Se o imóvel não está nos favoritos, redireciona para a página do imóvel com cod=123
+        header("Location: ../../imovel.php?cod=123&id=$imovelId");
+        exit;
+    }
 
     // Verifica se o imóvel já está no carrinho
     $queryCarrinho = "SELECT * FROM carrinho WHERE clienteCpf = ? AND imovelId = ?";
@@ -63,11 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     exit;
 }
 
-// Remover imóvel do carrinho
+// Remove imóvel do carrinho
 if (isset($_GET['remover']) && isset($_GET['id'])) {
     $imovelId = (int) $_GET['id'];
 
-    // Remove o imóvel do carrinho
     $queryRemover = "DELETE FROM carrinho WHERE clienteCpf = ? AND imovelId = ?";
     $stmtRemover = $mysqli->prepare($queryRemover);
     $stmtRemover->bind_param('si', $clienteCpf, $imovelId);
@@ -81,7 +92,6 @@ if (isset($_GET['remover']) && isset($_GET['id'])) {
     header('Location: ../../carrinho.php');
     exit;
 }
-
 
 $mysqli->close();
 ?>
