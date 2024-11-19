@@ -1,0 +1,75 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f3f1f8; /* Cor de fundo mais suave */
+    color: #2e1b4e; /* Texto em roxo mais escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    height: 450px; 
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2e1b4e; 
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #2e1b4e; /* Bordas com roxo suave */
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    border-color: #2e1b4e; /* Cor de foco roxa escura */
+    box-shadow: 0 0 5px rgba(46, 27, 78, 0.5); /* Efeito de sombra roxa */
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column; /* Botões em coluna */
+    gap: 15px; /* Espaço entre os botões */
+}
+
+button {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    color: white; /* Texto branco */
+    background-color: #2e1b4e; /* Cor principal do botão */
+    transition: background-color 0.3s ease; /* Remove transição de sombra */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Espaço entre o ícone e o texto */
+}
+
+button:hover {
+    background-color: #4a148c; /* Tom de roxo mais escuro no hover */
+}
+
+button:last-child {
+    margin-top: auto; /* Move o último botão para a parte inferior do contêiner */
+}
