@@ -78,6 +78,15 @@ $mysqli->close();
             <a href="index.php" class="btn btn-primary">Voltar</a>
             <form>
         </div>
+        <?php
+
+           if (isset($_GET['cod'])&&$_GET['cod']=='123'){
+            echo '<div class="alert alert-warning" role="alert">
+  Você precisa favoritar o imóvel antes de adicionar no carrinho.
+</div>';
+           }
+
+        ?>
     </div>
 </div>
 </body>
