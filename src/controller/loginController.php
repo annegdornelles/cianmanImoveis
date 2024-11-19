@@ -33,7 +33,7 @@ if ($_POST) {
 function usersLogin($email, $senha) {
     $host = 'localhost';
     $user = 'root';
-    $password = '';
+    $password = '12345';
     $database = 'cianman';
 
     // Cria a conexão com o banco de dados

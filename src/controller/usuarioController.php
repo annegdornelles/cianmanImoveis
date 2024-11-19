@@ -31,7 +31,7 @@ function usuarioInsert($nome, $status) {
 function usersLogin($email, $senha) {
     $host = 'localhost';
     $user = 'root';
-    $password = '';
+    $password = '12345';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $password, $database);
@@ -54,7 +54,7 @@ function usersLogin($email, $senha) {
 function usersUpdate($id, $nome, $cep, $email, $dataNasc, $senha, $telefone) {
     $host = 'localhost';
     $user = 'root';
-    $password = '';
+    $password = '12345';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $password, $database);

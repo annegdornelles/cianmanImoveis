@@ -6,7 +6,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$password = '';
+$password = '12345';
 $database = 'cianman';
 
 $mysqli = new mysqli($host, $user, $password, $database);
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
             <i class="fa-solid fa-heart fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i>
         </a>
         <a class="nav-link" href="perfilUsuario.php"><i class="fa-solid fa-user fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i></a>
-        <span class="nav-link text-center">Cianman Imóveis</span>
+        <a class="nav-link text-center" href="index.php">Cianman Imóveis</span>
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>
             <a class="nav-link" href="login.php">Login</a>
