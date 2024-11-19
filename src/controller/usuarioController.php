@@ -41,10 +41,10 @@ function usersLogin($email, $senha) {
         echo 'Erro ao conectar no banco de dados.';
     } else {
         echo 'Conexão realizada com sucesso.';
-        $sql = 'SELECT * FROM usuarios WHERE email = "' . $email . '" AND senha = "' . $senha . '"';
+        $sql = 'SELECT * FROM clientes WHERE email = "' . $email . '" AND senha = "' . $senha . '"';
         $result = $mysqli->query($sql);
 
-        $numRows = $result->num_rows; // Obtém o número de registros selecionados
+        $numRows = $result->num_rows; 
         $mysqli->close();
     }
 
@@ -54,7 +54,7 @@ function usersLogin($email, $senha) {
 function usersUpdate($id, $nome, $cep, $email, $dataNasc, $senha, $telefone) {
     $host = 'localhost';
     $user = 'root';
-    $password = '';
+    $password = '12345';
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $password, $database);

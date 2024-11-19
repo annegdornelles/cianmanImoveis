@@ -71,11 +71,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
             <i class="fa-solid fa-heart fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i>
         </a>
         <a class="nav-link" href="perfilUsuario.php"><i class="fa-solid fa-user fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i></a>
-        <span class="nav-link text-center">Cianman Imóveis</span>
+        <a class="nav-link text-center" href="index.php">Cianman Imóveis</span>
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>
             <a class="nav-link" href="login.php">Login</a>
-            <a class="nav-link" href="src/controller/logoutController.php">Logout</a>
+            <?php
+            if (isset($_SESSION['email'])){
+               echo "<a class='nav-link' href='src/controller/logoutController.php'>Logout</a>";
+            }
+            ?>
         </div>
     </nav>
 </header>
@@ -138,8 +142,7 @@ if (isset($_SESSION['email'])) {
                         <label for="tipo" class="form-label">Tipo de Imóvel:</label>
                         <select class="form-select form-select-lg" name="tipo" id="tipo">
                             <option selected>Selecione o tipo de imóvel...</option>
-                            <option value="casaComercial">Casa comercial</option>
-                            <option value="aptoComercial">Apartamento comercial</option>
+                            <option value="salaComercial">Sala comercial</option>
                             <option value="casaResidencial">Casa residencial</option>
                             <option value="aptoResidencial">Apartamento residencial</option>
                             <option value="kitnet">KitNet</option>
@@ -173,6 +176,7 @@ if (isset($_SESSION['email'])) {
                     <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
                 </a>
                 <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
+                <p>Cidade: <?php echo htmlspecialchars($imovel['cidade']);?></p>
             </div>
         <?php endwhile; ?>
     </div>
@@ -185,6 +189,7 @@ if (isset($_SESSION['email'])) {
                     <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
                 </a>
                 <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
+                <p>Cidade: <?php echo htmlspecialchars($imovel['cidade']);?></p>
             </div>
         <?php endwhile; ?>
     </div>
@@ -197,6 +202,7 @@ if (isset($_SESSION['email'])) {
                     <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
                 </a>
                 <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
+                <p>Cidade: <?php echo htmlspecialchars($imovel['cidade']);?></p>
             </div>
         <?php endwhile; ?>
     </div>
