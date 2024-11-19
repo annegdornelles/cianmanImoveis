@@ -3,7 +3,7 @@
 <?php
 $host = 'localhost';
 $user = 'root';
-$password = '';
+$password = '12345';
 $database = 'cianman';
 
 $mysqli = new mysqli($host, $user, $password, $database);
@@ -34,7 +34,8 @@ $mysqli->close();
     <title>Detalhes do Imóvel</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+    <link rel="stylesheet" type="text/css" href="src/css/styleimovel.css">
 </head>
 <style>
     .card-img-top{
@@ -42,23 +43,34 @@ $mysqli->close();
         align-items: center;
         height:500px;
     }
+    .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .buttons-container button {
+            flex: 1; 
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+            height: 100%;
+        }
 
 </style>
 <body>
+    
 <nav>
     <nav
         class="nav justify-content-center  "
     >
     
 </nav>
-<form method="POST" action="src/controller/carrinhoController.php">
-    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
-    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
-</form>
-<form method="POST" action="favoritar.php">
-    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>"> <!-- ID do imóvel -->
-    <button type="submit" class="btn btn-primary">Adicionar ao favoritos</button>
-</form>
+
 
 <div class="container my-4">
     <h2>Detalhes do Imóvel</h2>
@@ -75,6 +87,17 @@ $mysqli->close();
                 <strong>Tipo de Transação:</strong> <?php echo htmlspecialchars($imovel['compraAluga']); ?><br>
                 <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?>
             </p>
+
+            <div class="buttons-container">
+                <form method="POST" action="src/controller/carrinhoController.php">
+                    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
+                    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                </form>
+                <form method="POST" action="favoritar.php">
+                    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
+                    <button type="submit" class="btn btn-secondary">Adicionar aos Favoritos</button>
+                </form>
+            </div>
             <a href="index.php" class="btn btn-primary">Voltar</a>
             <form>
         </div>

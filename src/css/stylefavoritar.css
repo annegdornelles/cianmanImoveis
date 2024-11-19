@@ -1,19 +1,91 @@
-.container {
-    margin-top: 20px;
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f3f1f8; /* Cor de fundo mais suave */
+    color: #2e1b4e; /* Texto em roxo mais escuro */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Ajusta o alinhamento para o topo */
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    padding-top: 20px; /* Dá um pouco de espaço no topo */
 }
 
 .card-img-top {
-    width: 100px; /* Define uma largura fixa de 100px */
-    height: auto; /* Mantém a proporção original da imagem */
-    max-height: 100px; /* Limita a altura máxima da imagem */
-    object-fit: cover; /* Ajusta a imagem para caber no espaço sem distorção */
+    width: 300px;
+    height: 300px;
+    object-fit: cover; /* Ajusta as imagens para cobrir o espaço sem distorcer */
+    margin-bottom: 30px; /* Espaço entre as imagens */
+}
+
+.cards-container {
+    display: flex;
+   
+    gap: 30px; /* Espaço entre as imagens */
+    justify-content: center; /* Alinha as imagens ao centro */
 }
 
 .card {
-    margin: 10px; /* Espaçamento entre os cards */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra aos cards */
-    border-radius: 8px; /* Bordas arredondadas para os cards */
-    display: inline-block; /* Garante que os cards fiquem lado a lado */
-    width: 150px; /* Define a largura fixa dos cards */
-    text-align: center; /* Centraliza o conteúdo do card */
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px; /* Limita a largura das imagens */
+    padding: 30px;
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2e1b4e; 
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #2e1b4e;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    border-color: #2e1b4e;
+    box-shadow: 0 0 5px rgba(46, 27, 78, 0.5);
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+button {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #2e1b4e;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+button:hover {
+    background-color: #4a148c;
+}
+
+button:last-child {
+    margin-top: auto;
 }
