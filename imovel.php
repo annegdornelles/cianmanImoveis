@@ -70,7 +70,18 @@ $mysqli->close();
     >
     
 </nav>
+<<<<<<< HEAD
 
+=======
+<form method="POST" action="src/controller/carrinhoController.php">
+    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
+    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+</form>
+<form method="POST" action="src/controller/favoritosController.php">
+    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
+    <button type="submit" class="btn btn-primary">Adicionar ao favoritos</button>
+</form>
+>>>>>>> 1f9fd3acc8d5978ca65b91b2d02ae9f3199b0c94
 
 <div class="container my-4">
     <h2>Detalhes do Imóvel</h2>
