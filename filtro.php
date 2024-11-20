@@ -30,7 +30,7 @@ if ($tipo) {
     $sql .= " AND tipo = '$tipo'";
 }
 if ($quartos) {
-    $sql .= " AND quartos = '$quartos'";
+    $sql .= " AND numQuartos = '$quartos'";
 }
 if ($compraAluga) {
     $sql .= " AND compraAluga = '$compraAluga'";

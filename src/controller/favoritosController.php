@@ -43,7 +43,7 @@ if ($_POST && isset($_POST['id'])) {
     $resultFavorito = $stmtFavorito->get_result();
 
     if ($resultFavorito->num_rows > 0) {
-        header('location:../../imovel.php?id='.$imovelId.'&cod=100');
+        header('location:../../imovel.php?id='.$imovelId.'&cod=100&favoritado=true');
         exit;
     } else {
         $_SESSION['imovel'] = $imovelId;
@@ -52,7 +52,7 @@ if ($_POST && isset($_POST['id'])) {
         $stmtInsert->bind_param('si', $clienteCpf, $imovelId);
 
         if ($stmtInsert->execute()) {
-            header('location:../../imovel.php?id='.$imovelId.'&cod=300');
+            header('location:../../imovel.php?id='.$imovelId.'&cod=300&favoritado=true');
             exit;
         } else {
             echo "Erro ao adicionar aos favoritos.";

@@ -24,6 +24,8 @@ if ($result->num_rows > 0) {
     exit;
 }
 
+$favoritado = isset($_GET['favoritado']) && $_GET['favoritado'] == 'true';
+
 $mysqli->close();
 ?>
 
@@ -33,7 +35,8 @@ $mysqli->close();
     <title>Detalhes do Imóvel</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" type="text/css" href="src/css/styleimovel.css">
 </head>
 <style>
@@ -71,7 +74,7 @@ $mysqli->close();
     color: #2e1b4e;
 }
 
-.heart-button.clicke{
+.heart-button.clicked{
     color: #2e1b4e;
 }
 
@@ -88,27 +91,51 @@ $mysqli->close();
         height: 100%;
     }
 
+.heart-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.heart-button i {
+    font-size: 24px;
+    color: #5e2b5c;
+}
+
+.heart-button.clicked i {
+    color: #2e1b4e; 
+}
+
+.heart-button i:hover {
+    color: #2e1b4e;
+    width: 45px;
+    height: 10px;
+}
+
+.fa-arrow-left{
+    color:#5e2b5c;
+    font-size: 30px;
+    text-align: left;
+}
+
+.fa-arrow-left:hover{
+    color:#2e1b4e;
+    font-size: 35px;
+}
+
+.arrow{
+    text-align: left;
+}
+
+
 </style>
 <body>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-<nav>
-    <nav
-        class="nav justify-content-center  "
-    >
-   <!-- 
-</nav>
-<form method="POST" action="src/controller/carrinhoController.php">
-    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
-</form>
-<form method="POST" action="src/controller/favoritosController.php">
-    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-    <button type="submit" class="btn btn-primary">Adicionar ao favoritos</button>
-</form>
-    -->
 
 <div class="container my-4">
+<a class="arrow" href="index.php" aria-current="page">
+        <i class="fa-solid fa-arrow-left fa-lg"></i>
+    </a>
     <h2>Detalhes do Imóvel</h2>
 
     <div class="card">
@@ -135,13 +162,14 @@ $mysqli->close();
 
     <form method="POST" action="src/controller/favoritosController.php">
         <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-        <button type="submit" id="heart-button-1" class="btn btn-primary">
-            <i class="fa-solid fa-heart fa-lg"></i>
+        <button type="submit" class="heart-button <?php echo $favoritado ? 'clicked' : ''; ?>">
+        <i class="fa-solid fa-heart fa-lg"></i>
         </button>
     </form>
 </div>
 
         <?php
+        
 
 if (isset($_GET['cod'])){
     if ($_GET['cod']=='123'){
@@ -159,38 +187,46 @@ if (isset($_GET['cod'])){
         Imóvel adicionado aos favoritos com sucesso!
         </div>';
     }
+    
+    
+
 }
 
         ?>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-   
-    const cartButtons = document.querySelectorAll('.cart-button');
-    const favoriteButtons = document.querySelectorAll('.favorite-button');
+   <!-- <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    const cartButtons = document.querySelectorAll('[id^="cart-button"]');
+    const favoriteButtons = document.querySelectorAll('[id^="heart-button"]');
 
     const initializeButtonState = (buttons, storageKeyPrefix) => {
         buttons.forEach(button => {
             const buttonId = button.id;
+            const savedState = localStorage.getItem(storageKeyPrefix + buttonId); // Recupera o estado salvo
 
-            if (localStorage.getItem(storageKeyPrefix + buttonId) === 'true') {
+            // Se o estado salvo for 'true', aplica a classe 'clicked'
+            if (savedState === 'true') {
                 button.classList.add('clicked');
             }
 
+            // Quando o botão for clicado, alterna a classe 'clicked' e armazena o novo estado
             button.addEventListener('click', () => {
                 button.classList.toggle('clicked');
                 const isClicked = button.classList.contains('clicked');
-                localStorage.setItem(storageKeyPrefix + buttonId, isClicked);
+                localStorage.setItem(storageKeyPrefix + buttonId, isClicked); // Armazena o estado
+                console.log(`Button ${buttonId} is ${isClicked ? 'clicked' : 'unclicked'}`);
             });
         });
     };
 
-    
+    // Inicializa os estados dos botões
     initializeButtonState(cartButtons, 'cart-');
-    initializeButtonState(favoriteButtons, 'favorite-');
+    initializeButtonState(favoriteButtons, 'heart-');
 });
-    </script>
+
+
+    </script>-->
 </div>
 </body>
 </html>

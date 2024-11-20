@@ -29,11 +29,11 @@ $santaMariaResult = $mysqli->query($santaMariaQuery);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     $bairrosPorCidade = [
-        'poa' => ['Centro', 'Bom Jesus', 'Farrapos', 'Cidade Baixa'],
-        'sm' => ['Centro', 'Camobi', 'Itarare', 'Pains'],
-        'caxias' => ['Centro', 'Sao Jose', 'Nossa Senhora da Saude', 'Cidade Nova'],
-        'pelotas' => ['Centro', 'Areal', 'Laranjal', 'Sao Goncalo'],
-        'canoas' => ['Centro', 'Marechal Rondon', 'Harmonia', 'Parque Universitario de Canoas'],
+        'Porto Alegre' => ['Centro', 'Bom Jesus', 'Farrapos', 'Cidade Baixa'],
+        'Santa Maria' => ['Centro', 'Camobi', 'Itarare', 'Pains'],
+        'Caxias do Sul' => ['Centro', 'Sao Jose', 'Nossa Senhora da Saude', 'Cidade Nova'],
+        'Pelotas' => ['Centro', 'Areal', 'Laranjal', 'Sao Goncalo'],
+        'Canoas' => ['Centro', 'Marechal Rondon', 'Harmonia', 'Parque Universitario de Canoas'],
     ];
 
     $cidade = $_GET['cidade'];
@@ -107,12 +107,12 @@ if (isset($_SESSION['email'])) {
                     <div class="mb-3">
                         <label for="cidade" class="form-label">Cidade</label>
                         <select class="form-select form-select-lg" name="cidade" id="cidade" onchange="selecionarBairros()">
-                            <option selected>Selecione a cidade...</option>
-                            <option value="poa">Porto Alegre</option>
-                            <option value="sm">Santa Maria</option>
-                            <option value="caxias">Caxias do Sul</option>
-                            <option value="pelotas">Pelotas</option>
-                            <option value="canoas">Canoas</option>
+                            <option value="" selected>Selecione a cidade...</option>
+                            <option value="Porto Alegre">Porto Alegre</option>
+                            <option value="Santa Maria">Santa Maria</option>
+                            <option value="Caxias do Sul">Caxias do Sul</option>
+                            <option value="Pelotas">Pelotas</option>
+                            <option value="Canoas">Canoas</option>
                         </select>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ if (isset($_SESSION['email'])) {
                     <div class="mb-3">
                         <label for="bairro" class="form-label">Bairro</label>
                         <select class="form-select form-select-lg" name="bairro" id="bairro">
-                            <option selected>Selecione o bairro...</option>
+                            <option value="" selected>Selecione o bairro...</option>
                         </select>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ if (isset($_SESSION['email'])) {
                     <div class="mb-3">
                         <label for="quartos" class="form-label">Quartos</label>
                         <select class="form-select form-select-lg" name="quartos" id="quartos">
-                            <option selected>Selecione número de quartos...</option>
+                            <option value="" selected>Selecione número de quartos...</option>
                             <option value="1">1 quarto</option>
                             <option value="2">2 quartos</option>
                             <option value="3">3 quartos</option>
@@ -141,7 +141,7 @@ if (isset($_SESSION['email'])) {
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo de Imóvel:</label>
                         <select class="form-select form-select-lg" name="tipo" id="tipo">
-                            <option selected>Selecione o tipo de imóvel...</option>
+                            <option value="" selected>Selecione o tipo de imóvel...</option>
                             <option value="salaComercial">Sala comercial</option>
                             <option value="casaResidencial">Casa residencial</option>
                             <option value="aptoResidencial">Apartamento residencial</option>
@@ -153,11 +153,11 @@ if (isset($_SESSION['email'])) {
             </div>
             <h5>Você prefere:</h5>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="compraoualuga" id="compra" />
+                <input class="form-check-input" type="radio" name="compraoualuga" id="compra" value="compra"/>
                 <label class="form-check-label" for="compra">Compra</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="compraoualuga" id="aluguel" />
+                <input class="form-check-input" type="radio" name="compraoualuga" id="aluguel" value="aluguel"/>
                 <label class="form-check-label" for="aluguel">Aluguel</label>
             </div>
             <div class="btn-filtro-container">

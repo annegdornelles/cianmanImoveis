@@ -1,4 +1,4 @@
-/*body {
+body {
     font-family: 'Roboto', sans-serif;
     background-color: #f3f1f8; 
     color: #2e1b4e;
@@ -42,7 +42,7 @@ h2 {
 .form-control:focus {
     border-color: #2e1b4e;
     box-shadow: 0 0 5px rgba(46, 27, 78, 0.5);
-}*/
+}
 
 /*button {
     padding: 12px;

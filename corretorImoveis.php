@@ -19,7 +19,7 @@
       
         $host = 'localhost';
         $user = 'root';
-        $password = '12345';
+        $password = '';
         $database = 'cianman';
 
         $mysqli = new mysqli($host, $user, $password, $database);
@@ -28,7 +28,7 @@
             die('Erro de conexão: ' . $mysqli->connect_error);
         }
 
-        $funcionariosId = 1;
+        $funcionariosId = 2;
 
         function visualizarImoveis($mysqli, $funcionariosId) {
             $query = "SELECT * FROM imoveis WHERE funcionariosId = ?";

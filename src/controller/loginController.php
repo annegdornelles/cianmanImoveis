@@ -16,7 +16,7 @@ if ($_POST) {
 
         // Verifica se o e-mail termina com "@cianman.com"
         if (str_ends_with($email, '@cianman.com')) {
-            $_SESSION['role'] = 'corretor'; // Identifica como corretor
+            $_SESSION['role'] = 'corretor'; 
             header('location:../../corretorImoveis.php'); 
             exit();
         } else {
@@ -25,7 +25,7 @@ if ($_POST) {
         }
     } else {
         // Redireciona com erro se as credenciais estiverem incorretas
-        header('location:../../login.php?cod=171'); // Credenciais inválidas
+        header('location:../../login.php?cod=171'); 
         exit();
     }
 }
@@ -36,7 +36,7 @@ function usersLogin($email, $senha) {
     $password = '';
     $database = 'cianman';
 
-    // Cria a conexão com o banco de dados
+    
     $mysqli = new mysqli($host, $user, $password, $database);
 
     if ($mysqli->connect_errno) {
@@ -44,25 +44,22 @@ function usersLogin($email, $senha) {
         return 0;
     }
 
-    // Define o nome da tabela com base no domínio do email
     if (str_ends_with($email, '@cianman.com')) {
-        $table = 'funcionarios'; // Se for corretor
+        $table = 'funcionarios'; 
     } else {
-        $table = 'clientes'; // Se for cliente
+        $table = 'clientes';
     }
 
-    // Monta a consulta SQL
     $sql = 'SELECT * FROM ' . $table . ' WHERE email="' . $mysqli->real_escape_string($email) . '" AND senha="' . $mysqli->real_escape_string($senha) . '"';
 
     $result = $mysqli->query($sql);
 
-    // Fecha a conexão
     $mysqli->close();
 
     if ($result && $result->num_rows > 0) {
-        return $result->num_rows; // Retorna o número de registros selecionados pela consulta SQL
+        return $result->num_rows;
     } else {
-        return 0; // Caso não encontre nenhum registro
+        return 0;
     }
 }
 ?>
