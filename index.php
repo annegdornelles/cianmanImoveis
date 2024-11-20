@@ -92,7 +92,6 @@ if (isset($_SESSION['email'])) {
     $query = "SELECT nome FROM clientes WHERE email = '$email'";
     $resultado = mysqli_query($mysqli, $query);
 
-    // Verifica se encontrou o usuário
     if ($resultado) {
         $linha = mysqli_fetch_assoc($resultado);
         $nome = $linha['nome'];

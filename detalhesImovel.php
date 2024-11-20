@@ -1,13 +1,14 @@
 <?php
         $host = 'localhost';
         $user = 'root';
-        $password = '12345';
+        $password = '';
         $database = 'cianman';
         $mysqli = new mysqli($host, $user, $password, $database);
 
         if ($mysqli->connect_error) {
             die('Erro de conexão: ' . $mysqli->connect_error);
         }
+
 
     foreach ($fotos as $url){
         echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 400px; height: 300px; margin: 5px;'><br>";}
