@@ -1,25 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imóveis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container my-4">
-        <h1>Lista de Imóveis</h1>
 
+        <?php
+        session_start();  // Inicia a sessão
+        if (isset($_SESSION['mensagem_sucesso'])) {
+            echo "<div class='alert alert-success'>" . $_SESSION['mensagem_sucesso'] . "</div>";
+
+            // Remove a mensagem da sessão após exibi-la para não mostrar em recarregamentos futuros
+            unset($_SESSION['mensagem_sucesso']);
+        }
+
+        // Verifica se o usuário está logado e é um corretor
+        if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'corretor') {
+            header('Location: login.php');
+            exit();
+        }
+
+        // Conexão com o banco de dados
+        $host = 'localhost';
+        $user = 'root';
+        $password = '12345';
+        $database = 'cianman';
+        $mysqli = new mysqli($host, $user, $password, $database);
+
+        // Verifica a conexão com o banco
+        if ($mysqli->connect_error) {
+            die('Erro de conexão: ' . $mysqli->connect_error);
+        }
+        if (isset($_SESSION['email'])) {
+            $email = $_SESSION['email'];
+            $query = "SELECT nome FROM funcionarios WHERE email = '$email'";
+            $resultado = mysqli_query($mysqli, $query);
+
+            if ($resultado) {
+                $linha = mysqli_fetch_assoc($resultado);
+                $nome = $linha['nome'];
+                echo '<h1>Seja bem-vindo(a), corretor(a) ' . $nome . '</h1>';
+            }
+        }
+        ?>
         <form method="GET">
             <button type="submit" class="btn btn-primary" name="visualizar" value="1">Visualizar Meus Imóveis</button>
             <button type="submit" class="btn btn-success" name="adicionar" value="1">Adicionar Novo Imóvel</button>
         </form>
 
         <?php
-      
+
+        // Conexão com o banco de dados
         $host = 'localhost';
         $user = 'root';
-        $password = '';
+        $password = '12345';
         $database = 'cianman';
 
         $mysqli = new mysqli($host, $user, $password, $database);
@@ -28,26 +68,45 @@
             die('Erro de conexão: ' . $mysqli->connect_error);
         }
 
-        $funcionariosId = 2;
+        // Variável de ID do corretor
+        $funcionariosId = 1;
 
-        function visualizarImoveis($mysqli, $funcionariosId) {
+        // Função para visualizar imóveis
+        function visualizarImoveis($mysqli, $funcionariosId)
+        {
             $query = "SELECT * FROM imoveis WHERE funcionariosId = ?";
             $stmt = $mysqli->prepare($query);
             $stmt->bind_param("i", $funcionariosId);
             $stmt->execute();
             $result = $stmt->get_result();
 
+
             if ($result->num_rows > 0) {
                 echo "<ul>";
                 while ($imovel = $result->fetch_assoc()) {
+
                     echo "<li>";
                     echo "<strong>" . htmlspecialchars($imovel['logradouro']) . ", " . htmlspecialchars($imovel['numCasa']) . "</strong><br>";
-                    if (!empty($imovel['fotos'])) {
-                        $fotos = explode(',', $imovel['fotos']);
-                        foreach ($fotos as $foto) {
-                            echo "<img src='" . htmlspecialchars($foto) . "' alt='Foto do Imóvel' style='width: 150px; margin: 5px;'><br>";
-                        }
-                    }
+                    //     echo "<input type='hidden' name='id' value='imovel' oninput='imovelDetalhes()'>";
+                    // Supondo que você tenha um array de imóveis e queira tornar o id do imóvel clicável
+ 
+
+
+                    //    echo "<input type='hidden' name= 'id' value= $imovel'[id]' oninput='imovelDetalhes()'>";
+                    if (!empty($imovel['url'])) {
+                        $fotos = explode(',', $imovel['url']);
+                    //     foreach ($fotos as $url) {
+                    //         echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 50px; margin: 5px;'><br>";
+                    //     }
+                     }
+              //      foreach ($imovel as $imoveis) {
+                        // Criar um link para visualizar os detalhes do imóvel
+                        echo "<a href='detalhesImovel.php?id=" . $imovel['id'] . "'>";
+                       // echo "<input type='hidden' name='id' value='" . $imovel['id'] . "' oninput='imovelDetalhes()'>";
+                       foreach ($fotos as $url){
+                        echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 150px; height: 150px; margin: 5px;'><br>";}
+                        echo "</a>";
+                //    }
                     echo "Bairro: " . htmlspecialchars($imovel['bairro']) . "<br>";
                     echo "Cidade: " . htmlspecialchars($imovel['cidade']) . "<br>";
                     echo "CEP: " . htmlspecialchars($imovel['cep']) . "<br>";
@@ -59,13 +118,16 @@
                     echo "</li>";
                 }
                 echo "</ul>";
+
             } else {
                 echo "<div class='alert alert-warning'>Nenhum imóvel encontrado para este corretor.</div>";
             }
         }
 
-        function adicionarImovel($mysqli, $funcionariosId) {
-            if ($_POST && isset($_POST['adicionar'])) {
+        // Função para adicionar imóvel
+        function adicionarImovel($mysqli, $funcionariosId)
+        {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar'])) {
                 $logradouro = $_POST['logradouro'];
                 $numCasa = $_POST['numCasa'];
                 $bairro = $_POST['bairro'];
@@ -77,10 +139,6 @@
                 $compraAluga = $_POST['compraAluga'];
                 $valor = $_POST['valor'];
 
-      /*          echo "<pre>";
-var_dump($_POST['tipo']);
-echo "</pre>";*/
-
                 // Tratamento de upload de imagens
                 $fotos = [];
                 if (isset($_FILES['fotos']) && $_FILES['fotos']['error'][0] == 0) {
@@ -88,6 +146,7 @@ echo "</pre>";*/
                     if (!is_dir($uploadDir)) {
                         mkdir($uploadDir, 0777, true);
                     }
+
 
                     foreach ($_FILES['fotos']['tmp_name'] as $index => $tmpName) {
                         $fileName = uniqid() . '_' . basename($_FILES['fotos']['name'][$index]);
@@ -111,10 +170,21 @@ echo "</pre>";*/
                     $stmt->bind_param("isssssdiisss", $funcionariosId, $logradouro, $numCasa, $bairro, $cidade, $cep, $tamanho, $numQuartos, $tipo, $compraAluga, $valor, $fotosPath);
 
                     if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Imóvel adicionado com sucesso!</div>";
+                        $_SESSION['mensagem_sucesso'] = "Imóvel adicionado com sucesso!";
+
+                        // Redireciona para a página corretorImoveis.php
+                        header("Location: corretorImoveis.php");
+                        exit();
+
+
+
+                        // echo "<div class='alert alert-success'>Imóvel adicionado com sucesso!</div>";
+                        //header("Refresh: 2; url=corretorImoveis.php");
                     } else {
                         echo "<div class='alert alert-danger'>Erro ao adicionar imóvel: " . $stmt->error . "</div>";
                     }
+
+                    header('location:../../corretorImoveis.php');
 
                     $stmt->close();
                 }
@@ -125,7 +195,7 @@ echo "</pre>";*/
         if (isset($_GET['visualizar']) && $_GET['visualizar'] == '1') {
             visualizarImoveis($mysqli, $funcionariosId);
         } elseif (isset($_GET['adicionar']) && $_GET['adicionar'] == '1') {
-            ?>
+        ?>
             <h2>Adicionar Novo Imóvel</h2>
             <form method="POST" class="my-3" enctype="multipart/form-data">
                 <div class="mb-3">
@@ -177,7 +247,7 @@ echo "</pre>";*/
                 </div>
                 <button type="submit" class="btn btn-success" name="adicionar">Salvar Imóvel</button>
             </form>
-            <?php
+        <?php
             adicionarImovel($mysqli, $funcionariosId);
         }
 
@@ -186,4 +256,5 @@ echo "</pre>";*/
 
     </div>
 </body>
+
 </html>
