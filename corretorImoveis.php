@@ -12,24 +12,21 @@
     <div class="container my-4">
 
         <?php
-        session_start();  // Inicia a sessão
+        session_start();  
         if (isset($_SESSION['mensagem_sucesso'])) {
             echo "<div class='alert alert-success'>" . $_SESSION['mensagem_sucesso'] . "</div>";
 
-            // Remove a mensagem da sessão após exibi-la para não mostrar em recarregamentos futuros
             unset($_SESSION['mensagem_sucesso']);
         }
 
-        // Verifica se o usuário está logado e é um corretor
         if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'corretor') {
             header('Location: login.php');
             exit();
         }
 
-        // Conexão com o banco de dados
         $host = 'localhost';
         $user = 'root';
-        $password = '12345';
+        $password = '';
         $database = 'cianman';
         $mysqli = new mysqli($host, $user, $password, $database);
 
@@ -48,28 +45,100 @@
                 echo '<h1>Seja bem-vindo(a), corretor(a) ' . $nome . '</h1>';
             }
         }
-        ?>
+
+        $stmt = $mysqli->prepare("SELECT id FROM funcionarios WHERE email = ?");
+$stmt->bind_param("s", $email); // "s" indica que estamos vinculando um valor de tipo string
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $funcionariosId = $row['id']; // ID do funcionário correspondente ao e-mail
+} else {
+    echo "Nenhum funcionário encontrado com o e-mail fornecido.";
+    exit();
+}
+
+$stmt->close();
+
+// Consulta para verificar os imóveis do funcionário no carrinho (consultas preparadas para evitar SQL Injection)
+$query = "
+    SELECT 
+    carrinho.imovelId, 
+    imovel.cidade AS cidadeImovel, 
+    imovel.logradouro AS enderecoImovel, 
+    imovel.funcionariosId,
+    carrinho.clienteCpf,
+    cliente.nome AS nomeCliente,
+    cliente.email AS emailCliente
+FROM carrinho
+INNER JOIN imoveis imovel ON carrinho.imovelId = imovel.id
+INNER JOIN clientes cliente ON carrinho.clienteCpf = cliente.cpf
+WHERE imovel.funcionariosId = ? ";
+
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param("i", $funcionariosId); // "i" indica que estamos vinculando um valor de tipo inteiro (ID do funcionário)
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    // Exibe um aviso para cada imóvel adicionado ao carrinho
+    while ($row = $result->fetch_assoc()) {
+        $nomeCliente = htmlspecialchars($row['nomeCliente']);
+        $emailCliente = htmlspecialchars($row['emailCliente']);
+        $cidadeImovel = htmlspecialchars($row['cidadeImovel']);
+        $enderecoImovel = htmlspecialchars($row['enderecoImovel']);
+        
+        echo "<div class='alert alert-info'>";
+        echo "O(a) cliente <strong>$nomeCliente</strong>, de e-mail <strong>$emailCliente</strong> adicionou ao carrinho o imóvel localizado em <strong>$cidadeImovel</strong>, endereço <strong>$enderecoImovel</strong>.";
+        echo "</div>";
+    }
+} else {
+    echo "<p>Nenhum imóvel foi adicionado ao carrinho por seus clientes.</p>";
+}
+
+$stmt->close();
+$mysqli->close();
+?>
         <form method="GET">
             <button type="submit" class="btn btn-primary" name="visualizar" value="1">Visualizar Meus Imóveis</button>
             <button type="submit" class="btn btn-success" name="adicionar" value="1">Adicionar Novo Imóvel</button>
+            <a href="src/controller/logoutcontroller.php">Logout</a>
         </form>
 
         <?php
 
-        // Conexão com o banco de dados
-        $host = 'localhost';
-        $user = 'root';
-        $password = '12345';
-        $database = 'cianman';
+if (!isset($_SESSION['email'])) {
+    echo "Usuário não autenticado.";
+    exit();
+}
 
-        $mysqli = new mysqli($host, $user, $password, $database);
+$email = $_SESSION['email'];
 
-        if ($mysqli->connect_error) {
-            die('Erro de conexão: ' . $mysqli->connect_error);
-        }
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'cianman';
 
-        // Variável de ID do corretor
-        $funcionariosId = 1;
+$mysqli = new mysqli($host, $user, $password, $database);
+
+if ($mysqli->connect_error) {
+    die('Erro de conexão: ' . $mysqli->connect_error);
+}
+
+$stmt = $mysqli->prepare("SELECT id FROM funcionarios WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $funcionariosId = $row['id']; 
+} else {
+    echo "Nenhum funcionário encontrado com o e-mail fornecido.";
+}
+
+$stmt->close();
 
         // Função para visualizar imóveis
         function visualizarImoveis($mysqli, $funcionariosId)
