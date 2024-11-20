@@ -1,7 +1,7 @@
-body {
+/*body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f3f1f8; /* Cor de fundo mais suave */
-    color: #2e1b4e; /* Texto em roxo mais escuro */
+    background-color: #f3f1f8; 
+    color: #2e1b4e;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,42 +34,67 @@ h2 {
 
 .form-control {
     border-radius: 5px;
-    border: 1px solid #2e1b4e; /* Bordas com roxo suave */
+    border: 1px solid #2e1b4e;
     padding: 10px;
     font-size: 16px;
 }
 
 .form-control:focus {
-    border-color: #2e1b4e; /* Cor de foco roxa escura */
-    box-shadow: 0 0 5px rgba(46, 27, 78, 0.5); /* Efeito de sombra roxa */
-}
+    border-color: #2e1b4e;
+    box-shadow: 0 0 5px rgba(46, 27, 78, 0.5);
+}*/
 
-.buttons-container {
-    display: flex;
-    flex-direction: column; /* Botões em coluna */
-    gap: 15px; /* Espaço entre os botões */
-}
-
-button {
+/*button {
     padding: 12px;
     font-size: 16px;
     font-weight: 600;
     border: none;
     border-radius: 5px;
-    color: white; /* Texto branco */
-    background-color: #2e1b4e; /* Cor principal do botão */
-    transition: background-color 0.3s ease; /* Remove transição de sombra */
+    color: white;
+    background-color: #2e1b4e;
+    transition: background-color 0.3s ease;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Espaço entre o ícone e o texto */
+    gap: 10px; /* Espaço entre o ícone e o texto 
+}*/
+
+.buttons-container {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 10px; 
+    margin-top: 20px; 
 }
 
-button:hover {
-    background-color: #4a148c; /* Tom de roxo mais escuro no hover */
+.buttons-container button {
+    background: none; 
+    border: none; 
+    padding: 0; 
+    cursor: pointer; 
 }
 
-button:last-child {
-    margin-top: auto; /* Move o último botão para a parte inferior do contêiner */
+.buttons-container button i {
+    font-size: 24px; 
+    color: inherit; 
+    text-align: center; 
+    display: inline-block; 
+    color: #5e2b5c; width: 40px; text-align: center;
 }
+
+.card-img-top{
+    width:600px;
+    align-items: center;
+    height:500px;
+}
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+        height: 100%;
+    }
+
+

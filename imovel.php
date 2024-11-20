@@ -37,31 +37,60 @@ $mysqli->close();
     <link rel="stylesheet" type="text/css" href="src/css/styleimovel.css">
 </head>
 <style>
-    .card-img-top{
-        width:600px;
-        align-items: center;
-        height:500px;
+.buttons-container {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 10px; 
+    margin-top: 20px; 
+}
+
+.buttons-container button {
+    background: none; 
+    border: none; 
+    padding: 0; 
+    cursor: pointer; 
+}
+
+.buttons-container button i {
+    font-size: 24px; 
+    color: inherit; 
+    text-align: center; 
+    display: inline-block; 
+    color: #5e2b5c; width: 40px; text-align: center;
+}
+
+.buttons-container button i:hover{
+    color:#2e1b4e;
+    width:45px;
+    height:10px;
+}
+
+.cart-button.clicked {
+    color: #2e1b4e;
+}
+
+.heart-button.clicke{
+    color: #2e1b4e;
+}
+
+.card-img-top{
+    width:600px;
+    align-items: center;
+    height:500px;
+}
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+        height: 100%;
     }
-    .buttons-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .buttons-container button {
-            flex: 1; 
-        }
-
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; 
-            height: 100%;
-        }
 
 </style>
 <body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
 <nav>
     <nav
@@ -96,28 +125,72 @@ $mysqli->close();
             </p>
 
             <div class="buttons-container">
-                <form method="POST" action="src/controller/carrinhoController.php">
-                    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-                    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
-                </form>
-                <form method="POST" action="src/controller/favoritosController.php">
-                    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-                    <button type="submit" class="btn btn-secondary">Adicionar aos Favoritos</button>
-                </form>
-            </div>
-            <a href="index.php" class="btn btn-primary">Voltar</a>
-            <form>
-        </div>
+    
+    <form method="POST" action="src/controller/carrinhoController.php">
+        <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
+        <button type="submit" id="cart-button-1" class="btn btn-primary">
+            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+        </button>
+    </form>
+
+    <form method="POST" action="src/controller/favoritosController.php">
+        <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
+        <button type="submit" id="heart-button-1" class="btn btn-primary">
+            <i class="fa-solid fa-heart fa-lg"></i>
+        </button>
+    </form>
+</div>
+
         <?php
 
-           if (isset($_GET['cod'])&&$_GET['cod']=='123'){
-            echo '<div class="alert-warning" role="alert">
-  Você precisa favoritar o imóvel antes de adicionar no carrinho.
-</div>';
-           }
+if (isset($_GET['cod'])){
+    if ($_GET['cod']=='123'){
+        echo '<div class="alert-warning" role="alert">
+        Você precisa favoritar o imóvel antes de adicionar no carrinho.
+        </div>';
+    }
+    if ($_GET['cod']=='100'){
+        echo '<div class="alert-warning" role="alert">
+        Imóvel já adicionado aos favoritos.
+        </div>';
+    }
+    if ($_GET['cod']=='300'){
+        echo '<div class="alert-success" role="alert">
+        Imóvel adicionado aos favoritos com sucesso!
+        </div>';
+    }
+}
 
         ?>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+   
+    const cartButtons = document.querySelectorAll('.cart-button');
+    const favoriteButtons = document.querySelectorAll('.favorite-button');
+
+    const initializeButtonState = (buttons, storageKeyPrefix) => {
+        buttons.forEach(button => {
+            const buttonId = button.id;
+
+            if (localStorage.getItem(storageKeyPrefix + buttonId) === 'true') {
+                button.classList.add('clicked');
+            }
+
+            button.addEventListener('click', () => {
+                button.classList.toggle('clicked');
+                const isClicked = button.classList.contains('clicked');
+                localStorage.setItem(storageKeyPrefix + buttonId, isClicked);
+            });
+        });
+    };
+
+    
+    initializeButtonState(cartButtons, 'cart-');
+    initializeButtonState(favoriteButtons, 'favorite-');
+});
+    </script>
 </div>
 </body>
 </html>

@@ -63,6 +63,7 @@
                     Cadastro realizado com sucesso!
                 </div>
                 <a href="index.php" class="btn btn-link">Voltar à página inicial</a>
+                <a href="login.php" class="btn btn-link">Faça seu login aqui e aproveite todas as funcionalidades do nosso site!</a>
             <?php endif; ?>
         </div>
     </main>

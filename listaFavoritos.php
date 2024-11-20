@@ -1,15 +1,14 @@
 <link rel="stylesheet" type="text/css" href="src/css/stylefavoritar.css">
 <?php
-session_start(); // Inicia a sessão
+session_start(); 
 
 $host = 'localhost';
 $user = 'root';
 $password = '';
 $database = 'cianman';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
-    header('Location: login.php'); // Redireciona para o login se o usuário não estiver logado
+    header('Location: login.php');
     exit;
 }
 
@@ -36,7 +35,6 @@ if ($resultCliente->num_rows > 0) {
     exit;
 }
 
-// Obtém os imóveis favoritos do cliente
 $queryFavoritos = "SELECT i.* FROM favoritos f JOIN imoveis i ON f.imovelId = i.id WHERE f.clienteCpf = ?";
 $stmtFavoritos = $mysqli->prepare($queryFavoritos);
 $stmtFavoritos->bind_param('s', $clienteCpf);
@@ -67,11 +65,9 @@ if ($resultFavoritos->num_rows > 0) {
     echo "Você não possui imóveis favoritos.";
 }
 
-// Verifica se o imóvel deve ser removido
 if (isset($_GET['remover']) && isset($_GET['id'])) {
     $imovelId = (int) $_GET['id'];
 
-    // Remove o imóvel dos favoritos
     $queryRemover = "DELETE FROM favoritos WHERE clienteCpf = ? AND imovelId = ?";
     $stmtRemover = $mysqli->prepare($queryRemover);
     $stmtRemover->bind_param('si', $clienteCpf, $imovelId);

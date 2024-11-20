@@ -8,7 +8,7 @@ $password = '';
 $database = 'cianman';
 
 if (!isset($_SESSION['email'])) {
-    header('Location: login.php');
+    header('Location: ../../login.php');
     exit;
 }
 
@@ -43,7 +43,8 @@ if ($_POST && isset($_POST['id'])) {
     $resultFavorito = $stmtFavorito->get_result();
 
     if ($resultFavorito->num_rows > 0) {
-        echo "Este imóvel já está nos seus favoritos.";
+        header('location:../../imovel.php?id='.$imovelId.'&cod=100');
+        exit;
     } else {
         $_SESSION['imovel'] = $imovelId;
         $queryInsert = "INSERT INTO favoritos (clienteCpf, imovelId) VALUES (?, ?)";
@@ -51,18 +52,18 @@ if ($_POST && isset($_POST['id'])) {
         $stmtInsert->bind_param('si', $clienteCpf, $imovelId);
 
         if ($stmtInsert->execute()) {
-            echo "Imóvel adicionado aos favoritos!";
+            header('location:../../imovel.php?id='.$imovelId.'&cod=300');
+            exit;
         } else {
             echo "Erro ao adicionar aos favoritos.";
+            exit;
         }
     }
 
-    // Redireciona para a página de favoritos após a ação
     header('Location: ../../listaFavoritos.php');
     exit;
 }
 
-// Remove um imóvel dos favoritos
 if (isset($_GET['remover']) && isset($_GET['id'])) {
     $imovelId = (int) $_GET['id'];
 
