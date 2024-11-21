@@ -146,17 +146,11 @@
                     imoveis.tipo,
                     imoveis.compraAluga,
                     imoveis.valor,
-                    GROUP_CONCAT(DISTINCT imagens.link ORDER BY imagens.id ASC) AS imagens
+                    (SELECT imagens.link FROM imagens WHERE imagens.imovelId = imoveis.id ORDER BY imagens.id ASC LIMIT 1) AS imagem
                 FROM 
                     imoveis
-                LEFT JOIN 
-                    imagens ON imoveis.id = imagens.imovelId
                 WHERE 
                     imoveis.funcionariosId = ?
-                GROUP BY 
-                    imoveis.id, imoveis.logradouro, imoveis.numCasa, imoveis.bairro, imoveis.cidade, 
-                    imoveis.cep, imoveis.tamanho, imoveis.numQuartos, imoveis.tipo, imoveis.compraAluga, 
-                    imoveis.valor;
             ";
         
             $stmt = $mysqli->prepare($query);
@@ -170,12 +164,9 @@
                     echo "<li>";
                     echo "<strong>" . htmlspecialchars($imovel['logradouro']) . ", " . htmlspecialchars($imovel['numCasa']) . "</strong><br>";
         
-                    // Exibindo as imagens, se existirem
-                    if (!empty($imovel['imagens'])) {
-                        $fotos = explode(',', $imovel['imagens']);
-                        foreach ($fotos as $url) {
-                            echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 150px; height: 150px; margin: 5px;'><br>";
-                        }
+                    // Exibindo apenas a primeira imagem
+                    if (!empty($imovel['imagem'])) {
+                        echo "<img src='" . htmlspecialchars($imovel['imagem']) . "' alt='Foto do Imóvel' style='width: 150px; height: 150px; margin: 5px;'><br>";
                     }
         
                     // Exibindo os outros dados do imóvel
@@ -193,7 +184,8 @@
             } else {
                 echo "<div class='alert alert-warning'>Nenhum imóvel encontrado para este corretor.</div>";
             }
-        }               
+        }
+                  
 
         // Função para adicionar imóvel
         function adicionarImovel($mysqli, $funcionariosId)
