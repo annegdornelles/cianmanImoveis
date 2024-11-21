@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imóveis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 </head>
 
 <body>
@@ -209,6 +210,26 @@ $stmt->close();
                 $valor = $_POST['valor'];
 
                 // Tratamento de upload de imagens
+
+                /*
+if (isset($_FILES['fotos'])) {
+        foreach ($_FILES['fotos']['tmp_name'] as $index => $tmpName) {
+            $fileName = uniqid() . '_' . basename($_FILES['fotos']['name'][$index]);
+            $filePath = 'uploads/' . $fileName;
+            $fileType = mime_content_type($tmpName);
+            
+            if (in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
+                if (move_uploaded_file($tmpName, $filePath)) {
+                    $descricao = $_POST['descricao'][$index];  // Obtém a descrição da imagem
+                    // Agora insira as imagens e descrições no banco de dados (tabela imagens)
+                    $stmt = $mysqli->prepare("INSERT INTO imagens (imovelId, url, descricao) VALUES (?, ?, ?)");
+                    $stmt->bind_param("iss", $imovelId, $filePath, $descricao);
+                    $stmt->execute();
+                }
+            }
+        }
+    }
+                */
                 $fotos = [];
                 if (isset($_FILES['fotos']) && $_FILES['fotos']['error'][0] == 0) {
                     $uploadDir = __DIR__ . '/uploads/';
@@ -315,6 +336,19 @@ $stmt->close();
                     <input type="file" class="form-control" id="fotos" name="fotos[]" multiple>
                 </div>
                 <button type="submit" class="btn btn-success" name="adicionar">Salvar Imóvel</button>
+                <!--
+                <div class="mb-3">
+        <label for="numImagens" class="form-label">Número de Imagens</label>
+        <select class="form-control" id="numImagens" name="numImagens" onchange="gerarCamposImagens()" required>
+            <option value="0">Selecione o número de imagens</option>
+            <?php
+            // Exibe as opções de 1 até 7
+            /*for ($i = 1; $i <= 7; $i++) {
+                echo "<option value='$i'>$i</option>";
+            }*/
+            ?>
+        </select>
+        -->
             </form>
         <?php
             adicionarImovel($mysqli, $funcionariosId);
@@ -322,6 +356,44 @@ $stmt->close();
 
         $mysqli->close();
         ?>
+        <!--
+        <script>
+    // Função para gerar os campos de upload das imagens com base na escolha
+    function gerarCamposImagens() {
+        let numImagens = document.getElementById('numImagens').value;
+        let container = document.getElementById('imagensContainer');
+        container.innerHTML = ''; // Limpa os campos de imagens anteriores
+
+        // Gera os campos de upload de imagens
+        for (let i = 1; i <= numImagens; i++) {
+            let div = document.createElement('div');
+            div.classList.add('mb-3');
+
+            // Campo de upload de imagem
+            let fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.name = 'fotos[]';
+            fileInput.classList.add('form-control');
+            fileInput.accept = 'image/*';
+            div.appendChild(fileInput);
+
+            // Campo para descrição da imagem
+            let labelDesc = document.createElement('label');
+            labelDesc.classList.add('form-label');
+            labelDesc.innerText = 'Descrição da Imagem ' + i;
+            div.appendChild(labelDesc);
+
+            let textArea = document.createElement('textarea');
+            textArea.name = 'descricao[]';
+            textArea.classList.add('form-control');
+            div.appendChild(textArea);
+
+            container.appendChild(div);
+        }
+    }
+</script>
+
+    -->
 
     </div>
 </body>

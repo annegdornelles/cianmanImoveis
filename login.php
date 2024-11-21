@@ -14,16 +14,39 @@
 
     <!-- Font Google para melhorar o design -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="src/css/stylelogin.css">
 
     <!-- Estilos Customizados -->
     
 </head>
+<style>
+   .fa-arrow-left{
+    color:#5e2b5c;
+    font-size: 30px;
+    text-align: left;
+}
+
+.fa-arrow-left:hover{
+    color:#2e1b4e;
+    font-size: 35px;
+}
+
+.arrow{
+    text-align: left;
+}
+        
+
+</style>
 
 <body>
 
     <main>
+    <a class="arrow" href="index.php" aria-current="page">
+        <i class="fa-solid fa-arrow-left fa-lg"></i>
+    </a>
         <div class="login-container">
+       
             <h2>Bem-vindo à Cianman Imóveis</h2>
             <form method="POST" action="src/controller/loginController.php">
                 <div class="mb-3">

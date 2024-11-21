@@ -9,11 +9,32 @@
     <!-- Bootstrap CSS v5.3.2 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="src/css/stylecadastro.css">
 </head>
+<style>
+ .fa-arrow-left{
+    color:#5e2b5c;
+    font-size: 30px;
+    text-align: left;
+}
+
+.fa-arrow-left:hover{
+    color:#2e1b4e;
+    font-size: 35px;
+}
+
+.arrow{
+    text-align: left;
+}
+ 
+</style>
 
 <body>
     <main>
+    <a class="arrow" href="index.php" aria-current="page">
+        <i class="fa-solid fa-arrow-left fa-lg"></i>
+    </a>
         <div class="form-wrapper">
             <div class="form-container">
                 <h2>Cadastro - Cianman Imóveis</h2>
@@ -25,13 +46,6 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email:</label>
                         <input type="email" class="form-control" name="email" id="email" placeholder="Insira seu email" />
-                    </div>
-                    <div class="mb-3">
-                        <select name="selecao" class="form-select">
-                            <option value="cliente">cliente</option>
-                            <option value="funcionário">funcionário</option>
-                            <option value="corretor">corretor</option>
-                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="cpf" class="form-label">CPF:</label>
@@ -54,7 +68,6 @@
                         <input type="password" class="form-control" name="senha" id="senha" placeholder="Insira sua senha" />
                     </div>
                     <input type="submit" class="btn btn-primary" value="Cadastrar" />
-                    <a id="voltar" class="btn btn-secondary mt-2" href="index.php">Voltar</a>
                 </form>
             </div>
 

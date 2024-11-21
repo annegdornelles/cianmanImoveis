@@ -12,10 +12,21 @@ if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+// Definindo o id do imóvel
+$imovelId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-$query = "SELECT * FROM imoveis WHERE id = $id";
-$result = $mysqli->query($query);
+// Verificando se o id foi fornecido
+if ($imovelId == 0) {
+    echo "ID inválido.";
+    exit;
+}
+
+// Consulta para pegar o imóvel pelo ID
+$query = "SELECT * FROM imoveis WHERE id = ?";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param("i", $imovelId);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $imovel = $result->fetch_assoc();
@@ -23,6 +34,12 @@ if ($result->num_rows > 0) {
     echo "Imóvel não encontrado.";
     exit;
 }
+
+$imagensQuery = "SELECT link, descricao FROM imagens WHERE imovelId = ?";
+$stmt = $mysqli->prepare($imagensQuery);
+$stmt->bind_param("i", $imovelId);
+$stmt->execute();
+$resultImagens = $stmt->get_result();
 
 $favoritado = isset($_GET['favoritado']) && $_GET['favoritado'] == 'true';
 
@@ -128,6 +145,53 @@ $mysqli->close();
     text-align: left;
 }
 
+.carousel {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: center;
+    height:500px;
+}
+
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-images img {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 50%;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
 
 </style>
 <body>
@@ -139,7 +203,17 @@ $mysqli->close();
     <h2>Detalhes do Imóvel</h2>
 
     <div class="card">
-        <img src="<?php echo $imovel['url']; ?>" class="card-img-top" alt="Imagem do Imóvel">
+    <div class="carousel">
+    <div class="carousel-images">
+        <?php while ($imagem = $resultImagens->fetch_assoc()): ?>
+            <img src="<?php echo $imagem['link']; ?>" 
+                 alt="<?php echo htmlspecialchars($imagem['descricao']); ?>">
+        <?php endwhile; ?>
+    </div>
+    <button class="carousel-button prev" onclick="moveCarousel(-1)">&#10094;</button>
+    <button class="carousel-button next" onclick="moveCarousel(1)">&#10095;</button>
+</div>
+
         <div class="card-body">
             <h5 class="card-title"><?php echo htmlspecialchars($imovel['tipo']); ?></h5>
             <p class="card-text">
@@ -194,6 +268,32 @@ if (isset($_GET['cod'])){
 
         ?>
     </div>
+
+    <script>
+        let currentIndex = 0;
+
+function moveCarousel(direction) {
+    const carouselImages = document.querySelector('.carousel-images');
+    const images = document.querySelectorAll('.carousel-images img');
+    const totalImages = images.length;
+
+    // Atualiza o índice da imagem
+    currentIndex += direction;
+
+    // Loop infinito do carrossel
+    if (currentIndex < 0) {
+        currentIndex = totalImages - 1;
+    } else if (currentIndex >= totalImages) {
+        currentIndex = 0;
+    }
+
+    // Move o carrossel
+    const offset = -currentIndex * 100; // Mover 100% por imagem
+    carouselImages.style.transform = `translateX(${offset}%)`;
+}
+
+
+    </script>
 
    <!-- <script>
        document.addEventListener('DOMContentLoaded', () => {

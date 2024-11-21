@@ -16,13 +16,39 @@ if ($mysqli->connect_error) {
 }
 
 
-$aluguelQuery = "SELECT * FROM imoveis WHERE compraAluga = 'Aluguel' LIMIT 6";
-$compraQuery = "SELECT * FROM imoveis WHERE compraAluga = 'Compra' LIMIT 6";
-$santaMariaQuery = "SELECT * FROM imoveis WHERE cidade = 'Santa Maria' LIMIT 6";
-
+$aluguelQuery = "
+    SELECT i.id, i.valor, i.cidade, 
+           (SELECT link
+            FROM imagens 
+            WHERE imagens.imovelId = i.id 
+            LIMIT 1) AS caminho_imagem
+    FROM imoveis i
+    WHERE i.compraAluga = 'aluguel'
+";
 $aluguelResult = $mysqli->query($aluguelQuery);
+
+$compraQuery = "
+    SELECT i.id, i.valor, i.cidade, 
+           (SELECT link 
+            FROM imagens 
+            WHERE imagens.imovelId = i.id 
+            LIMIT 1) AS caminho_imagem
+    FROM imoveis i
+    WHERE i.compraAluga = 'compra'
+";
 $compraResult = $mysqli->query($compraQuery);
+
+$santaMariaQuery = "
+    SELECT i.id, i.valor, i.cidade, 
+           (SELECT link
+            FROM imagens 
+            WHERE imagens.imovelId = i.id 
+            LIMIT 1) AS caminho_imagem
+    FROM imoveis i
+    WHERE i.cidade = 'Santa Maria'
+";
 $santaMariaResult = $mysqli->query($santaMariaQuery);
+
 
 //$mysqli->close();
 
@@ -175,7 +201,7 @@ if (isset($_SESSION['email'])) {
         <?php while ($imovel = $aluguelResult->fetch_assoc()): ?>
             <div class="col-md-2 mb-4">
                 <a href="imovel.php?id=<?php echo $imovel['id']; ?>">
-                    <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
+                    <img src="<?php echo $imovel['caminho_imagem']; ?>" class="img-fluid" alt="Imagem do Imóvel">
                 </a>
                 <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
                 <p>Cidade: <?php echo htmlspecialchars($imovel['cidade']);?></p>
@@ -188,7 +214,7 @@ if (isset($_SESSION['email'])) {
         <?php while ($imovel = $compraResult->fetch_assoc()): ?>
             <div class="col-md-2 mb-4">
                 <a href="imovel.php?id=<?php echo $imovel['id']; ?>">
-                    <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
+                    <img src="<?php echo $imovel['caminho_imagem']; ?>" class="img-fluid" alt="Imagem do Imóvel">
                 </a>
                 <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
                 <p>Cidade: <?php echo htmlspecialchars($imovel['cidade']);?></p>
@@ -201,13 +227,14 @@ if (isset($_SESSION['email'])) {
         <?php while ($imovel = $santaMariaResult->fetch_assoc()): ?>
             <div class="col-md-2 mb-4">
                 <a href="imovel.php?id=<?php echo $imovel['id']; ?>">
-                    <img src="<?php echo $imovel['url']; ?>" class="img-fluid" alt="Imagem do Imóvel">
+                    <img src="<?php echo $imovel['caminho_imagem']; ?>" class="img-fluid" alt="Imagem do Imóvel">
                 </a>
                 <p>R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
                 <p>Cidade: <?php echo htmlspecialchars($imovel['cidade']);?></p>
             </div>
         <?php endwhile; ?>
     </div>
+</div>
    
 </main>
 

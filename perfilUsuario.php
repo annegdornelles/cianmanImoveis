@@ -15,15 +15,35 @@ $cliente = isset($_SESSION['cliente']) ? $_SESSION['cliente'] : $cliente;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="src/css/stylelogin.css">
     <title>Editar Perfil</title>
    
 </head>
+<style>
+ .fa-arrow-left{
+    color:#5e2b5c;
+    font-size: 30px;
+    text-align: left;
+}
+
+.fa-arrow-left:hover{
+    color:#2e1b4e;
+    font-size: 35px;
+}
+
+.arrow{
+    text-align: left;
+}
+ 
+</style>
 <body>
-
     <div class="login-container">
+    <a class="arrow" href="index.php" aria-current="page">
+        <i class="fa-solid fa-arrow-left fa-lg"></i>
+    </a>
         <h2>Editar Perfil</h2>
-
         <form action="src/controller/editarPerfilController.php" method="POST">
     <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
@@ -76,11 +96,6 @@ $cliente = isset($_SESSION['cliente']) ? $_SESSION['cliente'] : $cliente;
 
     ?>
     </div>
-
-    <footer>
-        <p>© 2024 Todos os direitos reservados.</p>
-        <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
-    </footer>
 
     <!-- Bootstrap JS (opcional para interatividade) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

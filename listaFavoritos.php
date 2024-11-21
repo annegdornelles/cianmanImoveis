@@ -1,4 +1,6 @@
 <link rel="stylesheet" type="text/css" href="src/css/stylefavoritar.css">
+<h1>Lista Favoritos</h1>
+<!--COLOCAR NAVBAR AQUI-->
 <?php
 session_start(); 
 
