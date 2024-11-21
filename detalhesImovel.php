@@ -1,44 +1,87 @@
 <?php
-        $host = 'localhost';
-        $user = 'root';
-        $password = '';
-        $database = 'cianman';
-        $mysqli = new mysqli($host, $user, $password, $database);
+$host = 'localhost';
+$user = 'root';
+$password = '12345';
+$database = 'cianman';
 
-        if ($mysqli->connect_error) {
-            die('Erro de conexão: ' . $mysqli->connect_error);
+// Conectar ao banco de dados
+$mysqli = new mysqli($host, $user, $password, $database);
+
+if ($mysqli->connect_error) {
+    die('Erro de conexão: ' . $mysqli->connect_error);
+}
+
+// Consulta ao banco de dados para obter os detalhes do imóvel (ajuste conforme sua tabela e critérios)
+$id_imovel = 1;  // Este valor pode ser dinâmico dependendo da página
+$query = "SELECT * FROM imoveis WHERE id = ?";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param('i', $id_imovel);
+$stmt->execute();
+$result = $stmt->get_result();
+$imovel = $result->fetch_assoc();
+
+// Verifique se o imóvel foi encontrado
+if ($imovel) {
+    $url = $imovel['url'];  // Certifique-se de que a URL da foto está sendo recuperada corretamente
+?>
+
+    <style>
+        .button-container {
+            display: flex;
+            gap: 10px; /* Espaço entre os botões */
         }
 
+        .button-container form {
+             margin: 0;
+        }
 
-    foreach ($fotos as $url){
-        echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 400px; height: 300px; margin: 5px;'><br>";}
-        echo "Bairro: " . htmlspecialchars($imovel['bairro']) . "<br>";
-        echo "Cidade: " . htmlspecialchars($imovel['cidade']) . "<br>";
-        echo "CEP: " . htmlspecialchars($imovel['cep']) . "<br>";
-        echo "Tamanho: " . htmlspecialchars($imovel['tamanho']) . " m²<br>";
-        echo "Quartos: " . htmlspecialchars($imovel['numQuartos']) . "<br>";
-        echo "Tipo: " . htmlspecialchars($imovel['tipo']) . "<br>";
-        echo "Compra/Aluguel: " . htmlspecialchars($imovel['compraAluga']) . "<br>";
-        echo "Valor: R$ " . number_format($imovel['valor'], 2, ',', '.') . "<br>";
-        ?>
-        
+    </style>
+
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Imóvel - detalhes</title>
-    </head>
-    <body>
-            
-    </body>
-    </html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes - imóvel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    
+</body>
+</html>
+    <h1> DETALHES DO IMÓVEL</h1>
+    <img src="<?php echo htmlspecialchars($url); ?>" alt="Foto do Imóvel" style="width: 400px; height: 300px; margin: 5px;"><br>
+    <p><strong>Bairro:</strong> <?php echo htmlspecialchars($imovel['bairro']); ?></p>
+    <p><strong> Cidade: </strong><?php echo htmlspecialchars($imovel['cidade']); ?></p>
+    <p>,<strong>CEP: </strong><?php echo htmlspecialchars($imovel['cep']); ?></p>
+    <p><strong>Tamanho: </strong><?php echo htmlspecialchars($imovel['tamanho']); ?> m²</p>
+    <p> <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?></p>
+    <p><strong>Tipo:</strong>  <?php echo htmlspecialchars($imovel['tipo']); ?></p>
+    <p><strong>Compra/Aluguel:</strong>  <?php echo htmlspecialchars($imovel['compraAluga']); ?></p>
+    <p><strong> Valor: </strong> R$ <?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
+    
+    <div class="button-container">
+
     <form method="POST" action="src/controller/editarImovelController.php">
+        <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
+        <button type="submit" class="btn btn-primary">Editar imóvel</button>
+    </form>
+
+    <form method="POST" action="src/controller/excluirImovelController.php">
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-    <button type="submit" class="btn btn-primary">Editar imóvel</button>
-    
-    <form method="POST" action="src/controller/ExcluirImovelController.php">
-    <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-    <button type="submit" class="btn btn-primary">Excluir imóvel</button>
-    
+    <button type="submit" class="btn btn-danger">Excluir imóvel</button>
 </form>
+    </div>
+
+    
+
+
+
+
+
+    <?php
+} else {
+    echo "Imóvel não encontrado.";
+}
+?>
