@@ -70,7 +70,7 @@ if ($result && $result->num_rows > 0) {
 
     <form method="POST" action="src/controller/editarImovelController.php">
         <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-        <button type="submit" class="btn btn-primary">Editar imóvel</button>
+        <button type="submit" class="btn btn-editar">Editar imóvel</button>
     </form>
 
     <form method="POST" action="src/controller/excluirImovelController.php">
