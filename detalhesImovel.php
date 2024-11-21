@@ -12,18 +12,23 @@ if ($mysqli->connect_error) {
 }
 
 // Consulta ao banco de dados para obter os detalhes do imóvel (ajuste conforme sua tabela e critérios)
-$id_imovel = 1;  // Este valor pode ser dinâmico dependendo da página
-$query = "SELECT * FROM imoveis WHERE id = ?";
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param('i', $id_imovel);
-$stmt->execute();
-$result = $stmt->get_result();
-$imovel = $result->fetch_assoc();
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+// Corrigido: Usando a variável diretamente na consulta sem prepare, pois não há necessidade de bind_param
+$query = "SELECT * FROM imoveis WHERE id = $id";
+$result = $mysqli->query($query);
 
 // Verifique se o imóvel foi encontrado
-if ($imovel) {
+if ($result && $result->num_rows > 0) {
+    $imovel = $result->fetch_assoc();
     $url = $imovel['url'];  // Certifique-se de que a URL da foto está sendo recuperada corretamente
+} else {
+    echo "Imóvel não encontrado.";
+    exit;
+}
+
 ?>
+
 
     <style>
         .button-container {
@@ -44,17 +49,17 @@ if ($imovel) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes - imóvel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="src/controller/styleDetalhesImovel.php" type="text/css" rel="stylesheet" >
 
 </head>
 <body>
     
-</body>
-</html>
+
     <h1> DETALHES DO IMÓVEL</h1>
     <img src="<?php echo htmlspecialchars($url); ?>" alt="Foto do Imóvel" style="width: 400px; height: 300px; margin: 5px;"><br>
     <p><strong>Bairro:</strong> <?php echo htmlspecialchars($imovel['bairro']); ?></p>
     <p><strong> Cidade: </strong><?php echo htmlspecialchars($imovel['cidade']); ?></p>
-    <p>,<strong>CEP: </strong><?php echo htmlspecialchars($imovel['cep']); ?></p>
+    <p><strong>CEP: </strong><?php echo htmlspecialchars($imovel['cep']); ?></p>
     <p><strong>Tamanho: </strong><?php echo htmlspecialchars($imovel['tamanho']); ?> m²</p>
     <p> <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?></p>
     <p><strong>Tipo:</strong>  <?php echo htmlspecialchars($imovel['tipo']); ?></p>
@@ -74,14 +79,7 @@ if ($imovel) {
 </form>
     </div>
 
-    
+    </body>
+</html>
 
 
-
-
-
-    <?php
-} else {
-    echo "Imóvel não encontrado.";
-}
-?>
