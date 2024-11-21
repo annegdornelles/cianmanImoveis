@@ -68,7 +68,7 @@ if ($imovel) {
         <button type="submit" class="btn btn-primary">Editar imóvel</button>
     </form>
 
-    <form method="POST" action="src/controller/ExcluirImovelController.php">
+    <form method="POST" action="src/controller/excluirImovelController.php">
     <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
     <button type="submit" class="btn btn-danger">Excluir imóvel</button>
 </form>
