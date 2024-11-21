@@ -1,89 +1,66 @@
 /* Fundo branco */
 body {
-    background-color: rgb(187, 185, 187); /* Cor de fundo branca */
-    color: #333; /* Texto preto para bom contraste */
-    font-family: 'Arial', sans-serif;
+    background-color: rgb(236, 225, 245); /* Cor de fundo branca */
+    color: #000000; /* Texto preto para bom contraste */
+    font-family: 'Roboto', sans-serif; /* Alterado para Roboto */
     margin: 0;
     padding: 0;
     line-height: 1.6;
     display: flex;
-    /* justify-content: flex-start; /* Tudo alinha-se ao topo */
-    align-items: flex-start; /* Alinha o conteúdo ao topo */
-    min-height: 100vh; /* Garante que o body tenha altura total da tela */
-    flex-direction: column; /* Alinha os itens verticalmente */
-    padding-top: 0; /* Sem espaçamento extra no topo */
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 100vh;
+    flex-direction: column;
+    padding-top: 0;
 }
 
 /* Estilo para o Header */
 header {
-    background-color: #5c4677;; /* Roxo pastel mais forte */
-    color: #333; /* Texto preto */
+    background-color: #2e1b4e; /* Roxo mais escuro */
+    color: #f9efff; /* Texto branco */
     padding: 30px 20px;
-    border-bottom: 2px solid  #3e2f50;; /* Roxo mais suave */
-    box-shadow: 0px 4px 10px rgba(68, 40, 73, 0.1); /* Sombra suave */
-    width: 100%; /* Ocupa toda a largura */
-    text-align: center; /* Centraliza texto dentro do header */
+    border-bottom: 2px solid #461b5f; /* Roxo mais suave */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    width: 100%;
+    text-align: center;
 }
 
 /* Logo e Título */
 header h1, header h5 {
     font-size: 2.5rem;
     letter-spacing: 2px;
+    font-family: 'Montserrat', sans-serif; /* Alterado para Montserrat */
 }
 
 /* Estilo da navegação */
 .nav-link {
     text-align: center;
-    color: #333; /* Preto para os links */
+    color: #fff; /* Branco para os links */
     font-size: 1.1rem;
     font-weight: bold;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .nav-link:hover {
-    color: #1e093b; /* Roxo forte para links ao passar o mouse */
-    transform: translateY(-3px); /* Efeito de elevação */
+    color: #dccde0; /* Roxo claro para links ao passar o mouse */
+    transform: translateY(-3px);
 }
 
-/* Estilo de sublinhado nos links de navegação */
-.nav-left:after,
-.nav-link.text-center:after {
-    content: '';
-    display: block;
-    height: 2px;
-    background-color: #1d1030; /* Sublinhado roxo forte */
-    position: absolute;
-    left: 50%;
-    bottom: -8px;
-    width: 0;
-    transition: width 0.3s ease, left 0.3s ease;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+/* Estilo do conteúdo principal */
+.container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9efff; ; /* Fundo branco */
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 20px;
 }
-
-.nav-left:hover:after,
-.nav-link.text-center:hover:after {
-    width: 100%;
-    left: 0;
-}
-
-/* Estilo do conteúdo principal aqui QUE PRECISO MEXERRRRRRR */
-.container { 
-    padding: 40px 20px; 
-   max-width: 1200px; 
-   margin: 70px auto 0; 
-    left: 50%; /* Center the content within the container */ 
-    border-radius: 30px; 
-     width: 80%; /* ou max-width: 1200px; */
-        margin: 200px;
-    
-    
-}
-
 
 /* Botões */
 .btn-primary {
-    background-color: #8E5CD3; /* Roxo pastel mais forte */
-    color: #333; /* Texto preto */
+    background-color: #2e1b4e; /* Roxo escuro */
+    color: #fff; /* Texto branco */
     border: none;
     padding: 15px 30px;
     font-size: 1rem;
@@ -93,17 +70,17 @@ header h1, header h5 {
 }
 
 .btn-primary:hover {
-    background-color: #9B72D3; /* Roxo pastel mais claro */
-    transform: translateY(-3px); /* Efeito de elevação */
+    background-color: #4e2a6e; /* Roxo mais claro */
+    transform: translateY(-3px);
 }
 
 /* Estilo de formulários */
 .form-select-lg {
     height: 45px;
     font-size: 1.1rem;
-    background-color: transparent; /* Sem fundo */
-    color: #333; /* Texto preto */
-    border: 2px solid #8E5CD3; /* Borda roxa forte */
+    background-color: transparent;
+    color: #333;
+    border: 2px solid #2e1b4e; /* Roxo escuro */
     border-radius: 5px;
     padding: 0 10px;
     width: 100%;
@@ -112,7 +89,7 @@ header h1, header h5 {
 
 .form-select-lg:hover,
 .form-select-lg:focus {
-    border-color: #8E5CD3; /* Borda roxa forte ao focar ou passar o mouse */
+    border-color: #2e1b4e;
 }
 
 /* Estilo de tabelas */
@@ -125,111 +102,35 @@ table {
 table th, table td {
     padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #8E5CD3; /* Roxo forte */
-    color: #333; /* Texto preto */
+    border-bottom: 1px solid #2e1b4e;
+    color: #333;
 }
 
 table th {
-    background-color: #8E5CD3; /* Roxo pastel mais forte */
+    background-color: #2e1b4e; /* Roxo escuro */
+    color: white;
 }
 
 table tr:hover {
-    background-color: #F3F4F6; /* Cinza claro pastel */
+    background-color: #F3F4F6;
 }
 
-/* Footer */
-footer {
-    background-color: #8E5CD3; /* Roxo pastel mais forte */
-    color: #333; /* Texto preto */
-    text-align: center;
-    padding: 20px 0;
-    font-size: 1rem;
-}
-
-footer a {
-    color: #8E5CD3; /* Roxo forte */
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: #333; /* Texto preto ao passar o mouse */
-    text-decoration: underline;
-}
-
-/* Elementos de formulário */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea {
-    background-color: #F9F9F9; /* Cinza pastel suave */
-    color: #333; /* Texto preto */
-    border: 1px solid #8E5CD3; /* Roxo forte */
-    border-radius: 5px;
-    padding: 12px 15px;
-    margin-bottom: 20px;
-    width: 100%;
-    font-size: 1rem;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-textarea:focus {
-    border-color: #8E5CD3; /* Borda roxa forte */
-    outline: none;
-}
-
-/* Estilo de links */
-a {
-    color: #333; /* Preto para links */
-    text-decoration: none;
-}
-
-a:hover {
-    color: #8E5CD3; /* Roxo forte */
-    text-decoration: underline;
-}
-
-/* Ajuste para layout com flexbox */
-.nav-left,
-.nav-right {
-    display: center;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-left {
-    margin-right: auto;
-}
-
-.nav-right {
-    margin-left: auto;
-    display: flex;
-    gap: 15px; /* Distância entre os links */
-}
- /* Estilos do Rodapé */
-.footer {
-    background-color: #3e2f50;
-    color: #fff;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    padding: 5px 0;
-    text-align: center;
-    font-size: 1rem;
-}
-
+/* Rodapé com links de redes sociais */
 .footer-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 20px;
 }
 
-.contact-info p {
-    margin: 0;
-    font-size: 1.1rem;
+/* Agora, garantindo que os links de redes sociais sejam pretos e não mudem ao passar o mouse */
+.social-media a {
+    color: #000000 !important;  /* Cor preta para os links */
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-media a:hover {
+    color: #000000 !important;  /* Garantindo que a cor preta seja mantida mesmo ao passar o mouse */
 }
 
 /* Estilos dos Ícones de Redes Sociais */
@@ -239,206 +140,44 @@ a:hover {
 }
 
 .social-icon {
-    color: #fff;
+    color: #000000; /* Cor preta para os ícones */
     font-size: 1.5rem;
     transition: color 0.3s ease;
 }
 
 .social-icon:hover {
-    color: #F3E5F5;
-}
-/* /* Fundo branco */
-body {
-    background-color: white; /* Cor de fundo branca */
-    color: #333; /* Texto preto para bom contraste */
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    display: flex;
-    justify-content: flex-start; /* Tudo alinha-se ao topo */
-    align-items: flex-start; /* Alinha o conteúdo ao topo */
-    min-height: 100vh; /* Garante que o body tenha altura total da tela */
-    flex-direction: column; /* Alinha os itens verticalmente */
-    padding-top: 0; /* Sem espaçamento extra no topo */
+    color: #F3E5F5; /* Roxo claro para os ícones ao passar o mouse */
 }
 
-/* Estilo para o Header */
-header {
-    background-color: #8E5CD3; /* Roxo pastel mais forte */
-    color: #333; /* Texto preto */
-    padding: 30px 20px;
-    border-bottom: 2px solid #7C4AB7; /* Roxo mais suave */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    width: 100%; /* Ocupa toda a largura */
-    text-align: center; /* Centraliza texto dentro do header */
-}
-
-/* Logo e Título */
-header h1, header h5 {
-    font-size: 2.5rem;
-    letter-spacing: 2px;
-}
-
-/* Estilo da navegação */
-.nav-link {
-    text-align: center;
-    color: #333; /* Preto para os links */
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #1e093b; /* Roxo forte para links ao passar o mouse */
-    transform: translateY(-3px); /* Efeito de elevação */
-}
-
-/* Estilo de sublinhado nos links de navegação */
-.nav-left:after,
-.nav-link.text-center:after {
-    content: '';
-    display: block;
-    height: 2px;
-    background-color: #1d1030; /* Sublinhado roxo forte */
-    position: absolute;
-    left: 50%;
-    bottom: -8px;
-    width: 0;
-    transition: width 0.3s ease, left 0.3s ease;
-}
-
-.nav-left:hover:after,
-.nav-link.text-center:hover:after {
+/* Estilo do footer fixo com links */
+.footer {
+    color: #fff;
     width: 100%;
+    position: fixed;
+    bottom: 0;
     left: 0;
-}
-
-/* Estilo do conteúdo principal aqui QUE PRECISO MEXERRRRRRR */
-.container { 
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #dbdee4; /* Cinza pastel */
-    text-align: center; /* Centraliza todo o conteúdo dentro da container */
-    border-radius: 10px;
-    margin-top: 20px; /* Ajuste o espaçamento entre o header e o conteúdo */
-}
-
-/* Botões */
-.btn-primary {
-    background-color: #8E5CD3; /* Roxo pastel mais forte */
-    color: #333; /* Texto preto */
-    border: none;
-    padding: 15px 30px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-primary:hover {
-    background-color: #9B72D3; /* Roxo pastel mais claro */
-    transform: translateY(-3px); /* Efeito de elevação */
-}
-
-/* Estilo de formulários */
-.form-select-lg {
-    height: 45px;
-    font-size: 1.1rem;
-    background-color: transparent; /* Sem fundo */
-    color: #333; /* Texto preto */
-    border: 2px solid #8E5CD3; /* Borda roxa forte */
-    border-radius: 5px;
-    padding: 0 10px;
-    width: 100%;
-    transition: border-color 0.3s ease;
-}
-
-.form-select-lg:hover,
-.form-select-lg:focus {
-    border-color: #8E5CD3; /* Borda roxa forte ao focar ou passar o mouse */
-}
-
-/* Estilo de tabelas */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px;
-}
-
-table th, table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #8E5CD3; /* Roxo forte */
-    color: #333; /* Texto preto */
-}
-
-table th {
-    background-color: #8E5CD3; /* Roxo pastel mais forte */
-}
-
-table tr:hover {
-    background-color: #F3F4F6; /* Cinza claro pastel */
-}
-
-/* Footer */
-footer {
-    background-color: #8E5CD3; /* Roxo pastel mais forte */
-    color: #333; /* Texto preto */
+    padding: 10px 0;
     text-align: center;
-    padding: 20px 0;
     font-size: 1rem;
 }
 
-footer a {
-    color: #8E5CD3; /* Roxo forte */
-    text-decoration: none;
+.footer-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
-footer a:hover {
-    color: #333; /* Texto preto ao passar o mouse */
-    text-decoration: underline;
-}
-
-/* Elementos de formulário */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea {
-    background-color: #F9F9F9; /* Cinza pastel suave */
-    color: #333; /* Texto preto */
-    border: 1px solid #8E5CD3; /* Roxo forte */
-    border-radius: 5px;
-    padding: 12px 15px;
-    margin-bottom: 20px;
-    width: 100%;
-    font-size: 1rem;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-textarea:focus {
-    border-color: #8E5CD3; /* Borda roxa forte */
-    outline: none;
-}
-
-/* Estilo de links */
-a {
-    color: #333; /* Preto para links */
-    text-decoration: none;
-}
-
-a:hover {
-    color: #8E5CD3; /* Roxo forte */
-    text-decoration: underline;
+/* Ícones de redes sociais */
+.social-media a {
+    color: #000000 !important; /* Cor preta para os links */
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
 }
 
 /* Ajuste para layout com flexbox */
 .nav-left,
 .nav-right {
-    display: center;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -450,29 +189,32 @@ a:hover {
 .nav-right {
     margin-left: auto;
     display: flex;
-    gap: 15px; /* Distância entre os links */
+    gap: 15px;
 }
 
-.imovel-card {
-    height: 300px;
-    overflow: hidden;
+.footer {
+    color: #020202;  /* Cor do texto preta */
+    width: 100%;  /* Garantir que o rodapé ocupe toda a largura */
     text-align: center;
 }
 
-.imovel-card img {
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
+footer i {
+    margin-bottom: 10px;  /* Espaçamento entre ícones e texto */
 }
 
-.imovel-card .card-body {
-    height: 100px;
-    display: flex;
+footer p {
+    font-size: 14px;  /* Tamanho do texto */
+    margin: 0;
+}
+.card-img-top{
+    width:600px;
     align-items: center;
-    justify-content: center;
+    height:500px;
 }
- 
-.fa-cart-shopping,.far-heart{
-    color:#7C4AB7;
-    width:50px;
-}
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+        height: 100%;
+    }
