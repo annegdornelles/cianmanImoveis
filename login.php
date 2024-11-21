@@ -36,7 +36,8 @@
                     <input type="password" class="form-control" name="senha" id="senha" placeholder="Insira sua senha" required />
                 </div>
 
-                <input type="submit" class="btn btn-primary" value="Login">
+                <input type="submit" class="btn btn-primary" value="Login"><br>
+                <a href='cadastro.php'>Cadastre-se aqui.</a>
             </form>
 
             <?php

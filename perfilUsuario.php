@@ -3,7 +3,8 @@
 require_once 'src/controller/editarPerfilController.php';
 
 if (!isset($_SESSION['email'])) {
-    die("Erro: Usuário não autenticado.");
+    header('location: login.php');
+    exit;
 }
 
 $cliente = isset($_SESSION['cliente']) ? $_SESSION['cliente'] : $cliente;

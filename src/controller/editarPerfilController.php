@@ -34,7 +34,6 @@ function obterDadosUsuario($email) {
 function atualizarDadosUsuario($campo, $valor, $email) {
     $mysqli = conectarBanco();
 
-    // Verifique se o campo está na tabela, para evitar SQL injection
     $sql = "UPDATE clientes SET $campo = ? WHERE email = ?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ss", $valor, $email);
@@ -46,8 +45,8 @@ function atualizarDadosUsuario($campo, $valor, $email) {
 }
 
 if (!isset($_SESSION['email'])) {
-    header("location:../../index.php");
-    exit; // Important to stop further execution after redirect
+    header('Location: ../../login.php');
+    exit;
 }
 
 $email = $_SESSION['email'];
