@@ -7,6 +7,8 @@
     <title>Imóveis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="src/css/styleCorretorImoveis.css" type="text/css" link rel="stylesheet">
+    <nav>
 </head>
 
 <body>
@@ -30,7 +32,7 @@
         // Conexão com o banco de dados
         $host = 'localhost';
         $user = 'root';
-        $password = '12345';
+        $password = '';
         $database = 'cianman';
         $mysqli = new mysqli($host, $user, $password, $database);
 
@@ -105,21 +107,19 @@
         $stmt->close();
         $mysqli->close();
         ?>
-
-       
-        ?>
         <a class='nav-link' href='src/controller/logoutController.php'>Logout</a>
         </nav>
         <form method="GET">
+        <div class="container">
             <button type="submit" class="btn btn-view" name="visualizar" value="1">Visualizar Meus Imóveis</button>
             <button type="submit" class="btn btn-add" name="adicionar" value="1">Adicionar Novo Imóvel</button>
-        </form>
-
+            </div>
+    </form>
         <?php
 
         $host = 'localhost';
         $user = 'root';
-        $password = '12345';
+        $password = '';
         $database = 'cianman';
 
         $mysqli = new mysqli($host, $user, $password, $database);
@@ -132,40 +132,53 @@
         $funcionariosId = 1;
 
         // Função para visualizar imóveis
-        function visualizarImoveis($mysqli, $funcionariosId)
-        {
-            $query = "SELECT * FROM imoveis WHERE funcionariosId = ?";
+        function visualizarImoveis($mysqli, $funcionariosId) {
+            $query = "
+                SELECT 
+                    imoveis.id,
+                    imoveis.logradouro,
+                    imoveis.numCasa,
+                    imoveis.bairro,
+                    imoveis.cidade,
+                    imoveis.cep,
+                    imoveis.tamanho,
+                    imoveis.numQuartos,
+                    imoveis.tipo,
+                    imoveis.compraAluga,
+                    imoveis.valor,
+                    GROUP_CONCAT(DISTINCT imagens.link ORDER BY imagens.id ASC) AS imagens
+                FROM 
+                    imoveis
+                LEFT JOIN 
+                    imagens ON imoveis.id = imagens.imovelId
+                WHERE 
+                    imoveis.funcionariosId = ?
+                GROUP BY 
+                    imoveis.id, imoveis.logradouro, imoveis.numCasa, imoveis.bairro, imoveis.cidade, 
+                    imoveis.cep, imoveis.tamanho, imoveis.numQuartos, imoveis.tipo, imoveis.compraAluga, 
+                    imoveis.valor;
+            ";
+        
             $stmt = $mysqli->prepare($query);
             $stmt->bind_param("i", $funcionariosId);
             $stmt->execute();
             $result = $stmt->get_result();
-
-
+        
             if ($result->num_rows > 0) {
                 echo "<ul>";
                 while ($imovel = $result->fetch_assoc()) {
-
                     echo "<li>";
                     echo "<strong>" . htmlspecialchars($imovel['logradouro']) . ", " . htmlspecialchars($imovel['numCasa']) . "</strong><br>";
-                    //     echo "<input type='hidden' name='id' value='imovel' oninput='imovelDetalhes()'>";
- 
-
-
-                    //    echo "<input type='hidden' name= 'id' value= $imovel'[id]' oninput='imovelDetalhes()'>";
-                    if (!empty($imovel['url'])) {
-                        $fotos = explode(',', $imovel['url']);
-                    //     foreach ($fotos as $url) {
-                    //         echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 50px; margin: 5px;'><br>";
-                    //     }
-                     }
-              //      foreach ($imovel as $imoveis) {
-                        // Criar um link para visualizar os detalhes do imóvel
-                        echo "<a href='detalhesImovel.php?id=" . $imovel['id'] . "'>";
-                       // echo "<input type='hidden' name='id' value='" . $imovel['id'] . "' oninput='imovelDetalhes()'>";
-                       foreach ($fotos as $url){
-                        echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 150px; height: 150px; margin: 5px;'><br>";}
-                        echo "</a>";
-                //    }
+        
+                    // Exibindo as imagens, se existirem
+                    if (!empty($imovel['imagens'])) {
+                        $fotos = explode(',', $imovel['imagens']);
+                        foreach ($fotos as $url) {
+                            echo "<img src='" . htmlspecialchars($url) . "' alt='Foto do Imóvel' style='width: 150px; height: 150px; margin: 5px;'><br>";
+                        }
+                    }
+        
+                    // Exibindo os outros dados do imóvel
                     echo "Bairro: " . htmlspecialchars($imovel['bairro']) . "<br>";
                     echo "Cidade: " . htmlspecialchars($imovel['cidade']) . "<br>";
                     echo "CEP: " . htmlspecialchars($imovel['cep']) . "<br>";
@@ -177,155 +190,188 @@
                     echo "</li>";
                 }
                 echo "</ul>";
-
             } else {
                 echo "<div class='alert alert-warning'>Nenhum imóvel encontrado para este corretor.</div>";
             }
-        }
+        }               
 
         // Função para adicionar imóvel
         function adicionarImovel($mysqli, $funcionariosId)
         {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar'])) {
-                $logradouro = $_POST['logradouro'];
-                $numCasa = $_POST['numCasa'];
-                $bairro = $_POST['bairro'];
-                $cidade = $_POST['cidade'];
-                $cep = $_POST['cep'];
-                $tamanho = $_POST['tamanho'];
-                $numQuartos = $_POST['numQuartos'];
-                $tipo = $_POST['tipo'];
-                $compraAluga = $_POST['compraAluga'];
-                $valor = $_POST['valor'];
+    if ($_POST && isset($_POST['adicionar'])) {
+        $logradouro = $_POST['logradouro'];
+        $numCasa = $_POST['numCasa'];
+        $bairro = $_POST['bairro'];
+        $cidade = $_POST['cidade'];
+        $cep = $_POST['cep'];
+        $tamanho = $_POST['tamanho'];
+        $numQuartos = $_POST['numQuartos'];
+        $tipo = $_POST['tipo'];
+        $compraAluga = $_POST['compraAluga'];
+        $valor = $_POST['valor'];
 
-                // Tratamento de upload de imagens
+        if (empty($logradouro) || empty($numCasa) || empty($bairro) || empty($cidade) || empty($cep) || empty($valor)) {
+            echo "<div class='alert alert-danger'>Todos os campos são obrigatórios.</div>";
+        } else {
+            // Inserir o imóvel na tabela 'imoveis'
+            $stmt = $mysqli->prepare("INSERT INTO imoveis (funcionariosId, logradouro, numCasa, bairro, cidade, cep, tamanho, numQuartos, tipo, compraAluga, valor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("isissdissss", $funcionariosId, $logradouro, $numCasa, $bairro, $cidade, $cep, $tamanho, $numQuartos, $tipo, $compraAluga, $valor);
 
-                /*
-if (isset($_FILES['fotos'])) {
-        foreach ($_FILES['fotos']['tmp_name'] as $index => $tmpName) {
-            $fileName = uniqid() . '_' . basename($_FILES['fotos']['name'][$index]);
-            $filePath = 'uploads/' . $fileName;
-            $fileType = mime_content_type($tmpName);
-            
-            if (in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
-                if (move_uploaded_file($tmpName, $filePath)) {
-                    $descricao = $_POST['descricao'][$index];  // Obtém a descrição da imagem
-                    // Agora insira as imagens e descrições no banco de dados (tabela imagens)
-                    $stmt = $mysqli->prepare("INSERT INTO imagens (imovelId, url, descricao) VALUES (?, ?, ?)");
-                    $stmt->bind_param("iss", $imovelId, $filePath, $descricao);
-                    $stmt->execute();
-                }
-            }
-        }
-    }
-                */
-                $fotos = [];
-                if (isset($_FILES['fotos']) && $_FILES['fotos']['error'][0] == 0) {
-                    $uploadDir = __DIR__ . '/uploads/';
-                    if (!is_dir($uploadDir)) {
-                        mkdir($uploadDir, 0777, true);
-                    }
+            if ($stmt->execute()) {
+                // Recupera o ID do imóvel recém-inserido
+                $imovelId = $mysqli->insert_id;
 
+                echo "<div class='alert alert-success'>Imóvel adicionado com sucesso! ID: $imovelId</div>";
 
+                // Inserir as imagens na tabela 'imagens'
+                if (isset($_FILES['fotos'])) {
                     foreach ($_FILES['fotos']['tmp_name'] as $index => $tmpName) {
-                        $fileName = uniqid() . '_' . basename($_FILES['fotos']['name'][$index]);
-                        $filePath = $uploadDir . $fileName;
+                        if (!empty($tmpName) && is_uploaded_file($tmpName)) {
+                            $fileName = uniqid() . '_' . basename($_FILES['fotos']['name'][$index]);
+                            $filePath = 'uploads/' . $fileName;
+                            $fileType = mime_content_type($tmpName);
 
-                        $fileType = mime_content_type($tmpName);
-                        if (in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
-                            if (move_uploaded_file($tmpName, $filePath)) {
-                                $fotos[] = 'uploads/' . $fileName;
+                            if (in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
+                                if (move_uploaded_file($tmpName, $filePath)) {
+                                    $descricao = isset($_POST['descricao'][$index]) ? $_POST['descricao'][$index] : "";
+                                    // Inserir imagem associada ao imovelId
+                                    $stmtImg = $mysqli->prepare("INSERT INTO imagens (imovelId, link, descricao) VALUES (?, ?, ?)");
+                                    $stmtImg->bind_param("iss", $imovelId, $filePath, $descricao);
+                                    if (!$stmtImg->execute()) {
+                                        echo "Erro ao inserir imagem: " . $stmtImg->error;
+                                    }
+                                }
+                            } else {
+                                echo "Arquivo inválido: $fileName. Somente imagens JPEG, PNG ou GIF são permitidas.";
                             }
+                        } else {
+                            echo "Erro: Arquivo não enviado ou inválido.";
                         }
                     }
                 }
 
-                $fotosPath = implode(',', $fotos);
-
-                if (empty($logradouro) || empty($numCasa) || empty($bairro) || empty($cidade) || empty($cep) || empty($valor)) {
-                    echo "<div class='alert alert-danger'>Todos os campos são obrigatórios.</div>";
-                } else {
-                    $stmt = $mysqli->prepare("INSERT INTO imoveis (funcionariosId, logradouro, numCasa, bairro, cidade, cep, tamanho, numQuartos, tipo, compraAluga, valor, url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->bind_param("isssssdiisss", $funcionariosId, $logradouro, $numCasa, $bairro, $cidade, $cep, $tamanho, $numQuartos, $tipo, $compraAluga, $valor, $fotosPath);
-
-                    if ($stmt->execute()) {
-                        $_SESSION['mensagem_sucesso'] = "Imóvel adicionado com sucesso!";
-
-                        // Redireciona para a página corretorImoveis.php
-                        header("Location: corretorImoveis.php");
-                        exit();
-
-
-
-                        // echo "<div class='alert alert-success'>Imóvel adicionado com sucesso!</div>";
-                        //header("Refresh: 2; url=corretorImoveis.php");
-                    } else {
-                        echo "<div class='alert alert-danger'>Erro ao adicionar imóvel: " . $stmt->error . "</div>";
-                    }
-
-                    header('location:../../corretorImoveis.php');
-
-                    $stmt->close();
-                }
+                // Mensagem de sucesso e redirecionamento
+                $_SESSION['mensagem_sucesso'] = "Imóvel e imagens adicionados com sucesso!";
+                //header('Location: ../../corretorImoveis.php');
+                exit();
+            } else {
+                echo "<div class='alert alert-danger'>Erro ao adicionar imóvel: " . $stmt->error . "</div>";
             }
+
+            $stmt->close();
         }
+    }
+}
 
         // Lógica principal
         if (isset($_GET['visualizar']) && $_GET['visualizar'] == '1') {
             visualizarImoveis($mysqli, $funcionariosId);
         } elseif (isset($_GET['adicionar']) && $_GET['adicionar'] == '1') {
         ?>
+        <div class="ad">
             <h2>Adicionar Novo Imóvel</h2>
             <form method="POST" class="my-3" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="logradouro" class="form-label">Logradouro</label>
+                    <label for="logradouro" class="form-label">Logradouro:</label>
                     <input type="text" class="form-control" id="logradouro" name="logradouro" required>
                 </div>
                 <div class="mb-3">
-                    <label for="numCasa" class="form-label">Número da Casa</label>
+                    <label for="numCasa" class="form-label">Número da Casa:</label>
                     <input type="text" class="form-control" id="numCasa" name="numCasa" required>
                 </div>
                 <div class="mb-3">
-                    <label for="bairro" class="form-label">Bairro</label>
+                    <label for="bairro" class="form-label">Bairro:</label>
                     <input type="text" class="form-control" id="bairro" name="bairro" required>
                 </div>
                 <div class="mb-3">
-                    <label for="cidade" class="form-label">Cidade</label>
+                    <label for="cidade" class="form-label">Cidade:</label>
                     <input type="text" class="form-control" id="cidade" name="cidade" required>
                 </div>
                 <div class="mb-3">
-                    <label for="cep" class="form-label">CEP</label>
+                    <label for="cep" class="form-label">CEP:</label>
                     <input type="text" class="form-control" id="cep" name="cep" required>
                 </div>
                 <div class="mb-3">
-                    <label for="tamanho" class="form-label">Tamanho (m²)</label>
+                    <label for="tamanho" class="form-label">Tamanho (m²):</label>
                     <input type="number" class="form-control" id="tamanho" name="tamanho" required>
                 </div>
                 <div class="mb-3">
-                    <label for="numQuartos" class="form-label">Número de Quartos</label>
+                    <label for="numQuartos" class="form-label">Número de Quartos:</label>
                     <input type="number" class="form-control" id="numQuartos" name="numQuartos" required>
                 </div>
                 <div class="mb-3">
-                    <label for="tipo" class="form-label">Tipo</label>
+                    <label for="tipo" class="form-label">Tipo:</label>
                     <input type="text" class="form-control" id="tipo" name="tipo" required>
                 </div>
                 <div class="mb-3">
-                    <label for="compraAluga" class="form-label">Compra ou Aluguel</label>
+                    <label for="compraAluga" class="form-label">Compra ou Aluguel:</label>
                     <select class="form-control" id="compraAluga" name="compraAluga" required>
                         <option value="Compra">Compra</option>
                         <option value="Aluguel">Aluguel</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="valor" class="form-label">Valor</label>
+                    <label for="valor" class="form-label">Valor:</label>
                     <input type="number" step="0.01" class="form-control" id="valor" name="valor" required>
                 </div>
-                <div class="mb-3">
+                <!--<div class="mb-3">
                     <label for="fotos" class="form-label">Fotos</label>
                     <input type="file" class="form-control" id="fotos" name="fotos[]" multiple>
-                </div>
+                </div>-->
+                <!--PARTE COM A TABELA IMAGEM-->
+                <div class="mb-3">
+        <label for="numImagens" class="form-label">Número de Imagens</label>
+        <select class="form-control" id="numImagens" name="numImagens" onchange="gerarCamposImagens()" required>
+            <option value="0">Selecione o número de imagens</option>
+            <?php
+            // Exibe as opções de 1 até 7
+            for ($i = 1; $i <= 7; $i++) {
+                echo "<option value='$i'>$i</option>";
+            }
+            ?>
+        </select>
+    </div>
+    <!-- Container para os campos de upload das imagens -->
+    <div id="imagensContainer"></div>
                 <button type="submit" class="btn btn-success" name="adicionar">Salvar Imóvel</button>
             </form>
+
+        </div>
+            <script>
+    // Função para gerar os campos de upload das imagens com base na escolha
+    function gerarCamposImagens() {
+        let numImagens = document.getElementById('numImagens').value;
+        let container = document.getElementById('imagensContainer');
+        container.innerHTML = ''; // Limpa os campos de imagens anteriores
+
+        // Gera os campos de upload de imagens
+        for (let i = 1; i <= numImagens; i++) {
+            let div = document.createElement('div');
+            div.classList.add('mb-3');
+
+            // Campo de upload de imagem
+            let fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.name = 'fotos[]';
+            fileInput.classList.add('form-control');
+            fileInput.accept = 'image/*';
+            div.appendChild(fileInput);
+
+            // Campo para descrição da imagem
+            let labelDesc = document.createElement('label');
+            labelDesc.classList.add('form-label');
+            labelDesc.innerText = 'Descrição da Imagem ' + i;
+            div.appendChild(labelDesc);
+
+            let textArea = document.createElement('textarea');
+            textArea.name = 'descricao[]';
+            textArea.classList.add('form-control');
+            div.appendChild(textArea);
+
+            container.appendChild(div);
+        }
+    }
+</script>
         <?php
             adicionarImovel($mysqli, $funcionariosId);
         }

@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $user = 'root';
-$password = '12345';
+$password = '';
 $database = 'cianman';
 
 // Conectar ao banco de dados
