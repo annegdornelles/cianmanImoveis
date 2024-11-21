@@ -103,8 +103,8 @@ $stmt->close();
 $mysqli->close();
 ?>
         <form method="GET">
-            <button type="submit" class="btn btn-primary" name="visualizar" value="1">Visualizar Meus Imóveis</button>
-            <button type="submit" class="btn btn-success" name="adicionar" value="1">Adicionar Novo Imóvel</button>
+            <button type="submit" class="btn btn-view" name="visualizar" value="1">Visualizar Meus Imóveis</button>
+            <button type="submit" class="btn btn-add" name="adicionar" value="1">Adicionar Novo Imóvel</button>
             <a href="src/controller/logoutcontroller.php">Logout</a>
         </form>
 
@@ -316,7 +316,7 @@ $stmt->close();
                     <label for="fotos" class="form-label">Fotos</label>
                     <input type="file" class="form-control" id="fotos" name="fotos[]" multiple>
                 </div>
-                <button type="submit" class="btn btn-success" name="adicionar">Salvar Imóvel</button>
+                <button type="submit" class="btn btn-salvar" name="adicionar">Salvar Imóvel</button>
             </form>
         <?php
             adicionarImovel($mysqli, $funcionariosId);
