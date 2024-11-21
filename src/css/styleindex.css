@@ -1,4 +1,5 @@
 /* Fundo branco */
+/* Fundo branco */
 body {
     background-color: rgb(236, 225, 245); /* Cor de fundo branca */
     color: #000000; /* Texto preto para bom contraste */
@@ -76,20 +77,38 @@ header h1, header h5 {
 
 /* Estilo de formulários */
 .form-select-lg {
-    height: 45px;
-    font-size: 1.1rem;
-    background-color: transparent;
-    color: #333;
-    border: 2px solid #2e1b4e; /* Roxo escuro */
-    border-radius: 5px;
-    padding: 0 10px;
-    width: 100%;
-    transition: border-color 0.3s ease;
+    height: 45px; /* Ajuste da altura */
+    font-size: 1.1rem; /* Tamanho da fonte */
+    background-color: #f3f1fa; /* Cor de fundo suave */
+    color: #333; /* Cor do texto */
+    border: 2px solid #2e1b4e; /* Borda roxa */
+    border-radius: 5px; /* Bordas arredondadas */
+    padding: 0 15px; /* Espaçamento interno */
+    width: 100%; /* Largura total */
+    appearance: none; /* Remove a aparência padrão do select */
+    transition: all 0.3s ease; /* Transição suave para os efeitos */
+    box-sizing: border-box; /* Para garantir que o padding não quebre o layout */
+    position: relative; /* Necessário para a seta personalizada */
 }
 
+/* Efeito ao passar o mouse */
 .form-select-lg:hover,
 .form-select-lg:focus {
-    border-color: #2e1b4e;
+    border-color: #4e2a6e; /* Cor de borda mais clara */
+    background-color: #f0e5ff; /* Cor de fundo clara ao passar o mouse */
+    outline: none; /* Remove o contorno */
+}
+
+/* Setando a posição e o ícone da seta */
+.form-select-lg::after {
+    content: "▼"; /* Símbolo da seta */
+    font-size: 1.2rem;
+    color: #2e1b4e; /* Cor roxa para a seta */
+    position: absolute;
+    right: 15px; /* Posição da seta */
+    top: 50%; /* Centraliza a seta verticalmente */
+    transform: translateY(-50%); /* Ajuste fino da posição */
+    pointer-events: none; /* Não interfere nos cliques */
 }
 
 /* Estilo de tabelas */
@@ -206,15 +225,28 @@ footer p {
     font-size: 14px;  /* Tamanho do texto */
     margin: 0;
 }
+
 .card-img-top{
-    width:600px;
+    width:700px;
     align-items: center;
     height:500px;
 }
 
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; 
-        height: 100%;
-    }
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    height: 100%;
+}
+
+/* Estilo para as imagens de imóveis */
+.img-fluid {
+    width: 100%;  /* Garantir que a imagem ocupe a largura máxima do contêiner */
+    height: auto;  /* A altura será ajustada automaticamente para manter a proporção */
+    object-fit: cover;  /* Garantir que a imagem cubra todo o espaço sem distorcer */
+    max-width: 700px;  /* Largura máxima para as imagens (ajustável conforme necessário) */
+    height: 200px;  /* Altura máxima para as imagens (ajustável conforme necessário) */
+    border-radius: 8px;  /* Adiciona bordas arredondadas para um visual mais agradável */
+    display: block; /* Faz com que a imagem seja tratada como um bloco */
+    margin: 0 auto; /* Centraliza a imagem horizontalmente */
+}
