@@ -11,21 +11,37 @@ if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
-// Consulta ao banco de dados para obter os detalhes do imóvel
+// Obtém o ID do imóvel da URL
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-$query = "SELECT * FROM imoveis WHERE id = $id";
-$result = $mysqli->query($query);
+// Consulta para pegar os dados do imóvel
+$query_imovel = "SELECT * FROM imoveis WHERE id = $id";
+$result_imovel = $mysqli->query($query_imovel);
 
 // Verifica se o imóvel foi encontrado
-if ($result && $result->num_rows > 0) {
-    $imovel = $result->fetch_assoc();
-    $url = $imovel['url'];
+if ($result_imovel && $result_imovel->num_rows > 0) {
+    $imovel = $result_imovel->fetch_assoc();
 } else {
     echo "<div class='alert alert-warning'>Imóvel não encontrado.</div>";
     exit;
 }
+// Consulta para pegar as imagens associadas ao imóvel
+$query_imagens = "SELECT link, descricao FROM imagens WHERE imovelId = $id";
+$result_imagens = $mysqli->query($query_imagens);
+
+// Verifica se as imagens foram encontradas
+$imagens = [];
+if ($result_imagens && $result_imagens->num_rows > 0) {
+    while ($row = $result_imagens->fetch_assoc()) {
+        $imagens[] = $row;  // Armazena cada imagem no array
+    }
+} else {
+    $imagens = [];  // Nenhuma imagem encontrada
+}
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,59 +49,66 @@ if ($result && $result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Imóvel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JS do Bootstrap (certifique-se de incluir o JS do Bootstrap no final do body) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link href="src/css/styleDetalhesImovel.css" type="text/css" rel="stylesheet">
     <style>
-        /* .button-container {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-editar {
-            background-color: #4a148c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .btn-editar:hover {
-            background-color: rgba(242, 96, 255, 0.634);
-        }
-        .btn-danger {
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-        strong {
-            color: #4a148c;
-        }
-        img {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            margin: 20px 0;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #4a148c;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-        .container {
-            max-width: 700px;
-            margin: auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        } */
+       .fa-arrow-left{
+    color:#5e2b5c;
+    font-size: 30px;
+    text-align: left;
+}
+
+.fa-arrow-left:hover{
+    color:#2e1b4e;
+    font-size: 35px;
+}
+
+.arrow{
+    text-align: left;
+}
     </style>
 </head>
 <body>
     <div class="container">
+    <a class="arrow" href="index.php" aria-current="page">
+        <i class="fa-solid fa-arrow-left fa-lg"></i>
+    </a>
+        <div class="fotoImovel">
         <h1>DETALHES DO IMÓVEL</h1>
-        <div class="fotoImovel" >
-        <img src="<?php echo htmlspecialchars($url); ?>" alt="Foto do Imóvel">
+
+        <!-- Carrossel de Imagens -->
+        <div id="carrosselImagens" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <?php 
+                $active = 'active';  // Para garantir que a primeira imagem seja exibida por padrão
+                foreach ($imagens as $imagem) { 
+                ?>
+                    <div class="carousel-item <?php echo $active; ?>">
+                    <img src="<?php echo htmlspecialchars($imagem['link']); ?>" alt="<?php echo htmlspecialchars($imagem['descricao']); ?>">
+                    </div>
+                    <?php 
+                    // Após a primeira imagem, remova a classe "active" para que as imagens subsequentes não tenham a classe duplicada
+                    $active = ''; 
+                } 
+                ?>
+            </div>
+            <!-- Controles do Carrossel -->
+           <!-- Controles do Carrossel -->
+<button class="carousel-control-prev" type="button" data-bs-target="#carrosselImagens" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+</button>
+<button class="carousel-control-next" type="button" data-bs-target="#carrosselImagens" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+</button>
+
+            </div>
         </div><div class="info">
         <p><strong>Bairro:</strong> <?php echo htmlspecialchars($imovel['bairro']); ?></p>
         <p><strong>Cidade:</strong> <?php echo htmlspecialchars($imovel['cidade']); ?></p>
@@ -106,7 +129,7 @@ if ($result && $result->num_rows > 0) {
                 <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
                 <button type="submit" class="btn btn-danger">Excluir Imóvel</button>
             </form>
-            </div>
+        </div>
         </div>
     </div>
 </body>
