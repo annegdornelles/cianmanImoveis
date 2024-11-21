@@ -6,7 +6,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$password = '';
+$password = '12345';
 $database = 'cianman';
 
 $mysqli = new mysqli($host, $user, $password, $database);
@@ -81,8 +81,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <link rel="stylesheet" type="text/css" href="src/css/styleindex.css">
+
+    <style>
+     .card {
+            width: 200px; /* Define a largura do card */
+            height: 200px; /* Define a altura do card para ser quadrado */
+            margin: 10px; /* Espaço entre os cards */
+        }
+    
+
+     
+    </style>
 </head>
 
 
@@ -91,16 +103,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
 <header>
     <nav class="nav justify-content-between" style="display: flex; align-items: center;">
         <a class="nav-link" href="carrinho.php">
-            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #5e2b5c; width: 40px; text-align: center;"></i>
+            <i class="fa-solid fa-cart-shopping fa-lg" style="color: white; width: 40px; text-align: center;"></i>
         </a>
         <a class="nav-link" href="listaFavoritos.php">
-            <i class="fa-solid fa-heart fa-lg" style="color: #5e215c; width: 40px; text-align: center;"></i>
+            <i class="fa-solid fa-heart fa-lg" style="color: white; width: 40px; text-align: center;"></i>
         </a>
         <?php if (isset($_SESSION['email'])){
-        echo "<a class='nav-link' href='perfilUsuario.php'><i class='fa-solid fa-user fa-lg' style='color: #5e215c; width: 40px; text-align: center;'></i></a>";
+        echo "<a class='nav-link' href='perfilUsuario.php'><i class='fa-solid fa-user fa-lg' style='color: white; width: 40px; text-align: center;'></i></a>";
         }
         ?>
-        <a class="nav-link text-center" href="index.php">Cianman Imóveis</span>
+          <a class="nav-link text-center" href="index.php">
+            <img src="src/img/cianman.jpg" alt="Logo" style="width: 70px; height: auto; text-align:center;">
+        </a>
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>
             <a class="nav-link" href="login.php">Login</a>
@@ -234,10 +248,39 @@ if (isset($_SESSION['email'])) {
             </div>
         <?php endwhile; ?>
     </div>
-</div>
-   
-</main>
 
+
+
+    <div class="row my-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sobre Nós</h5>
+                    <p class="card-text">Somos a Cianman Imóveis, dedicados a ajudar você a encontrar
+                 o imóvel dos seus sonhos. </p>
+              
+                </div>
+           
+        </div>
+    </div>
+</div>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body" style="text-align:center">
+       
+        <p class="card-text">Entre em contato conosco através das redes sociais!</p>
+        <a href="https://wa.me/5511999999999" target="_blank" class="mx-2">
+            <i class="fab fa-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
+        </a>
+        <a href="https://www.instagram.com/seu_perfil" target="_blank" class="mx-2">
+            <i class="fab fa-instagram" style="font-size: 2rem; color: #C13584;"></i>
+        </a>
+        <a href="https://www.facebook.com/seu_perfil" target="_blank" class="mx-2">
+            <i class="fab fa-facebook-f" style="font-size: 2rem; color: #3b5998;"></i>
+        </a>
+    </div>
+     </div>
+</div>
 <script>
     function selecionarBairros() {
         const cidade = document.getElementById("cidade").value;
