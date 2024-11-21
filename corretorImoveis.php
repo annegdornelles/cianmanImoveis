@@ -170,15 +170,15 @@
                     }
         
                     // Exibindo os outros dados do imóvel
-                    echo "Bairro: " . htmlspecialchars($imovel['bairro']) . "<br>";
-                    echo "Cidade: " . htmlspecialchars($imovel['cidade']) . "<br>";
-                    echo "CEP: " . htmlspecialchars($imovel['cep']) . "<br>";
-                    echo "Tamanho: " . htmlspecialchars($imovel['tamanho']) . " m²<br>";
-                    echo "Quartos: " . htmlspecialchars($imovel['numQuartos']) . "<br>";
-                    echo "Tipo: " . htmlspecialchars($imovel['tipo']) . "<br>";
-                    echo "Compra/Aluguel: " . htmlspecialchars($imovel['compraAluga']) . "<br>";
-                    echo "Valor: R$ " . number_format($imovel['valor'], 2, ',', '.') . "<br>";
-                    echo "</li>";
+                    echo "<div class='card-body'>";
+                    echo "<h5 class='card-title'>" . htmlspecialchars($imovel['logradouro']) . ", " . htmlspecialchars($imovel['numCasa']) . "</h5>";
+                    echo "<p class='card-text'>Bairro: " . htmlspecialchars($imovel['bairro']) . "</p>";
+                    echo "<p class='card-text'>Cidade: " . htmlspecialchars($imovel['cidade']) . "</p>";
+                    echo "<p class='card-text'>Valor: R$ " . number_format($imovel['valor'], 2, ',', '.') . "</p>";
+                    echo "<a href='detalhesImovel.php?id=" . $imovel['id'] . "' class='btn btn-detalhes'>Ver detalhes</a>";
+                    echo "</div>";
+                    echo "</div>";
+                    echo "</div>";
                 }
                 echo "</ul>";
             } else {
