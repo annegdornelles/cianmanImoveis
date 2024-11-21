@@ -43,6 +43,8 @@ $resultImagens = $stmt->get_result();
 
 $favoritado = isset($_GET['favoritado']) && $_GET['favoritado'] == 'true';
 
+$carrinho = isset($_GET['carrinho']) && $_GET['carrinho'] == 'true';
+
 $mysqli->close();
 ?>
 
@@ -125,6 +127,28 @@ $mysqli->close();
 }
 
 .heart-button i:hover {
+    color: #2e1b4e;
+    width: 45px;
+    height: 10px;
+}
+
+.cart-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.cart-button i {
+    font-size: 24px;
+    color: #5e2b5c;
+}
+
+.cart-button.clicked i {
+    color: #2e1b4e; 
+}
+
+.cart-button i:hover {
     color: #2e1b4e;
     width: 45px;
     height: 10px;
@@ -220,6 +244,7 @@ $mysqli->close();
                 <strong>Valor:</strong> R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?><br>
                 <strong>Cidade:</strong> <?php echo htmlspecialchars($imovel['cidade']); ?><br>
                 <strong>Bairro:</strong> <?php echo htmlspecialchars($imovel['bairro']); ?><br>
+                <strong>Tamanho:</strong> <?php echo htmlspecialchars($imovel['tamanho']); ?> m2<br>
                 <strong>Logradouro:</strong> <?php echo htmlspecialchars($imovel['logradouro']); ?><br>
                 <strong>Tipo de Transação:</strong> <?php echo htmlspecialchars($imovel['compraAluga']); ?><br>
                 <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?>
@@ -229,7 +254,7 @@ $mysqli->close();
     
     <form method="POST" action="src/controller/carrinhoController.php">
         <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-        <button type="submit" id="cart-button-1" class="btn btn-primary">
+        <button type="submit" id="cart-button-1" class="cart-button <?php echo $carrinho ? 'clicked' : ''; ?>">
             <i class="fa-solid fa-cart-shopping fa-lg"></i>
         </button>
     </form>
@@ -261,8 +286,23 @@ if (isset($_GET['cod'])){
         Imóvel adicionado aos favoritos com sucesso!
         </div>';
     }
-    
-    
+
+    if ($_GET['cod']=='301'){
+        echo '<div class="alert-success" role="alert">
+        Imóvel adicionado ao carrinho com sucesso!
+        </div>';
+    }
+
+    if ($_GET['cod']=='301'){
+        echo '<div class="alert-danger" role="alert">
+        Este móvel já está no carrinho de compras!
+        </div>';
+    }
+    if ($_GET['cod']=='124'){
+        echo '<div class="alert-danger" role="alert">
+        Imóvel removido do carrinho de compras!
+        </div>';
+    }
 
 }
 
@@ -291,42 +331,7 @@ function moveCarousel(direction) {
     const offset = -currentIndex * 100; // Mover 100% por imagem
     carouselImages.style.transform = `translateX(${offset}%)`;
 }
-
-
-    </script>
-
-   <!-- <script>
-       document.addEventListener('DOMContentLoaded', () => {
-    const cartButtons = document.querySelectorAll('[id^="cart-button"]');
-    const favoriteButtons = document.querySelectorAll('[id^="heart-button"]');
-
-    const initializeButtonState = (buttons, storageKeyPrefix) => {
-        buttons.forEach(button => {
-            const buttonId = button.id;
-            const savedState = localStorage.getItem(storageKeyPrefix + buttonId); // Recupera o estado salvo
-
-            // Se o estado salvo for 'true', aplica a classe 'clicked'
-            if (savedState === 'true') {
-                button.classList.add('clicked');
-            }
-
-            // Quando o botão for clicado, alterna a classe 'clicked' e armazena o novo estado
-            button.addEventListener('click', () => {
-                button.classList.toggle('clicked');
-                const isClicked = button.classList.contains('clicked');
-                localStorage.setItem(storageKeyPrefix + buttonId, isClicked); // Armazena o estado
-                console.log(`Button ${buttonId} is ${isClicked ? 'clicked' : 'unclicked'}`);
-            });
-        });
-    };
-
-    // Inicializa os estados dos botões
-    initializeButtonState(cartButtons, 'cart-');
-    initializeButtonState(favoriteButtons, 'heart-');
-});
-
-
-    </script>-->
+</script>
 </div>
 </body>
 </html>

@@ -57,7 +57,8 @@ if ($_POST && isset($_POST['id'])) {
     $resultCarrinho = $stmtCarrinho->get_result();
 
     if ($resultCarrinho->num_rows > 0) {
-        echo "Este imóvel já está no carrinho de compras.";
+        header("location:../../imovel.php?cod=122&carrinho=true&id=$imovelId&favoritado=true");//ja esta no carrinho de compras
+        exit;
     } else {
         // Adiciona o imóvel ao carrinho
         $queryInsert = "INSERT INTO carrinho (clienteCpf, imovelId) VALUES (?, ?)";
@@ -65,7 +66,8 @@ if ($_POST && isset($_POST['id'])) {
         $stmtInsert->bind_param('si', $clienteCpf, $imovelId);
 
         if ($stmtInsert->execute()) {
-            echo "Imóvel adicionado ao carrinho de compras!";
+           header("location:../../imovel.php?cod=301&carrinho=true&id=$imovelId&favoritado=true");//add com sucesso
+           exit;
         } else {
             echo "Erro ao adicionar ao carrinho.";
         }
@@ -84,7 +86,7 @@ if (isset($_GET['remover']) && isset($_GET['id'])) {
     $stmtRemover->bind_param('si', $clienteCpf, $imovelId);
 
     if ($stmtRemover->execute()) {
-        echo "Imóvel removido do carrinho!";
+        header("location:../../imovel.php?cod=124&id=$imovelId");//removido do carrinho
     } else {
         echo "Erro ao remover do carrinho.";
     }
