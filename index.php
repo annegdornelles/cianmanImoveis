@@ -6,7 +6,7 @@ session_start();
 
 $host = 'localhost';
 $user = 'root';
-$password = '';
+$password = '12345';
 $database = 'cianman';
 
 $mysqli = new mysqli($host, $user, $password, $database);
@@ -85,16 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
 
     <link rel="stylesheet" type="text/css" href="src/css/styleindex.css">
 
-    <style>
-     .card {
-            width: 200px; /* Define a largura do card */
-            height: 200px; /* Define a altura do card para ser quadrado */
-            margin: 10px; /* Espaço entre os cards */
-        }
-    
-
-     
-    </style>
 </head>
 
 
@@ -194,13 +184,15 @@ if (isset($_SESSION['email'])) {
                 </div>
             </div>
             <h5>Você prefere:</h5>
+            <div class="radio">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="compraoualuga" id="compra" value="compra"/>
-                <label class="form-check-label" for="compra">Compra</label>
+                <label class="form-check-label" for="compra">Compra  </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="compraoualuga" id="aluguel" value="aluguel"/>
                 <label class="form-check-label" for="aluguel">Aluguel</label>
+            </div>
             </div>
             <div class="btn-filtro-container">
                 <input type="submit" class="btn btn-primary" value="Enviar">
@@ -250,38 +242,33 @@ if (isset($_SESSION['email'])) {
     </div>
 
 
+    <div class="grid-container">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"><strong>Sobre Nós</strong></h5>
+            <p class="card-text">Somos a Cianman Imóveis, dedicados a ajudar você a encontrar o imóvel dos seus sonhos.</p>
+        </div>
+    </div>
 
-    <div class="row my-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Sobre Nós</h5>
-                    <p class="card-text">Somos a Cianman Imóveis, dedicados a ajudar você a encontrar
-                 o imóvel dos seus sonhos. </p>
-              
-                </div>
-           
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">Entre em contato conosco através das redes sociais!</p>
+            <a href="https://wa.me/5511999999999" target="_blank" class="mx-2">
+                <i class="fab fa-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
+            </a>
+            <a href="https://www.instagram.com/seu_perfil" target="_blank" class="mx-2">
+                <i class="fab fa-instagram" style="font-size: 2rem; color: #C13584;"></i>
+            </a>
+            <a href="https://www.facebook.com/seu_perfil" target="_blank" class="mx-2">
+                <i class="fab fa-facebook-f" style="font-size: 2rem; color: #3b5998;"></i>
+            </a>
         </div>
     </div>
 </div>
-
-<div class="card" style="width: 18rem;">
-    <div class="card-body" style="text-align:center">
-       
-        <p class="card-text">Entre em contato conosco através das redes sociais!</p>
-        <a href="https://wa.me/5511999999999" target="_blank" class="mx-2">
-            <i class="fab fa-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
-        </a>
-        <a href="https://www.instagram.com/seu_perfil" target="_blank" class="mx-2">
-            <i class="fab fa-instagram" style="font-size: 2rem; color: #C13584;"></i>
-        </a>
-        <a href="https://www.facebook.com/seu_perfil" target="_blank" class="mx-2">
-            <i class="fab fa-facebook-f" style="font-size: 2rem; color: #3b5998;"></i>
-        </a>
-    </div>
-     </div>
 </div>
 <script>
+
+    /////nossos objetivis como card
     function selecionarBairros() {
         const cidade = document.getElementById("cidade").value;
 
