@@ -1,6 +1,6 @@
 /* Fundo branco */
 body {
-    background-color: rgb(236, 225, 245); /* Cor de fundo branca */
+    background-color: rgb(201, 170, 227); /* Cor de fundo branca */
     color: #000000; /* Texto preto para bom contraste */
     font-family: 'Roboto', sans-serif; /* Alterado para Roboto */
     margin: 0;
@@ -62,6 +62,7 @@ header h1, header h5 {
     background-color: #2e1b4e; /* Roxo escuro */
     color: #fff; /* Texto branco */
     border: none;
+    margin-top: 20px;
     padding: 15px 30px;
     font-size: 1rem;
     border-radius: 5px;
@@ -281,3 +282,32 @@ header {
     margin: 0 auto; /* Centraliza o card */
 color:#4e2a6e
 }
+
+.radio{
+
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+}
+    .form-check-input{
+        align-items: center;
+        background-color: #20052e;
+    }
+
+    .grid-container {
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+        gap: 20px; /* Espaçamento entre os cards */
+    }
+    
+    .card {
+        margin: 10px;
+        width: 500;
+        background-color: #bcb5c95a; /* Cor de fundo dos cards */
+        padding: 50px; 
+        gap: 50px;
+        border-radius: 10px; /* Bordas arredondadas */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    }
