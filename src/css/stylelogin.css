@@ -1,8 +1,8 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f3f1f8; /* Cor de fundo mais suave */
-    color: #2e1b4e; /* Texto em roxo mais escuro */
+    background-color: #f3f1f8; 
+    color: #2e1b4e; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,7 +22,7 @@ body {
 h2 {
     text-align: center;
     margin-bottom: 20px;
-    color:  #2e1b4e; /* Roxo mais escuro para o título */
+    color:  #2e1b4e;
 }
 
 .form-label {
@@ -31,14 +31,14 @@ h2 {
 
 .form-control {
     border-radius: 5px;
-    border: 1px solid #9c4e97; /* Bordas com um roxo mais suave */
+    border: 1px solid #9c4e97;
     padding: 10px;
     font-size: 16px;
 }
 
 .form-control:focus {
-    border-color: #2e1b4e; /* Cor de foco roxa escura */
-    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5); /* Efeito de sombra roxa */
+    border-color: #2e1b4e;
+    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
 }
 
 .btn-primary {
@@ -46,7 +46,7 @@ h2 {
     padding: 12px;
     font-size: 16px;
     font-weight: 600;
-    background-color:  #2e1b4e; /* Cor roxa escura para o botão */
+    background-color:  #2e1b4e;
     border: none;
     border-radius: 5px;
     color: white;
@@ -54,13 +54,13 @@ h2 {
 }
 
 .btn-primary:hover {
-    background-color: #4a148c; /* Cor de hover mais escura */
+    background-color: #4a148c;
 }
 
 .alert-warning {
     margin-top: 20px;
-    background-color: #f8bbd0; /* Fundo mais suave para o alerta */
-    color: #6a1b9a; /* Texto do alerta em roxo escuro */
+    background-color: #f8bbd0;
+    color: #6a1b9a;
 }
 
 footer {
@@ -70,12 +70,12 @@ footer {
     right: 0;
     text-align: center;
     padding: 10px;
-    background-color: #2e1b4e; /* Fundo roxo escuro para o footer */
+    background-color: #2e1b4e;
     color: white;
 }
 
 footer a {
-    color: #f8bbd0; /* Cor clara para links */
+    color: #f8bbd0;
     text-decoration: none;
 }
 

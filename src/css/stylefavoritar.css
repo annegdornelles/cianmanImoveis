@@ -1,28 +1,28 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f3f1f8; /* Cor de fundo mais suave */
-    color: #2e1b4e; /* Texto em roxo mais escuro */
+    background-color: #f3f1f8; 
+    color: #2e1b4e;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Ajusta o alinhamento para o topo */
+    align-items: flex-start;
     flex-direction: column;
     height: 100vh;
     margin: 0;
-    padding-top: 20px; /* Dá um pouco de espaço no topo */
+    padding-top: 20px;
 }
 
 .card-img-top {
     width: 300px;
     height: 300px;
-    object-fit: cover; /* Ajusta as imagens para cobrir o espaço sem distorcer */
-    margin-bottom: 30px; /* Espaço entre as imagens */
+    object-fit: cover; 
+    margin-bottom: 30px;
 }
 
 .cards-container {
     display: flex;
    
-    gap: 30px; /* Espaço entre as imagens */
-    justify-content: center; /* Alinha as imagens ao centro */
+    gap: 30px; 
+    justify-content: center; 
 }
 
 .card {
@@ -30,7 +30,7 @@ body {
     border-radius: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 700px; /* Limita a largura das imagens */
+    max-width: 700px;
     padding: 30px;
     margin-bottom: 80px;
     display: flex;
