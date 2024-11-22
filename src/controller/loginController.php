@@ -50,7 +50,7 @@ function usersLogin($email, $senha) {
         $table = 'clientes';
     }
 
-    $sql = 'SELECT * FROM ' . $table . ' WHERE email="' . $mysqli->real_escape_string($email) . '" AND senha="' . $mysqli->real_escape_string($senha) . '"';
+    $sql = 'SELECT * FROM ' . $table . ' WHERE email="' . $mysqli->real_escape_string($email) . '" AND senha="' .$senha . '"';
 
     $result = $mysqli->query($sql);
 

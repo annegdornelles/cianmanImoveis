@@ -1,4 +1,11 @@
 <?php
+
+if ($_POST) {
+    echo "<pre>";
+    var_dump($_POST);
+    echo "</pre>";
+    exit;
+}
 $host = 'localhost';
 $user = 'root';
 $password = '';
@@ -75,7 +82,7 @@ if ($result_imagens && $result_imagens->num_rows > 0) {
 </head>
 <body>
     <div class="container">
-    <a class="arrow" href="index.php" aria-current="page">
+    <a class="arrow" href="corretorImoveis.php" aria-current="page">
         <i class="fa-solid fa-arrow-left fa-lg"></i>
     </a>
         <div class="fotoImovel">
@@ -120,9 +127,9 @@ if ($result_imagens && $result_imagens->num_rows > 0) {
         <p><strong>Valor:</strong> R$ <?php echo number_format($imovel['valor'], 2, ',', '.'); ?></p>
 
         <div class="button-container">
-            <form method="POST" action="src/controller/editarImovelController.php">
+            <form method="POST" action="editarImovel.php">
                 <input type="hidden" name="id" value="<?php echo $imovel['id']; ?>">
-                <button type="submit" class="btn btn-editar">Editar Imóvel</button>
+                <button type="submit" class="btn btn-editar">Editar imóvel</button>
                 
             </form>
             <form method="POST" action="src/controller/excluirImovelController.php">

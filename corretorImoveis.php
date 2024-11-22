@@ -54,7 +54,7 @@
             }
         }
         $stmt = $mysqli->prepare("SELECT id FROM funcionarios WHERE email = ?");
-        $stmt->bind_param("s", $email); // "s" indica que estamos vinculando um valor de tipo string
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         
@@ -68,7 +68,7 @@
         
         $stmt->close();
         
-        // Consulta para verificar os imóveis do funcionário no carrinho (consultas preparadas para evitar SQL Injection)
+       //verifica imoveis do carrinho
         $query = "
             SELECT 
             carrinho.imovelId, 
@@ -84,7 +84,7 @@
         WHERE imovel.funcionariosId = ? ";
         
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("i", $funcionariosId); // "i" indica que estamos vinculando um valor de tipo inteiro (ID do funcionário)
+        $stmt->bind_param("i", $funcionariosId);
         $stmt->execute();
         $result = $stmt->get_result();
         
@@ -129,7 +129,7 @@
         }
 
         // Variável de ID do corretor
-        $funcionariosId = 1;
+        //$funcionariosId = 1;
 
         // Função para visualizar imóveis
         function visualizarImoveis($mysqli, $funcionariosId) {
@@ -172,8 +172,8 @@
                     // Exibindo os outros dados do imóvel
                     echo "<div class='card-body'>";
                     echo "<h5 class='card-title'>" . htmlspecialchars($imovel['logradouro']) . ", " . htmlspecialchars($imovel['numCasa']) . "</h5>";
-                    echo "<p class='card-text'>Bairro: " . htmlspecialchars($imovel['bairro']) . "</p>";
-                    echo "<p class='card-text'>Cidade: " . htmlspecialchars($imovel['cidade']) . "</p>";
+                    echo "<p class='card-text'>Bairro: " . $imovel['bairro'] . "</p>";
+                    echo "<p class='card-text'>Cidade: " . $imovel['cidade'] . "</p>";
                     echo "<p class='card-text'>Valor: R$ " . number_format($imovel['valor'], 2, ',', '.') . "</p>";
                     echo "<a href='detalhesImovel.php?id=" . $imovel['id'] . "' class='btn btn-detalhes'>Ver detalhes</a>";
                     echo "</div>";
@@ -210,12 +210,11 @@
             $stmt->bind_param("isissdissss", $funcionariosId, $logradouro, $numCasa, $bairro, $cidade, $cep, $tamanho, $numQuartos, $tipo, $compraAluga, $valor);
 
             if ($stmt->execute()) {
-                // Recupera o ID do imóvel recém-inserido
+               
                 $imovelId = $mysqli->insert_id;
 
                 echo "<div class='alert alert-success'>Imóvel adicionado com sucesso! ID: $imovelId</div>";
 
-                // Inserir as imagens na tabela 'imagens'
                 if (isset($_FILES['fotos'])) {
                     foreach ($_FILES['fotos']['tmp_name'] as $index => $tmpName) {
                         if (!empty($tmpName) && is_uploaded_file($tmpName)) {
@@ -242,9 +241,7 @@
                     }
                 }
 
-                // Mensagem de sucesso e redirecionamento
                 $_SESSION['mensagem_sucesso'] = "Imóvel e imagens adicionados com sucesso!";
-                //header('Location: ../../corretorImoveis.php');
                 exit();
             } else {
                 echo "<div class='alert alert-danger'>Erro ao adicionar imóvel: " . $stmt->error . "</div>";
@@ -254,7 +251,6 @@
         }
     }
 }
-
         // Lógica principal
         if (isset($_GET['visualizar']) && $_GET['visualizar'] == '1') {
             visualizarImoveis($mysqli, $funcionariosId);
@@ -306,17 +302,12 @@
                     <label for="valor" class="form-label">Valor:</label>
                     <input type="number" step="0.01" class="form-control" id="valor" name="valor" required>
                 </div>
-                <!--<div class="mb-3">
-                    <label for="fotos" class="form-label">Fotos</label>
-                    <input type="file" class="form-control" id="fotos" name="fotos[]" multiple>
-                </div>-->
                 <!--PARTE COM A TABELA IMAGEM-->
                 <div class="mb-3">
         <label for="numImagens" class="form-label">Número de Imagens</label>
         <select class="form-control" id="numImagens" name="numImagens" onchange="gerarCamposImagens()" required>
             <option value="0">Selecione o número de imagens</option>
             <?php
-            // Exibe as opções de 1 até 7
             for ($i = 1; $i <= 7; $i++) {
                 echo "<option value='$i'>$i</option>";
             }
@@ -336,7 +327,6 @@
         let container = document.getElementById('imagensContainer');
         container.innerHTML = ''; // Limpa os campos de imagens anteriores
 
-        // Gera os campos de upload de imagens
         for (let i = 1; i <= numImagens; i++) {
             let div = document.createElement('div');
             div.classList.add('mb-3');
@@ -349,7 +339,7 @@
             fileInput.accept = 'image/*';
             div.appendChild(fileInput);
 
-            // Campo para descrição da imagem
+            // DEscreve a imagem
             let labelDesc = document.createElement('label');
             labelDesc.classList.add('form-label');
             labelDesc.innerText = 'Descrição da Imagem ' + i;
@@ -370,44 +360,6 @@
 
         $mysqli->close();
         ?>
-        <!--
-        <script>
-    // Função para gerar os campos de upload das imagens com base na escolha
-    function gerarCamposImagens() {
-        let numImagens = document.getElementById('numImagens').value;
-        let container = document.getElementById('imagensContainer');
-        container.innerHTML = ''; // Limpa os campos de imagens anteriores
-
-        // Gera os campos de upload de imagens
-        for (let i = 1; i <= numImagens; i++) {
-            let div = document.createElement('div');
-            div.classList.add('mb-3');
-
-            // Campo de upload de imagem
-            let fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.name = 'fotos[]';
-            fileInput.classList.add('form-control');
-            fileInput.accept = 'image/*';
-            div.appendChild(fileInput);
-
-            // Campo para descrição da imagem
-            let labelDesc = document.createElement('label');
-            labelDesc.classList.add('form-label');
-            labelDesc.innerText = 'Descrição da Imagem ' + i;
-            div.appendChild(labelDesc);
-
-            let textArea = document.createElement('textarea');
-            textArea.name = 'descricao[]';
-            textArea.classList.add('form-control');
-            div.appendChild(textArea);
-
-            container.appendChild(div);
-        }
-    }
-</script>
-
-    -->
 
     </div>
 </body>

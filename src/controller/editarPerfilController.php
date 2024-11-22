@@ -54,7 +54,7 @@ $email = $_SESSION['email'];
 $cliente = obterDadosUsuario($email);
 
 // Processamento do formulário
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_POST) {
     // Certifique-se de que todos os campos do formulário estão sendo processados corretamente
     $nome = $_POST['nome'];
     $emailNovo = $_POST['email'];  // Caso queira atualizar o email também
