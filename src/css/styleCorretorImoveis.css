@@ -150,17 +150,17 @@ h2{
 .flex-container {
     display:flex;
     flex-wrap: wrap; 
-    flex-wrap: nowrap; /* Impede a quebra de linha */
-    gap: 10px; /* Espaçamento horizontal entre os itens */
+    flex-wrap: nowrap;
+    gap: 10px; 
     padding:20px;
     justify-content: space-between; 
-    overflow-x: auto; /* Permite rolagem horizontal se os itens excederem a largura */
+    overflow-x: auto; 
 }
 
 .imovel {
-    flex: 1 1 calc(25% - 20px); /* Cada cartão ocupa 25% da largura, com espaço */
-    max-width: calc(25% - 20px); /* Limita a largura máxima a 25% */
-    box-sizing: border-box; /* Inclui padding e border no tamanho */
+    flex: 1 1 calc(25% - 20px); 
+    max-width: calc(25% - 20px); 
+    box-sizing: border-box; 
 }
 
 .alert {
@@ -168,6 +168,10 @@ h2{
     font-size: 11px;
     padding: 8px;
     border-radius: 5px;
-    min-width: 200px; /* Define uma largura mínima para cada item */
-    box-sizing: border-box; /* Garante que padding seja incluído nas dimensões */
+    min-width: 200px; 
+    box-sizing: border-box;
 }
+
+/*.card-body:hover{
+    background-color: rgba(255, 255, 255, 0.795);
+}*/
