@@ -37,7 +37,7 @@ if ($_POST && isset($_POST['id'])) {
 
     if ($resultFavorito->num_rows === 0) {
         // Se o imóvel não está nos favoritos, redireciona para a página do imóvel com cod=123
-        header("Location: ../../imovel.php?cod=123&id=$imovelId");
+        header("Location: ../../imovel.php?cod=123&id=$imovelId&favoritado=true&carrinho=true");
         exit;
     }
 

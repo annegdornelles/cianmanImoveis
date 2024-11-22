@@ -198,7 +198,7 @@ if (isset($_POST['id'])) {
 
         <div class="mb-3">
             <label for="numQuartos" class="form-label">Número de Quartos:</label>
-            <input type="number" class="form-control" id="numQuartos" name="numQuartos" value="<?php echo htmlspecialchars($imovel['numQuartos']); ?>" required>
+            <input type="number" class="form-control" id="numQuartos" name="numQuartos" min="0" value="<?php echo htmlspecialchars($imovel['numQuartos']); ?>" required>
         </div>
 
         <div class="mb-3">

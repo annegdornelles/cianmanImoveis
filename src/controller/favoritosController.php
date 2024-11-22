@@ -9,10 +9,14 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
+// Recupera o email da sessão
+$email = $_SESSION['email'];
+
 if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);
 }
 
+// Busca o CPF do cliente com base no email
 $queryCliente = "SELECT cpf FROM clientes WHERE email = ?";
 $stmtCliente = $mysqli->prepare($queryCliente);
 $stmtCliente->bind_param('s', $email);
@@ -26,6 +30,9 @@ if ($resultCliente->num_rows > 0) {
     echo "Cliente não encontrado.";
     exit;
 }
+
+// Resto do código...
+
 
 if ($_POST && isset($_POST['id'])) {
     $imovelId = (int) $_POST['id'];

@@ -50,7 +50,9 @@
             if ($resultado) {
                 $linha = mysqli_fetch_assoc($resultado);
                 $nome = $linha['nome'];
+                echo "<div class='alert'>";
                 echo '<h1>Seja bem-vindo(a), corretor(a) ' . $nome . '</h1>';
+                echo '</div>';
             }
         }
         $stmt = $mysqli->prepare("SELECT id FROM funcionarios WHERE email = ?");
@@ -88,6 +90,8 @@
         $stmt->execute();
         $result = $stmt->get_result();
         
+        echo "<a class='nav-link' href='src/controller/logoutController.php'>Logout</a>";
+        echo " </nav>";
         if ($result->num_rows > 0) {
             // Exibe um aviso para cada imóvel adicionado ao carrinho
             while ($row = $result->fetch_assoc()) {
@@ -107,8 +111,7 @@
         $stmt->close();
         $mysqli->close();
         ?>
-        <a class='nav-link' href='src/controller/logoutController.php'>Logout</a>
-        </nav>
+
         <form method="GET">
         <div class="container">
             <button type="submit" class="btn btn-view" name="visualizar" value="1">Visualizar Meus Imóveis</button>
