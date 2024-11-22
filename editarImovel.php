@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Função para conectar ao banco de dados
 function conectarBanco() {
     $host = 'localhost';
     $user = 'root';
@@ -17,7 +16,6 @@ function conectarBanco() {
     return $mysqli;
 }
 
-// Função para obter os dados do imóvel
 function obterDadosImovel($id) {
     $mysqli = conectarBanco();
     $stmt = $mysqli->prepare("SELECT * FROM imoveis WHERE id = ?");
@@ -32,7 +30,6 @@ function obterDadosImovel($id) {
     return $imovel;
 }
 
-// Função para obter as imagens relacionadas ao imóvel
 function obterImagensImovel($id) {
     $mysqli = conectarBanco();
     $stmt = $mysqli->prepare("SELECT * FROM imagens WHERE imovelId = ?");
@@ -51,7 +48,6 @@ function obterImagensImovel($id) {
     return $imagens;
 }
 
-// Função para atualizar os dados do imóvel
 function atualizarDadosImovel($campo, $valor, $id) {
     $mysqli = conectarBanco();
     $stmt = $mysqli->prepare("UPDATE imoveis SET $campo = ? WHERE id = ?");
@@ -62,28 +58,26 @@ function atualizarDadosImovel($campo, $valor, $id) {
     $mysqli->close();
 }
 
-// Função para salvar as novas imagens no banco de dados
-function salvarImagens($imovelId, $imagens) {
+function salvarImagens($imovelId, $imagens, $descricoes) {
     $mysqli = conectarBanco();
 
-    // Caminho para salvar as imagens
     $uploadDir = 'uploads/';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
 
-    // Loop para processar as imagens enviadas
+    // loop para processar as imagens enviadas
     foreach ($imagens['tmp_name'] as $index => $tmpName) {
         $fileName = uniqid() . '_' . basename($imagens['name'][$index]);
         $filePath = $uploadDir . $fileName;
 
-        // Validação do tipo de arquivo
         $fileType = mime_content_type($tmpName);
         if (in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
             if (move_uploaded_file($tmpName, $filePath)) {
-                // Inserir caminho da imagem no banco de dados
-                $stmt = $mysqli->prepare("INSERT INTO imagens (imovelId, descricao) VALUES (?, ?)");
-                $stmt->bind_param("is", $imovelId, $filePath);
+                
+                $descricao = $descricoes[$index];
+                $stmt = $mysqli->prepare("INSERT INTO imagens (imovelId, descricao, link) VALUES (?, ?, ?)");
+                $stmt->bind_param("iss", $imovelId, $descricao, $filePath);
                 $stmt->execute();
                 $stmt->close();
             } else {
@@ -97,13 +91,11 @@ function salvarImagens($imovelId, $imagens) {
     $mysqli->close();
 }
 
-// Verifica se o ID do imóvel foi passado via POST
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
 
-    // Verifica se o formulário foi enviado
     if (isset($_POST['salvar'])) {
-        // Obtém os dados do formulário
+
         $bairro = $_POST['bairro'];
         $cidade = $_POST['cidade'];
         $cep = $_POST['cep'];
@@ -113,7 +105,6 @@ if (isset($_POST['id'])) {
         $compraAluga = $_POST['compraAluga'];
         $valor = $_POST['valor'];
 
-        // Atualiza os dados do imóvel no banco de dados
         atualizarDadosImovel('bairro', $bairro, $id);
         atualizarDadosImovel('cidade', $cidade, $id);
         atualizarDadosImovel('cep', $cep, $id);
@@ -123,16 +114,13 @@ if (isset($_POST['id'])) {
         atualizarDadosImovel('compraAluga', $compraAluga, $id);
         atualizarDadosImovel('valor', $valor, $id);
 
-        // Verifica se foram enviadas novas imagens
         if (isset($_FILES['imagens']) && $_FILES['imagens']['error'][0] === UPLOAD_ERR_OK) {
-            salvarImagens($id, $_FILES['imagens']);
+            salvarImagens($id, $_FILES['imagens'], $_POST['descricao']);
         }
 
-        // Mensagem de sucesso
-        $_SESSION['sucesso'] = true; // Flag para exibir mensagem de sucesso
+        $_SESSION['sucesso'] = true;
     }
 
-    // Obtém os dados atuais do imóvel e imagens para preencher o formulário
     $imovel = obterDadosImovel($id);
     $imagens = obterImagensImovel($id);
 } else {
@@ -148,14 +136,35 @@ if (isset($_POST['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Imóvel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="src/css/stylecadastro.css">
 </head>
+<style>
+ .fa-arrow-left{
+    color:#5e2b5c;
+    font-size: 30px;
+    text-align: left;
+}
+
+.fa-arrow-left:hover{
+    color:#2e1b4e;
+    font-size: 35px;
+}
+
+.arrow{
+    text-align: left;
+}
+ 
+</style>
 <body>
 
 <div class="container mt-5">
+<a class="arrow" href="corretorImoveis.php" aria-current="page">
+        <i class="fa-solid fa-arrow-left fa-lg"></i>
+    </a>
     <h2>Editar Imóvel</h2>
-    
-    <!-- Exibir mensagem de sucesso -->
+
     <?php if (isset($_SESSION['sucesso']) && $_SESSION['sucesso']): ?>
         <div class="alert alert-success" role="alert">
             Imóvel atualizado com sucesso!
@@ -194,14 +203,17 @@ if (isset($_POST['id'])) {
 
         <div class="mb-3">
             <label for="tipo" class="form-label">Tipo:</label>
-            <input type="text" class="form-control" id="tipo" name="tipo" value="<?php echo htmlspecialchars($imovel['tipo']); ?>" required>
+            <select class="form-control" id="tipo" name="tipo" required>
+                <option value="Casa" <?php if ($imovel['tipo'] == 'Casa') echo 'selected'; ?>>Casa</option>
+                <option value="Apartamento" <?php if ($imovel['tipo'] == 'Apartamento') echo 'selected'; ?>>Apartamento</option>
+            </select>
         </div>
 
         <div class="mb-3">
-            <label for="compraAluga" class="form-label">Compra ou Aluga:</label>
-            <select class="form-select" id="compraAluga" name="compraAluga" required>
-                <option value="compra" <?php echo ($imovel['compraAluga'] == 'compra') ? 'selected' : ''; ?>>Compra</option>
-                <option value="aluga" <?php echo ($imovel['compraAluga'] == 'aluga') ? 'selected' : ''; ?>>Aluga</option>
+            <label for="compraAluga" class="form-label">Compra ou Aluguel:</label>
+            <select class="form-control" id="compraAluga" name="compraAluga" required>
+                <option value="Compra" <?php if ($imovel['compraAluga'] == 'Compra') echo 'selected'; ?>>Compra</option>
+                <option value="Aluguel" <?php if ($imovel['compraAluga'] == 'Aluguel') echo 'selected'; ?>>Aluguel</option>
             </select>
         </div>
 
@@ -215,21 +227,26 @@ if (isset($_POST['id'])) {
             <input type="file" class="form-control" id="imagens" name="imagens[]" multiple>
         </div>
 
-        <!-- Exibição das imagens existentes -->
+        <div class="mb-3">
+            <label for="descricaoImagens" class="form-label">Descrição das Imagens:</label>
+            <textarea class="form-control" id="descricaoImagens" name="descricao[]" rows="3" placeholder="Insira uma descrição para cada imagem."></textarea>
+        </div>
+        
         <div class="mb-3">
             <h4>Imagens Atuais:</h4>
             <div class="row">
                 <?php foreach ($imagens as $imagem): ?>
                     <div class="col-3">
-                        <img src="<?php echo $imagem['link']; ?>" class="img-fluid" alt="Imagem do imóvel">
+                        <img src="<?php echo $imagem['link']; ?>" class="img-fluid" alt="<?php echo htmlspecialchars($imagem['descricao']); ?>">
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
-
+        
         <button type="submit" name="salvar" class="btn btn-primary">Salvar</button>
     </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
