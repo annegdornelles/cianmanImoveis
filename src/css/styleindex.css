@@ -311,3 +311,15 @@ color:#4e2a6e
         border-radius: 10px; /* Bordas arredondadas */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
     }
+    .card-titulo {
+        display: flex;
+        align-items: center; 
+        justify-content: space-between; 
+        color: purple;
+
+    }
+
+    .card-text{
+        margin-top: 0px;
+        text-align: justify;
+    }
