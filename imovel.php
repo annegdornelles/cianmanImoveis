@@ -1,8 +1,7 @@
 <!--mostra as informações do imovel com base no id passado via url-->
 
 <?php
-require_once __DIR__.'\src\model\conexaomysql.php';
-
+ require_once __DIR__ . '\..\model\conexaomysql.php';
 $imovelId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($imovelId == 0) {
@@ -47,6 +46,11 @@ $mysqli->close();
     <link rel="stylesheet" type="text/css" href="src/css/styleimovel.css">
 </head>
 <style>
+body{
+    background-color:#fb9cf857;
+}
+
+
 .buttons-container {
     display: flex; 
     flex-direction: row; 
@@ -58,7 +62,6 @@ $mysqli->close();
 
 .buttons-container button {
     background: none; 
-    border: none; 
     padding: 0; 
     cursor: pointer; 
 }
@@ -88,11 +91,12 @@ $mysqli->close();
 .card-img-top{
     width:600px;
     align-items: center;
-    height:500px;
+    height:auto;
 }
 
     .card-body {
         display: flex;
+        margin-top: 10px;
         flex-direction: column;
         justify-content: space-between; 
         height: 100%;
@@ -162,7 +166,6 @@ $mysqli->close();
     max-width: 500px;
     margin: 0 auto;
     overflow: hidden;
-    border: 1px solid #ccc;
     border-radius: 5px;
     position: center;
     height:500px;
@@ -184,7 +187,6 @@ $mysqli->close();
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    border: none;
     cursor: pointer;
     padding: 10px;
     font-size: 18px;
@@ -212,7 +214,7 @@ $mysqli->close();
 <a class="arrow" href="index.php" aria-current="page">
         <i class="fa-solid fa-arrow-left fa-lg"></i>
     </a>
-    <h2>Detalhes do Imóvel</h2>
+    <h2>DETALHES DO IMÓVEL</h2>
 
     <div class="card">
     <div class="carousel">
@@ -232,7 +234,7 @@ $mysqli->close();
                 <strong>Valor:</strong> R$<?php echo number_format($imovel['valor'], 2, ',', '.'); ?><br>
                 <strong>Cidade:</strong> <?php echo htmlspecialchars($imovel['cidade']); ?><br>
                 <strong>Bairro:</strong> <?php echo htmlspecialchars($imovel['bairro']); ?><br>
-                <strong>Tamanho:</strong> <?php echo htmlspecialchars($imovel['tamanho']); ?> m2<br>
+                <strong>Tamanho:</strong> <?php echo htmlspecialchars($imovel['tamanho']); ?> m²<br>
                 <strong>Logradouro:</strong> <?php echo htmlspecialchars($imovel['logradouro']); ?><br>
                 <strong>Tipo de Transação:</strong> <?php echo htmlspecialchars($imovel['compraAluga']); ?><br>
                 <strong>Quartos:</strong> <?php echo htmlspecialchars($imovel['numQuartos']); ?>
