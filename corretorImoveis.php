@@ -133,6 +133,8 @@
 
         // Função para visualizar imóveis
         function visualizarImoveis($mysqli, $funcionariosId) {
+        echo "<div class='flex-container'";
+
             $query = "
                 SELECT 
                     imoveis.id,
@@ -161,6 +163,7 @@
             if ($result->num_rows > 0) {
                 echo "<ul>";
                 while ($imovel = $result->fetch_assoc()) {
+                 echo "<div class='card'>";
                     echo "<li>";
                     echo "<strong>" . htmlspecialchars($imovel['logradouro']) . ", " . htmlspecialchars($imovel['numCasa']) . "</strong><br>";
         
@@ -170,16 +173,18 @@
                     }
         
                     // Exibindo os outros dados do imóvel
-                    echo "<div class='card-body'>";
-                    echo "<h5 class='card-title'>" . htmlspecialchars($imovel['logradouro']) . ", " . htmlspecialchars($imovel['numCasa']) . "</h5>";
-                    echo "<p class='card-text'>Bairro: " . $imovel['bairro'] . "</p>";
-                    echo "<p class='card-text'>Cidade: " . $imovel['cidade'] . "</p>";
-                    echo "<p class='card-text'>Valor: R$ " . number_format($imovel['valor'], 2, ',', '.') . "</p>";
+         echo "<div class='card-body'>";
+                    echo "<h5 class='card-title'><strong>" . htmlspecialchars($imovel['logradouro']) . "</strong>, " . htmlspecialchars($imovel['numCasa']) . "</h5>";
+                    echo "<p class='card-text'><strong>Bairro:</strong> " . htmlspecialchars($imovel['bairro']) . "</p>";
+                    echo "<p class='card-text'><strong>Cidade:</strong> " . htmlspecialchars($imovel['cidade']) . "</p>";
+                    echo "<p class='card-text'><strong>Valor:</strong> R$ " . number_format($imovel['valor'], 2, ',', '.') . "</p>";
                     echo "<a href='detalhesImovel.php?id=" . $imovel['id'] . "' class='btn btn-detalhes'>Ver detalhes</a>";
                     echo "</div>";
                     echo "</div>";
-                    echo "</div>";
                 }
+                echo "</div>";
+                echo "</div>";
+
                 echo "</ul>";
             } else {
                 echo "<div class='alert alert-warning'>Nenhum imóvel encontrado para este corretor.</div>";
