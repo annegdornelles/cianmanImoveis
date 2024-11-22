@@ -6,17 +6,7 @@ $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : null;
 $quartos = isset($_GET['quartos']) ? $_GET['quartos'] : null;
 $compraAluga = isset($_GET['compraoualuga']) ? $_GET['compraoualuga'] : null;
 
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'cianman';
-
-$mysqli = new mysqli($host, $user, $password, $database);
-
-if ($mysqli->connect_errno) {
-    echo 'Erro ao conectar no banco de dados: ' . $mysqli->connect_error;
-    exit();
-}
+require_once __DIR__.'\src\model\conexaomysql.php';
 
 $sql = "SELECT * FROM imoveis WHERE 1=1"; 
 

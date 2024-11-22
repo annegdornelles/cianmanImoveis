@@ -2,18 +2,7 @@
 
 session_start();
 
-/*quando for editar perfil:<a href="editar.php?id=<?php echo $id; ?>" class="btn btn-primary" value="editar">Editar</a>*/
-
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'cianman';
-
-$mysqli = new mysqli($host, $user, $password, $database);
-
-if ($mysqli->connect_error) {
-    die('Erro de conexão: ' . $mysqli->connect_error);
-}
+require_once __DIR__.'\src\model\conexaomysql.php';
 
 
 $aluguelQuery = "

@@ -2,18 +2,12 @@
 
 session_start(); 
 
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'cianman';
+require_once __DIR__ . '\..\model\conexaomysql.php';
 
 if (!isset($_SESSION['email'])) {
     header('Location: ../../login.php');
     exit;
 }
-
-$email = $_SESSION['email'];
-$mysqli = new mysqli($host, $user, $password, $database);
 
 if ($mysqli->connect_error) {
     die('Erro de conexão: ' . $mysqli->connect_error);

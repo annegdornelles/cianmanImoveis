@@ -1,27 +1,15 @@
 <!--mostra as informações do imovel com base no id passado via url-->
 
 <?php
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'cianman';
+require_once __DIR__.'\src\model\conexaomysql.php';
 
-$mysqli = new mysqli($host, $user, $password, $database);
-
-if ($mysqli->connect_error) {
-    die('Erro de conexão: ' . $mysqli->connect_error);
-}
-
-// Definindo o id do imóvel
 $imovelId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Verificando se o id foi fornecido
 if ($imovelId == 0) {
     echo "ID inválido.";
     exit;
 }
 
-// Consulta para pegar o imóvel pelo ID
 $query = "SELECT * FROM imoveis WHERE id = ?";
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param("i", $imovelId);

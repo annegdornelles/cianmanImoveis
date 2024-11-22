@@ -48,26 +48,15 @@
 <?php
 session_start();
 
-// Configurações do banco de dados
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'cianman';
+require_once __DIR__.'\src\model\conexaomysql.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit;
 }
 
 $email = $_SESSION['email'];
-$mysqli = new mysqli($host, $user, $password, $database);
 
-if ($mysqli->connect_error) {
-    die('Erro de conexão: ' . $mysqli->connect_error);
-}
-
-// Obtém o CPF do cliente baseado no e-mail da sessão
 $queryCliente = "SELECT cpf FROM clientes WHERE email = ?";
 $stmtCliente = $mysqli->prepare($queryCliente);
 $stmtCliente->bind_param('s', $email);
@@ -82,7 +71,6 @@ if ($resultCliente->num_rows > 0) {
     exit;
 }
 
-// Verifica se o imóvel deve ser removido do carrinho
 if (isset($_GET['remover']) && isset($_GET['id'])) {
     $imovelId = (int) $_GET['id'];
 
@@ -98,13 +86,12 @@ if (isset($_GET['remover']) && isset($_GET['id'])) {
     }
 }
 
-// Calcula o valor total dos imóveis no carrinho
 $queryTotal = "
-    SELECT SUM(i.valor) AS total
+    SELECT SUM(i.valor) AS total 
     FROM carrinho c
     JOIN imoveis i ON c.imovelId = i.id
     WHERE c.clienteCpf = ?
-";
+";//soma o valor de todos os imoveis do carrinho onde o carrinhoimovelId=imovelId e o cpf do cliente igual o fornecido
 $stmtTotal = $mysqli->prepare($queryTotal);
 $stmtTotal->bind_param('s', $clienteCpf);
 $stmtTotal->execute();
@@ -116,7 +103,6 @@ if ($resultTotal->num_rows > 0) {
     $valorTotal = $total['total'];
 }
 
-// Obtém os imóveis no carrinho e suas respectivas imagens
 $queryImoveis = "
     SELECT i.*, 
        (SELECT img.link

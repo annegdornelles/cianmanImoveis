@@ -29,40 +29,26 @@ function usuarioInsert($nome, $status) {
 }
 
 function usersLogin($email, $senha) {
-    $host = 'localhost';
-    $user = 'root';
-    $password = '12345';
-    $database = 'cianman';
-
-    $mysqli = new mysqli($host, $user, $password, $database);
+    require_once __DIR__ . '\..\model\conexaomysql.php';
     $numRows = 0;
 
-    if (mysqli_connect_errno()) {
-        echo 'Erro ao conectar no banco de dados.';
-    } else {
         echo 'Conexão realizada com sucesso.';
         $sql = 'SELECT * FROM clientes WHERE email = "' . $email . '" AND senha = "' . $senha . '"';
         $result = $mysqli->query($sql);
 
         $numRows = $result->num_rows; 
         $mysqli->close();
-    }
 
     return $numRows;
 }
 
 function usersUpdate($id, $nome, $cep, $email, $dataNasc, $senha, $telefone) {
-    $host = 'localhost';
-    $user = 'root';
-    $password = '12345';
-    $database = 'cianman';
-
-    $mysqli = new mysqli($host, $user, $password, $database);
+    
+    require_once __DIR__ . '\..\model\conexaomysql.php';
+    
     $total = 0;
 
-    if (mysqli_connect_errno()) {
-        echo 'Erro ao conectar no banco de dados.';
-    } else {
+
         echo 'Conexão realizada com sucesso.';
         $sql = 'UPDATE clientes SET nome = "' . $nome . '", cep = "' . $cep . '", email = "' . $email . '", dataNasc = "' . $dataNasc . '", senha = "' . $senha . '", telefone = "' . $telefone . '" WHERE id = ' . $id;
 
@@ -75,7 +61,7 @@ function usersUpdate($id, $nome, $cep, $email, $dataNasc, $senha, $telefone) {
         }
 
         $mysqli->close();
-    }
+
 
     return $total;
 }

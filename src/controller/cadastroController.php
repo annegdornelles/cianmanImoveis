@@ -3,17 +3,7 @@
 function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) {
 
     
-    $host = 'localhost';
-    $user = 'root';
-    $pwd = '';
-    $database = 'cianman';
-
-    $mysqli = new mysqli($host, $user, $pwd, $database);
-
-    // Verifica se a conexão foi bem-sucedida
-    if ($mysqli->connect_error) {
-        die("Erro ao conectar no banco de dados: " . $mysqli->connect_error);
-    }
+    require_once __DIR__ . '\..\model\conexaomysql.php';
 
     $stmt = $mysqli->prepare("INSERT INTO clientes (cpf, nome, cep, email, dataNasc, senha, telefone) VALUES (?, ?, ?, ?, ?, ?, ?)");
 

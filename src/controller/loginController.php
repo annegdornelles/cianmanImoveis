@@ -31,18 +31,7 @@ if ($_POST) {
 }
 
 function usersLogin($email, $senha) {
-    $host = 'localhost';
-    $user = 'root';
-    $password = '';
-    $database = 'cianman';
-
-    
-    $mysqli = new mysqli($host, $user, $password, $database);
-
-    if ($mysqli->connect_errno) {
-        echo 'Erro ao conectar no banco de dados: ' . $mysqli->connect_error;
-        return 0;
-    }
+    require_once __DIR__ . '\..\model\conexaomysql.php';
 
     if (str_ends_with($email, '@cianman.com')) {
         $table = 'funcionarios'; 

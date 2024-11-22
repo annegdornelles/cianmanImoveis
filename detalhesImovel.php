@@ -6,26 +6,14 @@ if ($_POST) {
     echo "</pre>";
     exit;
 }
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'cianman';
 
-// Conectar ao banco de dados
-$mysqli = new mysqli($host, $user, $password, $database);
+require_once __DIR__.'\src\model\conexaomysql.php';
 
-if ($mysqli->connect_error) {
-    die('Erro de conexão: ' . $mysqli->connect_error);
-}
-
-// Obtém o ID do imóvel da URL
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Consulta para pegar os dados do imóvel
 $query_imovel = "SELECT * FROM imoveis WHERE id = $id";
 $result_imovel = $mysqli->query($query_imovel);
 
-// Verifica se o imóvel foi encontrado
 if ($result_imovel && $result_imovel->num_rows > 0) {
     $imovel = $result_imovel->fetch_assoc();
 } else {
