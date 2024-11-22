@@ -1,7 +1,8 @@
 <!--mostra as informações do imovel com base no id passado via url-->
 
 <?php
- require_once __DIR__ . '\..\model\conexaomysql.php';
+
+ require_once __DIR__ . '\src\model\conexaomysql.php';
 $imovelId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($imovelId == 0) {
