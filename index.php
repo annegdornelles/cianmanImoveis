@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cidade'])) {
         }
         ?>
           <a class="nav-link text-center" href="index.php">
-            <img src="src/img/cianman.jpg" alt="Logo" style="width: 70px; height: auto; text-align:center;">
+            <img src="src/img/property.jpg" alt="Logo" style="width: 100px; height: auto; text-align:center;">
         </a>
         <div class="nav-right">
             <a class="nav-link" href="cadastro.php">Cadastro</a>
@@ -245,7 +245,7 @@ if (isset($_SESSION['email'])) {
     <div class="grid-container">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title"><strong>Sobre Nós</strong></h5>
+            <h5 class="card-title"><strong>SOBRE NÓS</strong></h5>
             <p class="card-text">Somos a Cianman Imóveis, dedicados a ajudar você a encontrar o imóvel dos seus sonhos.</p>
         </div>
     </div>
@@ -264,11 +264,20 @@ if (isset($_SESSION['email'])) {
             </a>
         </div>
     </div>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-titulo">
+                <strong>ATENÇÃO! </strong>
+            <i class="fa-solid fa-cart-shopping fa-lg" style="color: purple; width: 200px; text-align: right;"></i>
+            </h2>
+            <p class="card-text">O corretor será notificado quando você adicionar um imóvel ao carrinho.</p>
+
+        </div>
+    </div>
 </div>
 </div>
 <script>
 
-    /////nossos objetivis como card
     function selecionarBairros() {
         const cidade = document.getElementById("cidade").value;
 
