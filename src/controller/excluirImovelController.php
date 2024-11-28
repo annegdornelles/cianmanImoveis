@@ -4,8 +4,17 @@ require_once __DIR__ . '\..\model\conexaomysql.php';
 
 if ($_POST) {
     $id = $_POST['id'];
-    echo 'ATENÇÃO! Ao apertar o botão o imóvel será excluído permanentemente!';
-    echo "<form method='POST'><input type='hidden' name='excluir' value='excluir'><input type='hidden' name='id' value='$id'><button type='submit' class='btn btn-danger'>EXCLUIR</button></form>";
+    echo "
+    <div style='background-color: #ffcccc; color: #990000; padding: 20px; border: 2px solid #990000; border-radius: 5px; margin-bottom: 20px; font-family: Arial, sans-serif;'>
+        <strong>ATENÇÃO!</strong> Ao apertar o botão, o imóvel será <strong>excluído permanentemente!</strong>
+    </div>
+    <form method='POST'>
+        <input type='hidden' name='excluir' value='excluir'>
+        <input type='hidden' name='id' value='$id'>
+        <button type='submit' class='btn btn-danger' style='background-color: #990000; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;'>
+            EXCLUIR
+        </button>
+    </form>";
 }
 
 if (isset($_POST['excluir']) && isset($_POST['id'])) {
@@ -30,12 +39,9 @@ if (isset($_POST['excluir']) && isset($_POST['id'])) {
         echo "Erro ao excluir o imóvel.";
     }
 
-    // Redireciona após a exclusão
     header('Location: ../../corretorImoveis.php');
     exit;
 }
-
-//COLOCAR AVISO
 
 $mysqli->close();
 
