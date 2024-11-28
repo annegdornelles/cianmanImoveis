@@ -2,7 +2,7 @@
 
     $host = 'localhost';
     $user = 'root';
-    $pwd = '';
+    $pwd = '';//caso abra nos computadores do ctism, é necessario colocar senha 12345
     $database = 'cianman';
 
     $mysqli = new mysqli($host, $user, $pwd, $database);
