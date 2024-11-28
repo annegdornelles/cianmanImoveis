@@ -19,24 +19,20 @@
         if (isset($_SESSION['mensagem_sucesso'])) {
             echo "<div class='alert alert-success'>" . $_SESSION['mensagem_sucesso'] . "</div>";
 
-            // Remove a mensagem da sessão após exibi-la para não mostrar em recarregamentos futuros
             unset($_SESSION['mensagem_sucesso']);
         }
 
-        // Verifica se o usuário está logado e é um corretor
         if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'corretor') {
             header('Location: login.php');
             exit();
         }
 
-        // Conexão com o banco de dados
         $host = 'localhost';
         $user = 'root';
         $password = '';
         $database = 'cianman';
         $mysqli = new mysqli($host, $user, $password, $database);
 
-        // Verifica a conexão com o banco
         if ($mysqli->connect_error) {
             die('Erro de conexão: ' . $mysqli->connect_error);
         }

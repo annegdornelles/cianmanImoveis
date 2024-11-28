@@ -20,7 +20,7 @@ if ($result_imovel && $result_imovel->num_rows > 0) {
     echo "<div class='alert alert-warning'>Imóvel não encontrado.</div>";
     exit;
 }
-// Consulta para pegar as imagens associadas ao imóvel
+
 $query_imagens = "SELECT link, descricao FROM imagens WHERE imovelId = $id";
 $result_imagens = $mysqli->query($query_imagens);
 
@@ -31,7 +31,7 @@ if ($result_imagens && $result_imagens->num_rows > 0) {
         $imagens[] = $row;  // Armazena cada imagem no array
     }
 } else {
-    $imagens = [];  // Nenhuma imagem encontrada
+    $imagens = [];  
 }
 
 
@@ -76,11 +76,10 @@ if ($result_imagens && $result_imagens->num_rows > 0) {
         <div class="fotoImovel">
         <h1>DETALHES DO IMÓVEL</h1>
 
-        <!-- Carrossel de Imagens -->
         <div id="carrosselImagens" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php 
-                $active = 'active';  // Para garantir que a primeira imagem seja exibida por padrão
+                $active = 'active'; 
                 foreach ($imagens as $imagem) { 
                 ?>
                     <div class="carousel-item <?php echo $active; ?>">
@@ -92,8 +91,7 @@ if ($result_imagens && $result_imagens->num_rows > 0) {
                 } 
                 ?>
             </div>
-            <!-- Controles do Carrossel -->
-           <!-- Controles do Carrossel -->
+          
 <button class="carousel-control-prev" type="button" data-bs-target="#carrosselImagens" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>

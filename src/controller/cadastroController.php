@@ -32,7 +32,6 @@ function usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc) 
     return $id;
 }
 
-// Verifica se há dados enviados via POST antes de chamar a função
 if ($_POST) {
     $nome = $_POST['nome'];
     $email = $_POST['email'];
@@ -42,7 +41,6 @@ if ($_POST) {
     $senha = $_POST['senha'];
     $dataNasc = $_POST['dataNasc'];
 
-    // Chama a função e passa os parâmetros
     $id = usuarioInsert($nome, $email, $telefone, $cpf, $cep, $senha, $dataNasc);
 
     if ($id) {

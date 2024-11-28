@@ -39,7 +39,6 @@
         session_start(); 
         require_once __DIR__ . '\src\model\conexaomysql.php';
 
-        // Verifica se o usuário está logado
         if (!isset($_SESSION['email'])) {
             header('Location: login.php');
             exit;
@@ -47,7 +46,6 @@
 
         $email = $_SESSION['email'];
 
-        // Busca o CPF do cliente logado
         $queryCliente = "SELECT cpf FROM clientes WHERE email = ?";
         $stmtCliente = $mysqli->prepare($queryCliente);
         $stmtCliente->bind_param('s', $email);
@@ -62,7 +60,6 @@
             exit;
         }
 
-        // Consulta os imóveis favoritos e uma imagem para cada um
         $queryFavoritos = "
             SELECT i.id, i.tipo, i.valor, i.cidade, i.bairro, img.link 
             FROM favoritos f 
@@ -79,7 +76,7 @@
         if ($resultFavoritos->num_rows > 0) {
             echo '<div class="container">';
             while ($imovel = $resultFavoritos->fetch_assoc()) {
-                $imageUrl = htmlspecialchars($imovel['link']) ?: 'src/img/default.jpg'; // Imagem padrão, se não houver
+                $imageUrl = htmlspecialchars($imovel['link']) ?: 'src/img/default.jpg'; 
                 echo '
                     <div class="card" style="display: inline-block; width: 300px; margin: 10px;">
                         <img src="' . $imageUrl . '" class="card-img-top" alt="Imagem do Imóvel">

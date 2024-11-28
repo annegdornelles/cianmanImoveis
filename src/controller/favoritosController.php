@@ -31,9 +31,6 @@ if ($resultCliente->num_rows > 0) {
     exit;
 }
 
-// Resto do código...
-
-
 if ($_POST && isset($_POST['id'])) {
     $imovelId = (int) $_POST['id'];
 

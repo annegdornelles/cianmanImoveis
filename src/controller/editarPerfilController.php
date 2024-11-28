@@ -55,16 +55,15 @@ $cliente = obterDadosUsuario($email);
 
 // Processamento do formulário
 if ($_POST) {
-    // Certifique-se de que todos os campos do formulário estão sendo processados corretamente
+    
     $nome = $_POST['nome'];
-    $emailNovo = $_POST['email'];  // Caso queira atualizar o email também
+    $emailNovo = $_POST['email'];
     $cpf = $_POST['cpf'];
     $telefone = $_POST['telefone'];
     $cep = $_POST['cep'];
     $dataNasc = $_POST['dataNasc'];
     $senha = $_POST['senha'];
 
-    // Atualize cada campo individualmente no banco de dados
     atualizarDadosUsuario('nome', $nome, $email);
     atualizarDadosUsuario('email', $emailNovo, $email);
     atualizarDadosUsuario('cpf', $cpf, $email);
@@ -73,11 +72,9 @@ if ($_POST) {
     atualizarDadosUsuario('dataNasc', $dataNasc, $email);
     atualizarDadosUsuario('senha', $senha, $email);
 
-    // Atualize os dados do cliente na sessão
     $_SESSION['cliente'] = obterDadosUsuario($emailNovo);
 
-    // Redirecione para a página de perfil com código de sucesso
     header('Location: ../../perfilUsuario?cod=300');
-    exit; // Stop further script execution
+    exit;
 }
 ?>

@@ -20,11 +20,10 @@ if ($_POST) {
             header('location:../../corretorImoveis.php'); 
             exit();
         } else {
-            header('location:../../login.php?cod=300'); // Redireciona para a página padrão
+            header('location:../../login.php?cod=300');
             exit();
         }
     } else {
-        // Redireciona com erro se as credenciais estiverem incorretas
         header('location:../../login.php?cod=171'); 
         exit();
     }
