@@ -10,7 +10,6 @@ if (!isset($_SESSION['email'])) {
 
 $email = $_SESSION['email'];
 
-// Obtém o CPF do cliente baseado no e-mail da sessão
 $queryCliente = "SELECT cpf FROM clientes WHERE email = ?";
 $stmtCliente = $mysqli->prepare($queryCliente);
 $stmtCliente->bind_param('s', $email);
@@ -28,7 +27,6 @@ if ($resultCliente->num_rows > 0) {
 if ($_POST && isset($_POST['id'])) {
     $imovelId = (int) $_POST['id'];
 
-    // Verifica se o imóvel está nos favoritos
     $queryFavorito = "SELECT * FROM favoritos WHERE clienteCpf = ? AND imovelId = ?";
     $stmtFavorito = $mysqli->prepare($queryFavorito);
     $stmtFavorito->bind_param('si', $clienteCpf, $imovelId);
@@ -36,12 +34,10 @@ if ($_POST && isset($_POST['id'])) {
     $resultFavorito = $stmtFavorito->get_result();
 
     if ($resultFavorito->num_rows === 0) {
-        // Se o imóvel não está nos favoritos, redireciona para a página do imóvel com cod=123
         header("Location: ../../imovel.php?cod=123&id=$imovelId&favoritado=true&carrinho=true");
         exit;
     }
 
-    // Verifica se o imóvel já está no carrinho
     $queryCarrinho = "SELECT * FROM carrinho WHERE clienteCpf = ? AND imovelId = ?";
     $stmtCarrinho = $mysqli->prepare($queryCarrinho);
     $stmtCarrinho->bind_param('si', $clienteCpf, $imovelId);
@@ -49,7 +45,7 @@ if ($_POST && isset($_POST['id'])) {
     $resultCarrinho = $stmtCarrinho->get_result();
 
     if ($resultCarrinho->num_rows > 0) {
-        header("location:../../imovel.php?cod=122&carrinho=true&id=$imovelId&favoritado=true");//ja esta no carrinho de compras
+        header("location:../../imovel.php?cod=122&carrinho=true&id=$imovelId&favoritado=true");
         exit;
     } else {
         // Adiciona o imóvel ao carrinho
@@ -58,7 +54,7 @@ if ($_POST && isset($_POST['id'])) {
         $stmtInsert->bind_param('si', $clienteCpf, $imovelId);
 
         if ($stmtInsert->execute()) {
-           header("location:../../imovel.php?cod=301&carrinho=true&id=$imovelId&favoritado=true");//add com sucesso
+           header("location:../../imovel.php?cod=301&carrinho=true&id=$imovelId&favoritado=true");
            exit;
         } else {
             echo "Erro ao adicionar ao carrinho.";
@@ -69,7 +65,6 @@ if ($_POST && isset($_POST['id'])) {
     exit;
 }
 
-// Remove imóvel do carrinho
 if (isset($_GET['remover']) && isset($_GET['id'])) {
     $imovelId = (int) $_GET['id'];
 

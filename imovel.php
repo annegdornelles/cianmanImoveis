@@ -236,6 +236,34 @@ $mysqli->close();
     .carousel-button:hover {
         background-color: rgba(0, 0, 0, 0.8);
     }
+
+    .alert-warning{
+        background-color: rgb(209, 27, 79);
+        color:white;
+        margin-bottom: 50px;
+        text-align: center;
+        padding:10px;
+        border-radius: 5px;
+        margin-left:10px;
+        margin-right: 10px;
+        border:5px solid black;
+        font-size: large;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .alert-success{
+        background-color: rgb(57, 153, 71);
+        color:white;
+        margin-bottom: 50px;
+        text-align: center;
+        padding:10px;
+        border-radius: 5px;
+        margin-left:10px;
+        margin-right: 10px;
+        border:5px solid black;
+        font-size: large;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
 </style>
 
 <body>
@@ -311,15 +339,21 @@ $mysqli->close();
                 }
 
                 if ($_GET['cod'] == '301') {
-                    echo '<div class="alert-danger" role="alert">
+                    echo '<div class="alert-success" role="alert">
         Imóvel adicionado ao carrinho com sucesso!
         </div>';
                 }
                 if ($_GET['cod'] == '124') {
-                    echo '<div class="alert-danger" role="alert">
+                    echo '<div class="alert-warning" role="alert">
         Imóvel removido do carrinho de compras!
         </div>';
                 }
+                if ($_GET['cod'] == '122') {
+                    echo '<div class="alert-warning" role="alert">
+        Imóvel já adicionado no carrinho!
+        </div>';
+                }
+
             }
 
             ?>
