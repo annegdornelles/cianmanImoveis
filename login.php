@@ -1,5 +1,7 @@
 
-
+<?php
+    $email = isset($_COOKIE['email'])?$_COOKIE['email']:"";
+?>
 <!doctype html>
 <html lang="pt-BR">
 
@@ -40,7 +42,13 @@
 </style>
 
 <body>
-
+    
+<script>
+   function useCookieEmail(){
+       const ultimoEmail = "<?=htmlspecialchars($email)?>";
+       document.getElementById('email').value = ultimoEmail;
+   }
+</script>
     <main>
     <a class="arrow" href="index.php" aria-current="page">
         <i class="fa-solid fa-arrow-left fa-lg"></i>
@@ -51,7 +59,8 @@
             <form method="POST" action="src/controller/loginController.php">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email:</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Insira seu email" required />
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Insira seu email"
+                    value="<?= htmlspecialchars($email)?>" required />
                 </div>
 
                 <div class="mb-3">
@@ -60,7 +69,7 @@
                 </div>
 
                 <input type="submit" class="btn btn-primary" value="Login"><br>
-                <a href='cadastro.php'>Cadastre-se aqui.</a>
+                
             </form>
 
             <?php
@@ -74,6 +83,9 @@
                     echo '<div class="alert alert-success mt-3" role="alert">Login realizado com sucesso!</div>';
                     echo "<a href='index.php'>Voltar a página inicial</a>";
                 }
+            }
+            else{
+                    echo "<a href='cadastro.php'>Cadastre-se aqui.</a>";
             }
             ?>
         </div>

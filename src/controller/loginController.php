@@ -14,6 +14,8 @@ if ($_POST) {
         $_SESSION['email'] = $email;
         $_SESSION['senha'] = $senha;
 
+        setcookie('email',$email,time()+(86400*30),"/");//dura 1 dia
+
         // Verifica se o e-mail termina com "@cianman.com"
         if (str_ends_with($email, '@cianman.com')) {
             $_SESSION['role'] = 'corretor'; 

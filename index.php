@@ -286,3 +286,4 @@ if (isset($_SESSION['email'])) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-AKQa/c4hP2zR4cIDr5odXUBCpRxdXOxA1Xnx0ekWTf9BS6p+NCRyTozS6eT33NLa" crossorigin="anonymous"></script>
 </body>
 </html>
+<!--FAZER COOKIE, TELA PARA VISUALIZAR E FINALIZAR COMPRA, ADM PODE APROVAR OU REJEITAR PEDIDO, ATUALIZAR STATTUS DO PEDIDO
