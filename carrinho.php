@@ -23,16 +23,58 @@ if ($resultCliente->num_rows === 0) {
 $cliente = $resultCliente->fetch_assoc();
 $clienteCpf = $cliente['cpf'];
 
-// Verifica pedido em andamento
-$pedidoSolicitado = false;
-$queryPedido = "SELECT status FROM pedidos WHERE clienteCpf = ? AND status = 'solicitado' LIMIT 1";
-$stmtPedido = $mysqli->prepare($queryPedido);
-$stmtPedido->bind_param('s', $clienteCpf);
-$stmtPedido->execute();
-$resultPedido = $stmtPedido->get_result();
+// Verifica se existe pedido
+$pedidoStatusMsg = '';
+$queryPedidoId = "SELECT id FROM pedidos WHERE clienteCpf = ? ORDER BY id DESC LIMIT 1";
+$stmtPedidoId = $mysqli->prepare($queryPedidoId);
+$stmtPedidoId->bind_param('s', $clienteCpf);
+$stmtPedidoId->execute();
+$resultPedidoId = $stmtPedidoId->get_result();
 
-if ($resultPedido->num_rows > 0) {
-    $pedidoSolicitado = true;
+$pedidoSolicitado = false;
+$pedidoAceito = false;
+$pedidoRecusado = false;
+
+if ($resultPedidoId->num_rows > 0) {
+    $pedido = $resultPedidoId->fetch_assoc();
+    $pedidoId = $pedido['id'];
+
+    // Verificar status de todos os itens
+    $queryItens = "SELECT status FROM itenspedido WHERE pedidoId = ?";
+    $stmtItens = $mysqli->prepare($queryItens);
+    $stmtItens->bind_param('i', $pedidoId);
+    $stmtItens->execute();
+    $resultItens = $stmtItens->get_result();
+
+    $todosAceitos = true;
+    $algumRecusado = false;
+    $algumSolicitado = false;
+
+    while ($item = $resultItens->fetch_assoc()) {
+        if ($item['status'] === 'recusado') {
+            $algumRecusado = true;
+            $todosAceitos = false;
+        } elseif ($item['status'] === 'solicitado') {
+            $algumSolicitado = true;
+            $todosAceitos = false;
+        }
+    }
+
+    if ($todosAceitos && !$algumSolicitado && !$algumRecusado) {
+        $pedidoAceito = true;
+        $pedidoStatusMsg = "pedido aceito";
+
+        // Zerar carrinho se aceito
+        $queryLimpaCarrinho = "DELETE FROM carrinho WHERE clienteCpf = ?";
+        $stmtLimpa = $mysqli->prepare($queryLimpaCarrinho);
+        $stmtLimpa->bind_param('s', $clienteCpf);
+        $stmtLimpa->execute();
+    } elseif ($algumRecusado && !$algumSolicitado) {
+        $pedidoRecusado = true;
+        $pedidoStatusMsg = "pedido negado";
+    } elseif ($algumSolicitado) {
+        $pedidoSolicitado = true;
+    }
 }
 
 // Remoção de item do carrinho
@@ -116,6 +158,12 @@ $resultImoveis = $stmtImoveis->get_result();
             <i class="fa-solid fa-arrow-left fa-lg"></i>
         </a>
         <h1 style="text-align: center;">Carrinho de Compras</h1>
+
+        <?php if ($pedidoAceito): ?>
+            <div class="alert alert-success text-center"><?= strtoupper($pedidoStatusMsg) ?></div>
+        <?php elseif ($pedidoRecusado): ?>
+            <div class="alert alert-danger text-center"><?= strtoupper($pedidoStatusMsg) ?></div>
+        <?php endif; ?>
 
         <?php if ($resultImoveis->num_rows > 0): ?>
             <div class="container">
