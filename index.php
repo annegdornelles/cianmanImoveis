@@ -12,7 +12,7 @@ $aluguelQuery = "
             WHERE imagens.imovelId = i.id 
             LIMIT 1) AS caminho_imagem
     FROM imoveis i
-    WHERE i.compraAluga = 'aluguel'
+    WHERE i.compraAluga = 'aluguel' AND i.status='ativo'
 ";
 $aluguelResult = $mysqli->query($aluguelQuery);
 
@@ -23,7 +23,7 @@ $compraQuery = "
             WHERE imagens.imovelId = i.id 
             LIMIT 1) AS caminho_imagem
     FROM imoveis i
-    WHERE i.compraAluga = 'compra'
+    WHERE i.compraAluga = 'compra' AND i.status='ativo'
 ";
 $compraResult = $mysqli->query($compraQuery);
 
@@ -34,7 +34,7 @@ $santaMariaQuery = "
             WHERE imagens.imovelId = i.id 
             LIMIT 1) AS caminho_imagem
     FROM imoveis i
-    WHERE i.cidade = 'Santa Maria'
+    WHERE i.cidade = 'Santa Maria' AND i.status='ativo'
 ";
 $santaMariaResult = $mysqli->query($santaMariaQuery);
 

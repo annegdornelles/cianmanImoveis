@@ -110,8 +110,9 @@
 
         <form method="GET">
         <div class="container">
-            <button type="submit" class="btn btn-view" name="visualizar" value="1">Visualizar Meus Imóveis</button>
-            <button type="submit" class="btn btn-add" name="adicionar" value="1">Adicionar Novo Imóvel</button>
+           <a href="visualizarPedidosCorretor.php" class="btn btn-view">Visualizar Meus Pedidos</a>
+           <button type="submit" class="btn btn-view" name="visualizar" value="1">Visualizar Meus Imóveis</button>
+           <button type="submit" class="btn btn-add" name="adicionar" value="1">Adicionar Novo Imóvel</button>
             </div>
     </form>
         <?php
